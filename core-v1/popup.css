@@ -17,6 +17,7 @@ a { color:#4285f4; text-decoration: none;}
 a:hover { text-decoration: underline; }
 .hidden {display: none;}
 main {padding:10px 10px 0;}
+p {margin-bottom: 15px;}
 
 /****************
 * Types

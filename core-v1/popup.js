@@ -7,6 +7,7 @@ app = {};
 types = {};
 quantity = {};
 output = {};
+options = {};
 jQuery(document).ready(function ($) {
     /************************************
      * App
@@ -59,8 +60,15 @@ jQuery(document).ready(function ($) {
         while (quantity > 0) {
             sentence = app.getWords();
 
-            // Uppercase first letter & add full stop.
-            sentence = sentence.substr(0, 1).toUpperCase() + sentence.substr(1) + '.';
+            // Uppercase first letter
+            sentence = sentence.substr(0, 1).toUpperCase() + sentence.substr(1);
+
+            // Add full stop
+            if (result.length === 0 && quantity === 1) {
+                // A single sentence does not have full top
+            } else {
+                sentence += '.';
+            }
             result += sentence;
 
             // If not last one, add connecting
@@ -74,7 +82,7 @@ jQuery(document).ready(function ($) {
         return result;
     };
     app.getParagraphs = function (quantity) {
-        var result = '';
+        var result = [];
 
         // Loop get sentence
         while (quantity > 0) {
@@ -114,6 +122,27 @@ jQuery(document).ready(function ($) {
         types.setActive($(this));
         app.generateLorem();
     });
+    types.initMouseWheelControl = function () {
+        var begin = 0, end = types.$buttons.length - 1, currentIndex;
+        types.$.on('mousewheel', function (event) {
+            currentIndex = types.$active.index();
+            // Value control
+            if (event.deltaY > 0) {
+                // Scroll up
+                currentIndex++;
+                if (currentIndex > end) {
+                    currentIndex = begin;
+                }
+            } else {
+                // Scroll down
+                currentIndex--;
+                if (currentIndex < begin) {
+                    currentIndex = end;
+                }
+            }
+            types.setActive(types.$buttons.eq(currentIndex));
+        });
+    };
 
     /************************************
      * Quantity
@@ -124,9 +153,7 @@ jQuery(document).ready(function ($) {
         return parseInt(quantity.$.val());
     };
     quantity.onChange = function (method) {
-        var currentVal = quantity.getVal();
-        app.log("method:" + method + " - val:" + currentVal + " - max:" + types.getMax());
-
+        //app.log("method:" + method + " - val:" + quantity.getVal() + " - max:" + types.getMax());
         app.generateLorem();
     };
     quantity.initRangeSlider = function () {
@@ -186,6 +213,10 @@ jQuery(document).ready(function ($) {
     output.clear = function () {
         output.$.html('');
     };
+    output.$.click(function () {
+        output.$.select();
+        document.execCommand("copy");
+    });
 
     /************************************
      * Run app
@@ -211,6 +242,7 @@ jQuery(document).ready(function ($) {
     };
     app.build = function () {
         quantity.init();
+        types.initMouseWheelControl();
     };
     app.build();
 
