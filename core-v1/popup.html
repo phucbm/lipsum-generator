@@ -17,18 +17,18 @@
 <main>
 
     <div id="types">
-        <button>paragraph</button>
-        <button>sentence</button>
-        <button>word</button>
+        <button data-type="paragraph" data-max="20" class="active">paragraph</button>
+        <button data-type="sentence" data-max="50">sentence</button>
+        <button data-type="word" data-max="99">word</button>
     </div>
 
-    <div id="quantity">
-        <input name="quantity" type="text" value="" title="quantity">
+    <div id="quantity-wrapper" title="Scroll to change value">
+        <input id="quantity" name="quantity" type="text" value="" title="quantity">
     </div>
 
-    <textarea id="output" readonly>
-
-    </textarea>
+    <div id="output-wrapper">
+        <textarea id="output" readonly title="Click to copy"></textarea>
+    </div>
 
 </main>
 
