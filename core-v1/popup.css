@@ -1,0 +1,54 @@
+/* Copyright 2016 Phucbm */
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700&subset=vietnamese');
+/**
+font-family: 'Inconsolata', monospace;
+ */
+* { margin:0; padding:0; border:none; outline:none; }
+body {
+    font-family: 'Inconsolata', monospace; font-size: 14px;
+    width:400px; border:1px solid #000;
+    color:#000;
+}
+a { color:#4285f4; text-decoration: none;}
+a:hover { text-decoration: underline; }
+.hidden {display: none;}
+
+/****************
+* Header
+****************/
+
+/****************
+* Main
+****************/
+main {padding:10px 10px 0;}
+input, textarea {
+    display: block; width: 100%; margin-bottom:10px;
+    padding: 5px; box-sizing: border-box;
+    border:1px solid #b6b6b6;
+}
+p {margin-bottom:10px;}
+
+/* SITE SUPPORT */
+.site-support {
+    margin:-10px -10px 10px; padding:10px;
+    background-color:#43A047; color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.site-support .favicon {margin-right:10px; max-width:16px;}
+
+/* SUCCESS */
+.success.result {
+    font-size:20px; color:#fff;
+    background-color: #4285f4; padding:8px 5px;
+}
+body.site-supported .success.result {background-color:#43A047;}
+
+/****************
+* Footer
+****************/
+footer {
+    background-color: #f0f0f0; padding: 10px 0;
+    color:#636363; text-align:center; font-size: 12px;
+}
