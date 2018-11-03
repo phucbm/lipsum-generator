@@ -137,11 +137,11 @@ jQuery(document).ready(function ($) {
         $button.addClass('active');
         types.$active = $button;
         quantity.resetRange();
+        app.generateLorem();
     };
     // Change type on click
     types.$buttons.click(function () {
         types.setActive($(this));
-        app.generateLorem();
     });
     types.initMouseWheelControl = function () {
         var begin = 0, end = types.$buttons.length - 1, currentIndex;
@@ -152,13 +152,13 @@ jQuery(document).ready(function ($) {
                 // Scroll up
                 currentIndex++;
                 if (currentIndex > end) {
-                    currentIndex = begin;
+                    currentIndex = end;
                 }
             } else {
                 // Scroll down
                 currentIndex--;
                 if (currentIndex < begin) {
-                    currentIndex = end;
+                    currentIndex = begin;
                 }
             }
             types.setActive(types.$buttons.eq(currentIndex));
@@ -235,8 +235,14 @@ jQuery(document).ready(function ($) {
         output.$.html('');
     };
     output.$.click(function () {
-        output.$.select();
-        document.execCommand("copy");
+        if($(this).val().length){
+            output.$.select();
+            document.execCommand("copy");
+            app.body.toggleClass('result-copied');
+            setTimeout(function () {
+                app.body.toggleClass('result-copied');
+            }, 800);
+        }
     });
 
     /************************************
@@ -251,6 +257,9 @@ jQuery(document).ready(function ($) {
     options.beginWith.text = function () {
         return options.beginWith.$.attr('data-begin-text');
     };
+    options.beginWith.$.click(function () {
+        app.generateLorem();
+    });
 
     /************************************
      * Run app
@@ -283,6 +292,7 @@ jQuery(document).ready(function ($) {
     app.build = function () {
         quantity.init();
         types.initMouseWheelControl();
+        app.generateLorem();
     };
     app.build();
 

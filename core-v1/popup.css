@@ -10,42 +10,102 @@ font-family: 'Inconsolata', monospace;
 * { margin:0; padding:0; border:none; outline:none; }
 body {
     font-family: 'Inconsolata', monospace; font-size: 14px;
-    width:400px; border:1px solid #000;
+    width:400px;
     color:#000;
+    background-color:#eee;
 }
 a { color:#4285f4; text-decoration: none;}
 a:hover { text-decoration: underline; }
 .hidden {display: none;}
-main {padding:10px 10px 0;}
+main {padding:15px 15px 0;}
 p {margin-bottom: 15px;}
+
+/****************
+* Header
+****************/
+header {display:none;}
 
 /****************
 * Types
 ****************/
-#types > button {}
-#types > button.active {border:1px solid red;}
+#types {
+    display:flex;
+    justify-content:center;
+    margin-bottom:10px;
+}
+#types > button {
+    color: rgba(0, 0, 0, 0.87);
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+    background-color: #e0e0e0;
+    padding:10px; border-radius:2px;
+    transition:all .3s ease;
+    text-transform:uppercase;
+    font-weight:700;
+    margin:0 5px;
+    flex-grow:1;
+    cursor:pointer;
+}
+#types > button:first-child {margin-left:0;}
+#types > button:last-child {margin-right:0;}
+#types > button:hover {
+    background-color: #d5d5d5;
+}
+#types > button:active {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 6px 8px 1px rgba(0, 0, 0, 0.14), 0 3px 8px 2px rgba(0, 0, 0, 0.12);
+}
+#types > button.active {background-color: #2196f3; color:#fff;}
 
 /****************
 * Quantity
 ****************/
+#quantity-wrapper {
+    margin-bottom:10px;
+    cursor:ew-resize;
+    transition:all .3s ease;
+    border-radius:3px;
+}
+#quantity-wrapper:hover {
+    background-color:#e6e6e6;
+}
+.irs-from, .irs-to, .irs-single {
+    /*background-color: #2196f3;*/
+}
 
 /****************
 * Output
 ****************/
 #output-wrapper {
-
+    position:relative;
 }
 #output {
     height: 200px;
     width: 100%;
     resize: none;
+    padding:10px; box-sizing:border-box;
     border:1px solid #ccc;
+    margin-bottom:15px;
+}
+#toast {
+    position:absolute; bottom:15px; left:50%; z-index:1;
+    transform:translateX(-50%);
+    display:block; background-color:#20B426;
+    color:#fff; padding:5px 10px; border-radius:3px;
+    transition:all .3s ease;
+    opacity:0; visibility:hidden;
+}
+body.result-copied #toast {opacity:1; visibility:visible; bottom:27px;}
+
+/****************
+* Options
+****************/
+#option-wrapper {
+    margin-bottom:15px;
 }
 
 /****************
 * Footer
 ****************/
 footer {
-    background-color: #f0f0f0; padding: 10px 0;
+    background-color: #dcdcdc; padding: 15px 0;
     color:#636363; text-align:center; font-size: 12px;
 }
