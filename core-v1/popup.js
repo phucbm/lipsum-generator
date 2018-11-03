@@ -98,6 +98,27 @@ jQuery(document).ready(function ($) {
 
         return result;
     };
+    app.formatBeginWith = function (result) {
+        var beginWithText = options.beginWith.text(),
+            beginWithTextArray = beginWithText.split(' '),
+            toBeFormattedArray = result.split(' '),
+            toBeReplaced,
+            sliceNum;
+
+        // If result's words less than replace text
+        if (toBeFormattedArray.length < beginWithTextArray.length) {
+            sliceNum = toBeFormattedArray.length;
+            beginWithText = beginWithText.split(/\s+/).slice(0, sliceNum).join(" ");
+        }
+
+        // Get the first n words
+        toBeReplaced = result.split(/\s+/).slice(0, beginWithTextArray.length).join(" ");
+
+        // Replace
+        result = result.replace(toBeReplaced, beginWithText);
+
+        return result;
+    };
 
     /************************************
      * Types
@@ -219,6 +240,19 @@ jQuery(document).ready(function ($) {
     });
 
     /************************************
+     * Options
+     ************************************/
+    options.$wrapper = app.body.find('#option-wrapper');
+    options.beginWith = {};
+    options.beginWith.$ = options.$wrapper.find('input#beginWith');
+    options.beginWith.checked = function () {
+        return options.beginWith.$.is(':checked');
+    };
+    options.beginWith.text = function () {
+        return options.beginWith.$.attr('data-begin-text');
+    };
+
+    /************************************
      * Run app
      ************************************/
     app.generateLorem = function () {
@@ -238,8 +272,14 @@ jQuery(document).ready(function ($) {
                 break;
         }
 
+        // If is format begin with text
+        if (options.beginWith.checked()) {
+            result = app.formatBeginWith(result);
+        }
+
         output.setResult(result);
     };
+
     app.build = function () {
         quantity.init();
         types.initMouseWheelControl();
