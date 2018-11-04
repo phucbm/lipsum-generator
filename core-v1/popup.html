@@ -13,10 +13,6 @@
 </head>
 <body class="lorip2k18">
 
-<header>
-    <h1 class="popup-title">Lipsum Generator</h1>
-</header>
-
 <main>
 
     <div id="types">
@@ -32,9 +28,11 @@
     <div id="output-wrapper">
         <textarea id="output" title="Click to copy"></textarea>
         <span id="toast">Copied</span>
+        <div id="specs"></div>
+        <a id="toggle-options">Options</a>
     </div>
 
-    <div id="option-wrapper">
+    <div id="option-wrapper" style="display: none">
         <div class="option">
             <input id="beginWith" type="checkbox" data-begin-text="Lorem ipsum dolor sit amet">
             <label for="beginWith">Begin with "Lorem ipsum dolor sit amet"</label>

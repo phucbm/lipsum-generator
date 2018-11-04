@@ -21,11 +21,6 @@ main {padding:15px 15px 0;}
 p {margin-bottom: 15px;}
 
 /****************
-* Header
-****************/
-header {display:none;}
-
-/****************
 * Types
 ****************/
 #types {
@@ -34,10 +29,10 @@ header {display:none;}
     margin-bottom:10px;
 }
 #types > button {
-    color: rgba(0, 0, 0, 0.87);
+    color: rgba(0, 0, 0, 0.7);
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
     background-color: #e0e0e0;
-    padding:10px; border-radius:2px;
+    padding:7px 10px; border-radius:2px;
     transition:all .3s ease;
     text-transform:uppercase;
     font-weight:700;
@@ -83,7 +78,6 @@ header {display:none;}
     resize: none;
     padding:10px; box-sizing:border-box;
     border:1px solid #ccc;
-    margin-bottom:15px;
 }
 #toast {
     position:absolute; bottom:15px; left:50%; z-index:1;
@@ -94,6 +88,18 @@ header {display:none;}
     opacity:0; visibility:hidden;
 }
 body.result-copied #toast {opacity:1; visibility:visible; bottom:27px;}
+#specs {
+    margin-bottom:15px;
+    text-align:right;
+    opacity:.7;
+    font-size:13px;
+}
+
+#toggle-options {
+    position:absolute; bottom:0; left:0;
+    font-size:13px;
+    cursor:pointer;
+}
 
 /****************
 * Options
@@ -101,6 +107,7 @@ body.result-copied #toast {opacity:1; visibility:visible; bottom:27px;}
 #option-wrapper {
     margin-bottom:15px;
 }
+#option-wrapper .option {margin-bottom:5px;}
 
 /****************
 * Footer

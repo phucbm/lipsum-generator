@@ -119,6 +119,52 @@ jQuery(document).ready(function ($) {
 
         return result;
     };
+    app.save = function () {
+        chrome.storage.local.set({
+            'preferences': {
+                'beginWith': options.isChecked(options.beginWith.$), // boolean
+                'type': types.$active.index(), // int
+                'quantity': quantity.getVal(), // int
+                //'output': output.$.val(), // string
+                'autoCopy': options.isChecked(options.$autoCopy), // int
+                'toggleOptions': options.$toggle.hasClass('active')
+            }
+        });
+    };
+    app.restore = function () {
+        chrome.storage.local.get("preferences", function (settings) {
+            for (var id in settings.preferences) {
+                switch (id) {
+                    case 'beginWith':
+                        options.beginWith.$.prop('checked', settings.preferences[id]);
+                        break;
+                    case 'type':
+                        types.setActive(types.$buttons.eq(settings.preferences[id]));
+                        break;
+                    case 'quantity':
+                        quantity.setVal(settings.preferences[id]);
+                        break;
+                    case 'output':
+                        // something wrong here but not important yet
+                        //app.log(settings.preferences[id]);
+                        break;
+                    case 'autoCopy':
+                        options.$autoCopy.prop('checked', settings.preferences[id]);
+                        if (settings.preferences[id]) {
+                            setTimeout(function () {
+                                output.copy('Auto copied');
+                            }, 300);
+                        }
+                        break;
+                    case 'toggleOptions':
+                        if(settings.preferences[id] !== options.$toggle.hasClass('active')){
+                            options.$toggle.trigger('click');
+                        }
+                        break;
+                }
+            }
+        });
+    };
 
     /************************************
      * Types
@@ -137,7 +183,7 @@ jQuery(document).ready(function ($) {
         $button.addClass('active');
         types.$active = $button;
         quantity.resetRange();
-        app.generateLorem();
+        app.generate('types.setActive');
     };
     // Change type on click
     types.$buttons.click(function () {
@@ -174,8 +220,7 @@ jQuery(document).ready(function ($) {
         return parseInt(quantity.$.val());
     };
     quantity.onChange = function (method) {
-        //app.log("method:" + method + " - val:" + quantity.getVal() + " - max:" + types.getMax());
-        app.generateLorem();
+        app.generate('quantity.onChange | method:' + method);
     };
     quantity.initRangeSlider = function () {
         quantity.$.ionRangeSlider({
@@ -226,44 +271,64 @@ jQuery(document).ready(function ($) {
      ************************************/
     output.$ = app.body.find('#output');
     output.$wrapper = app.body.find('#output-wrapper');
+    output.$specs = output.$wrapper.find('#specs');
 
     output.setResult = function (result) {
         output.$.html(result);
+        output.$specs.html(result.length + ' characters');
     };
     output.clear = function () {
         output.$.html('');
     };
-    output.$.click(function () {
-        if ($(this).val().length) {
+    output.copy = function (footprint) {
+        if (output.$.val().length) {
             output.$.select();
             document.execCommand("copy");
             app.body.toggleClass('result-copied');
+
+            app.log(footprint);
+
             setTimeout(function () {
                 app.body.toggleClass('result-copied');
             }, 800);
+        } else {
+            app.log('Copy fail! Empty output.');
         }
+    };
+    output.$.click(function () {
+        output.copy('Manual copied');
     });
 
     /************************************
      * Options
      ************************************/
     options.$wrapper = app.body.find('#option-wrapper');
+    options.$toggle = app.body.find('#toggle-options');
+    options.$toggle.click(function () {
+        options.$wrapper.slideToggle();
+        $(this).toggleClass('active');
+        app.save();
+    });
+    options.isChecked = function ($option) {
+        return $option.is(':checked');
+    };
     options.beginWith = {};
     options.beginWith.$ = options.$wrapper.find('input#beginWith');
-    options.beginWith.checked = function () {
-        return options.beginWith.$.is(':checked');
-    };
     options.beginWith.text = function () {
         return options.beginWith.$.attr('data-begin-text');
     };
     options.beginWith.$.click(function () {
-        app.generateLorem();
+        app.generate('Option begin with click');
+    });
+    options.$autoCopy = options.$wrapper.find('input#copyWhenOpen');
+    options.$autoCopy.click(function () {
+        app.save();
     });
 
     /************************************
      * Run app
      ************************************/
-    app.generateLorem = function () {
+    app.generate = function (functionName) {
         var result;
         switch (types.getType()) {
             case 'word':
@@ -281,46 +346,29 @@ jQuery(document).ready(function ($) {
         }
 
         // If is format begin with text
-        if (options.beginWith.checked()) {
+        if (options.isChecked(options.beginWith.$)) {
             result = app.formatBeginWith(result);
         }
 
-        save();
+        app.save();
         output.setResult(result);
-    };
 
-    function save() {
-        chrome.storage.sync.set({
-            'preferences': {
-                'beginWith': options.beginWith.checked(), // boolean
-                'type': types.$active.index(), // int
-                'quantity': quantity.getVal()
-            }
-        });
-    }
-
-    chrome.storage.sync.get("preferences", function (settings) {
-        for (var id in settings.preferences) {
-            switch (id) {
-                case 'beginWith':
-                    options.beginWith.$.prop('checked', settings.preferences[id]);
-                    break;
-                case 'type':
-                    types.setActive(types.$buttons.eq(settings.preferences[id]));
-                    break;
-                case 'quantity':
-                    quantity.setVal(settings.preferences[id]);
-                    break;
-            }
-            app.log("ID:" + id + " - " + "val:" + settings.preferences[id]);
+        if (typeof functionName === 'undefined') {
+            app.log('Generated');
+        } else {
+            app.log('Generated by function: ' + functionName);
         }
-    });
+    };
 
     app.build = function () {
         quantity.init();
         types.initMouseWheelControl();
-        app.generateLorem();
+        app.restore();
     };
-    app.build();
+
+    // Only run app inside popup
+    if (app.body.length) {
+        app.build();
+    }
 
 });
