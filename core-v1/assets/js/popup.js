@@ -371,4 +371,12 @@ jQuery(document).ready(function ($) {
         app.build();
     }
 
+    /**
+     * Manual link action
+     */
+    app.body.find('a[href]').click(function () {
+        var href = $(this).attr('href');
+        chrome.tabs.create({url: href});
+    });
+
 });

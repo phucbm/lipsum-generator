@@ -1,15 +1,16 @@
 ﻿{
   "manifest_version": 2,
-  "name": "Lorem Ipsum Generator",
-  "short_name": "Lorem Ipsum Generator",
-  "description": "Generate dump text in just one click.",
+  "name": "Lipsum Generator",
+  "short_name": "Lipsum Generator",
+  "description": "Generate lorem ipsum dump text in just one click.",
   "version": "1.0",
   "browser_action": {
     "default_icon": "assets/img/icon.png",
     "default_popup": "popup.html"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "activeTab"
   ],
   "content_scripts": [
     {
