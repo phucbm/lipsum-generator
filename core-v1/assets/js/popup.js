@@ -197,15 +197,14 @@ jQuery(document).ready(function ($) {
                 // Scroll down
                 quantity.setVal(quantity.getVal() - 1);
             }
-
-            // Trigger onchange
-            quantity.onChange('mousewheel');
         });
     };
     quantity.setVal = function (val) {
         quantity.$.data("ionRangeSlider").update({
             from: val
         });
+        // Trigger onchange
+        quantity.onChange('mousewheel');
     };
     quantity.resetRange = function () {
         var max = types.getMax(),
@@ -235,7 +234,7 @@ jQuery(document).ready(function ($) {
         output.$.html('');
     };
     output.$.click(function () {
-        if($(this).val().length){
+        if ($(this).val().length) {
             output.$.select();
             document.execCommand("copy");
             app.body.toggleClass('result-copied');
@@ -286,8 +285,36 @@ jQuery(document).ready(function ($) {
             result = app.formatBeginWith(result);
         }
 
+        save();
         output.setResult(result);
     };
+
+    function save() {
+        chrome.storage.sync.set({
+            'preferences': {
+                'beginWith': options.beginWith.checked(), // boolean
+                'type': types.$active.index(), // int
+                'quantity': quantity.getVal()
+            }
+        });
+    }
+
+    chrome.storage.sync.get("preferences", function (settings) {
+        for (var id in settings.preferences) {
+            switch (id) {
+                case 'beginWith':
+                    options.beginWith.$.prop('checked', settings.preferences[id]);
+                    break;
+                case 'type':
+                    types.setActive(types.$buttons.eq(settings.preferences[id]));
+                    break;
+                case 'quantity':
+                    quantity.setVal(settings.preferences[id]);
+                    break;
+            }
+            app.log("ID:" + id + " - " + "val:" + settings.preferences[id]);
+        }
+    });
 
     app.build = function () {
         quantity.init();

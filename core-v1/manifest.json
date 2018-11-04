@@ -5,7 +5,7 @@
   "description": "Generate dump text in just one click.",
   "version": "1.0",
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "assets/img/icon.png",
     "default_popup": "popup.html"
   },
   "permissions": [
@@ -17,8 +17,10 @@
         "<all_urls>"
       ],
       "js": [
-        "jquery-3.3.1.min.js",
-        "popup.js"
+        "assets/js/jquery-3.3.1.min.js",
+        "assets/js/ion.rangeSlider.min.js",
+        "assets/js/jquery.mousewheel.min.js",
+        "assets/js/popup.js"
       ]
     }
   ]
