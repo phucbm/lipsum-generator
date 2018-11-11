@@ -1,5 +1,7 @@
 # Lorem-Ipsum-Generator
 
+**Install here: https://bit.ly/lipsum-phuc**
+
 This extension helps to generate lorem ipsum text by just one click.
 
 **Features**
