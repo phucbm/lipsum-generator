@@ -3,26 +3,12 @@
   "name": "Lipsum Generator",
   "short_name": "Lipsum Generator",
   "description": "Generate lorem ipsum dump text in just one click.",
-  "version": "1.0",
+  "version": "1.5",
   "browser_action": {
     "default_icon": "assets/img/icon.png",
     "default_popup": "popup.html"
   },
   "permissions": [
-    "storage",
-    "activeTab"
-  ],
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "assets/js/jquery-3.3.1.min.js",
-        "assets/js/ion.rangeSlider.min.js",
-        "assets/js/jquery.mousewheel.min.js",
-        "assets/js/popup.js"
-      ]
-    }
+    "storage"
   ]
 }
