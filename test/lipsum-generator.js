@@ -5,6 +5,8 @@ jQuery(document).ready(function ($) {
             output: '', // jQuery element
             mode: 'word', // paragraph, sentence, word
             quantity: 5,
+            hasPrefix: false,
+            prefix: 'lorem ipsum dolor sit amet',
             capitalizeFirstWordInSentence: true,
             uppercase: false,
             capitalize: false,
@@ -15,9 +17,9 @@ jQuery(document).ready(function ($) {
             source: 'lorem ipsum dolor sit amet consectetur adipiscing elit integer nec odio praesent libero sed cursus ante dapibus diam nisi nulla quis sem at nibh elementum imperdiet duis sagittis mauris fusce tellus augue semper porta massa vestibulum lacinia arcu eget class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos curabitur sodales ligula in dignissim nunc tortor pellentesque aenean quam scelerisque maecenas mattis convallis tristique proin ut vel egestas porttitor morbi lectus risus iaculis suscipit luctus non ac turpis aliquet metus ullamcorper tincidunt euismod quisque volutpat condimentum velit nam urna neque a facilisi fringilla suspendisse potenti feugiat mi consequat sapien etiam ultrices justo eu magna lacus vitae pharetra auctor interdum primis faucibus orci et posuere cubilia curae molestie dui blandit congue pede facilisis laoreet donec viverra malesuada enim est pulvinar sollicitudin cras id nisl felis venenatis commodo ultricies accumsan pretium fermentum nullam purus aliquam mollis vivamus consectetuer si leo eros maximus gravida erat letius ex hendrerit lobortis tempus rutrum efficitur phasellus natoque penatibus magnis dis parturient montes nascetur ridiculus mus vehicula bibendum vulputate dictum finibus eleifend rhoncus placerat tempor ornare hac habitasse platea dictumst habitant senectus netus fames',
             wordsInASentence: {from: 8, to: 15,},
             sentencesInAParagraph: {from: 4, to: 8,},
-            // return source in array
-            getSourceArray: function () {
-                return lipsum.source.split(' ');
+            // return array of words from string
+            parseString: function (string) {
+                return string.replace(/[^a-zA-Z ]/g, '').trim().split(' ');
             },
             // get a random integer in range [min;max]
             random: function (min, max) {
@@ -28,10 +30,20 @@ jQuery(document).ready(function ($) {
             },
             // get a random word
             getWord: function () {
-                const sourceArray = lipsum.getSourceArray();
+                const sourceArray = lipsum.parseString(lipsum.source);
                 return sourceArray[lipsum.random(0, sourceArray.length - 1)];
             },
-            // return an array of words
+            // apply filter prefix for array of words
+            filterPrefix: function (wordArray) {
+                let prefixArray = lipsum.parseString(settings.prefix);
+
+                for (let i = 0; i < Math.min(wordArray.length, prefixArray.length); i++) {
+                    wordArray[i] = prefixArray[i];
+                }
+
+                return wordArray;
+            },
+            /** Get array object in a certain quantity **/
             getWordArray: function (quantity) {
                 let result = [], word = '';
 
@@ -44,9 +56,13 @@ jQuery(document).ready(function ($) {
                     }
                 }
 
+                // add prefix
+                if (settings.hasPrefix) {
+                    result = lipsum.filterPrefix(result);
+                }
+
                 return result;
             },
-            // return an array of sentences
             getSentenceArray: function (quantity) {
                 let result = [], words = [];
 
@@ -56,9 +72,13 @@ jQuery(document).ready(function ($) {
                     result.push(words);
                 }
 
+                // add prefix
+                if (settings.hasPrefix) {
+                    result[0] = lipsum.filterPrefix(result[0]);
+                }
+
                 return result;
             },
-            // return an array of paragraphs
             getParagraphArray: function (quantity) {
                 let result = [],
                     sentences = [];
@@ -69,8 +89,14 @@ jQuery(document).ready(function ($) {
                     result.push(sentences);
                 }
 
+                // add prefix
+                if (settings.hasPrefix) {
+                    result[0][0] = lipsum.filterPrefix(result[0][0]);
+                }
+
                 return result;
             },
+            /** Get string from array object **/
             getWordString: function (object) {
                 let result = '', space = '',
                     word;
@@ -125,9 +151,11 @@ jQuery(document).ready(function ($) {
 
                 return result;
             },
+            /** Generate lipsum base on settings **/
             generate: function () {
                 let result = '';
 
+                // generate
                 switch (settings.mode) {
                     case 'word':
                         result = lipsum.getWordString(lipsum.getWordArray(settings.quantity));
@@ -138,12 +166,16 @@ jQuery(document).ready(function ($) {
                     case 'paragraph':
                         result = lipsum.getParagraphString(lipsum.getParagraphArray(settings.quantity));
                         break;
+                    default:
+                        console.warn('Undefined lipsum generate type.');
                 }
 
+                // assign
                 settings.output.html(result);
             }
         }
 
+        // run
         lipsum.generate();
     }
 
@@ -156,7 +188,8 @@ jQuery(document).ready(function ($) {
         lipsumGenerator({
             output: $('#result'),
             mode: type,
-            quantity: 2,
+            quantity: 5,
+            //hasPrefix: true,
         });
     });
 });
