@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" href="button.css">
-  </head>
-  <body>
-    <button id="changeColor"></button>
-    <script src="popup.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lipsum Generator V2</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="jquery.min.js"></script>
+  <script src="lipsum-generator.js"></script>
+</head>
+<body>
+
+
+<!-- Lipsum Generator -->
+<div class="lipsum-generator">
+  <div class="lipsum-generator__inner">
+
+    <!-- body -->
+    <div class="lipsum-generator__body">
+
+      <!-- generate buttons -->
+      <div class="lipsum-generator__generate">
+        <button class="lipsum-generator__generate-button btn-secondary" data-lipsum-generate="paragraph">Paragraph</button>
+        <button class="lipsum-generator__generate-button btn-secondary" data-lipsum-generate="sentence">Sentence</button>
+        <button class="lipsum-generator__generate-button btn-secondary" data-lipsum-generate="word">Word</button>
+      </div>
+
+      <!-- quantity controls -->
+      <div class="lipsum-generator__quantity-controls hidden">test
+      </div>
+
+      <!-- result -->
+      <div class="lipsum-generator__result">
+        <textarea class="lipsum-generator__result-textarea" data-lipsum-result readonly></textarea>
+      </div>
+
+      <!-- copy -->
+      <div class="lipsum-generator__copy">
+        <button class="lipsum-generator__copy-button btn-primary" data-lipsum-copy>Copy</button>
+      </div>
+
+      <!-- quick settings -->
+      <!--<div class="lipsum-generator__quick-settings hidden">test<br>test
+      </div>-->
+
+    </div>
+
+
+    <!-- footer -->
+    <div class="lipsum-generator__footer">
+      <div class="lipsum-generator__footer-inner">
+        © 2021 - <a
+              href="https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna"
+              title="Rate this on Chrome store">Lipsum Generator</a>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+</body>
 </html>

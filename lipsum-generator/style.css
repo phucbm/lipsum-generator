@@ -1,0 +1,59 @@
+* {margin:0; padding:0; border:none; outline:none; box-sizing:border-box;}
+/*
+#193155
+#3884ff #1f65d6
+#2f4566
+#9daab6
+#f5f7f9
+ */
+body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
+.hidden {display:none;}
+
+/* Lipsum Generator */
+.lipsum-generator {
+    width:400px; margin:0 auto;
+    font-family: 'Roboto', sans-serif; font-size:14px; font-weight:400px;
+    color:#fff;
+}
+
+/* buttons */
+.lipsum-generator button {
+    border-radius:4px; padding:10px 10px;
+    background:rgba(255, 255, 255, 0.1); color:#fff;
+    font-family: 'Roboto', sans-serif; font-weight:500; font-size:14px;
+    box-shadow:rgb(116 129 141 / 10%) 0 1px 1px 0;
+    transition:all 250ms ease-out 0s; cursor:pointer;
+}
+.lipsum-generator button:hover {background:rgba(255, 255, 255, 0.2);}
+
+.lipsum-generator a {color:#fff; text-decoration:none; transition:all 250ms ease-out 0s;}
+.lipsum-generator a:hover, .lipsum-generator a:focus {color:#1f65d6;}
+.lipsum-generator button.active {background:#1f65d6;}
+
+/* body */
+.lipsum-generator__body {background:#193155; padding:10px;}
+.lipsum-generator__body > div:not(:last-child) {margin-bottom:10px;}
+
+/* footer */
+.lipsum-generator__footer {
+    background:#142845; padding:10px; text-align:center;
+    font-size:14px; color:#9daab6; box-shadow:rgb(116 129 141 / 10%) 0 1px 1px 0;
+}
+.lipsum-generator__footer a {color:#9daab6;}
+.lipsum-generator__footer a:hover, .lipsum-generator__footer a:focus {color:#fff;}
+
+/* generate buttons */
+.lipsum-generator__generate {display:flex;}
+.lipsum-generator__generate button {flex-grow:1;}
+.lipsum-generator__generate button:not(:last-child) {margin-right:10px;}
+
+/* result */
+.lipsum-generator__result-textarea {
+    display:block; border-radius:4px; width:100%;
+    height:200px; resize:none; padding:10px;
+    background:rgba(255, 255, 255, 0.1); color:#9daab6;
+    font-family: 'Roboto', sans-serif; font-weight:500; font-size:14px;
+}
+
+/* copy */
+.lipsum-generator__copy button {padding:12px; width:100%;}

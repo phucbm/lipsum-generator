@@ -196,15 +196,23 @@ jQuery(document).ready(function ($) {
     }
 
 
-    // init
-    $('[data-lipsum]').click(function (e) {
-        e.preventDefault();
-        let type = $(this).attr('data-lipsum');
+    $('.lipsum-generator').each(function () {
+        let $wrapper = $(this),
+            $button = $wrapper.find('[data-lipsum-generate]');
 
-        lipsumGenerator({
-            output: $('#result'),
-            mode: type,
-            quantity: 5,
+        $button.click(function (e) {
+            e.preventDefault();
+            let $this = $(this),
+                type = $this.attr('data-lipsum-generate');
+
+            $button.removeClass('active');
+            $this.addClass('active');
+
+            lipsumGenerator({
+                output: $wrapper.find('[data-lipsum-result]'),
+                mode: type,
+                quantity: 5,
+            });
         });
     });
 });
