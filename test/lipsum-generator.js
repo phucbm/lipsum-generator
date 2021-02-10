@@ -178,10 +178,16 @@ jQuery(document).ready(function ($) {
                 }
 
                 // assign result
-                settings.output.html(result);
+                if (settings.output) {
+                    settings.output.html(result);
+                } else {
+                    console.warn('Please set an output element.');
+                }
 
                 // assign count
-                settings.countCharacter.html(lipsum.countCharacter(result));
+                if (settings.countCharacter.length) {
+                    settings.countCharacter.html(lipsum.countCharacter(result));
+                }
             }
         }
 
@@ -199,8 +205,6 @@ jQuery(document).ready(function ($) {
             output: $('#result'),
             mode: type,
             quantity: 5,
-            countCharacter: $('#count'),
-            //hasPrefix: true,
         });
     });
 });
