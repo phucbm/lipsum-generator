@@ -10,6 +10,7 @@ jQuery(document).ready(function ($) {
             capitalizeFirstWordInSentence: true,
             uppercase: false,
             capitalize: false,
+            countCharacter: '', // jQuery element
         }, options);
 
         // private
@@ -42,6 +43,12 @@ jQuery(document).ready(function ($) {
                 }
 
                 return wordArray;
+            },
+            // count character
+            countCharacter: function (string) {
+                let count = string.length,
+                    unit = ' character' + (count > 1 ? 's' : '');
+                return count + unit;
             },
             /** Get array object in a certain quantity **/
             getWordArray: function (quantity) {
@@ -170,8 +177,11 @@ jQuery(document).ready(function ($) {
                         console.warn('Undefined lipsum generate type.');
                 }
 
-                // assign
+                // assign result
                 settings.output.html(result);
+
+                // assign count
+                settings.countCharacter.html(lipsum.countCharacter(result));
             }
         }
 
@@ -189,6 +199,7 @@ jQuery(document).ready(function ($) {
             output: $('#result'),
             mode: type,
             quantity: 5,
+            countCharacter: $('#count'),
             //hasPrefix: true,
         });
     });
