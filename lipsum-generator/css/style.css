@@ -78,3 +78,26 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 
 /* copy */
 .lipsum-generator__copy button {padding:12px; width:100%;}
+
+
+/* ion range slider */
+.lipsum-range-slider .irs--flat {height:36px;}
+.lipsum-range-slider .irs--flat .irs-line,
+.lipsum-range-slider .irs--flat .irs-bar {height:4px; background:#f5f7f9; top:24px;}
+.lipsum-range-slider .irs--flat .irs-bar {background:#3884ff;}
+.lipsum-range-slider .irs--flat .irs-handle {
+    top:17px; height:18px; width:18px; border-radius:50%;
+    background:#f5f7f9; border:3px solid #3884ff;
+    transition:box-shadow .25s ease-out; cursor:pointer;
+}
+.lipsum-range-slider .irs--flat .irs-handle.state_hover,
+.lipsum-range-slider .irs--flat .irs-handle:hover {box-shadow:0 0 0 3px rgb(238 238 238 / 43%);}
+.lipsum-range-slider .irs--flat .irs-handle i {display:none;}
+.lipsum-range-slider .irs--flat .irs-min, .lipsum-range-slider .irs--flat .irs-max {
+    background:transparent; color:#9daab6; font-size:12px; padding:0; line-height:1;
+}
+.lipsum-range-slider .irs--flat .irs-single {
+    background:transparent; color:#fff;
+    font-size:12px; line-height:1; padding:0;
+}
+.lipsum-range-slider .irs--flat .irs-single:before {display:none;}

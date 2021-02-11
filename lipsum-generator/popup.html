@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <title>Lipsum Generator</title>
     <link rel="icon" href="images/128.png" type="image/x-icon">
+
+    <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="jquery.min.js"></script>
-    <script src="lipsum-generator.js"></script>
+
+    <!-- jQuery 3.5.1 -->
+    <script src="js/jquery.min.js"></script>
+
+    <!-- ion range slider 2.3.1 -->
+    <link rel="stylesheet" href="css/ion.rangeSlider.min.css">
+    <script src="js/ion.rangeSlider.min.js"></script>
+
+    <!-- custom -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/lipsum-generator.js"></script>
 </head>
 <body>
 
@@ -32,7 +42,13 @@
             </div>
 
             <!-- quantity controls -->
-            <div class="lipsum-generator__quantity-controls hidden">test
+            <div class="lipsum-generator__quantity-controls lipsum-range-slider">
+                <input type="text" class="lipsum-generator__quantity-range" data-lipsum-range name="my_range" value=""
+                       data-type="single"
+                       data-min="0"
+                       data-max="20"
+                       data-from="0"
+                />
             </div>
 
             <!-- result -->

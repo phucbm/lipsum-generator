@@ -2,21 +2,24 @@ jQuery(document).ready(function ($) {
     function lipsumGenerator(options) {
         // public
         let settings = $.extend({
-            output: '', // jQuery element
-            copy: '', // jQuery element
-            button: '', // jQuery element
-            noti: '', // jQuery element
-            quantity: 5,
+            wrapper: '', // jQuery element
+            countCharacter: '', // jQuery element
             hasPrefix: false,
             prefix: 'lorem ipsum dolor sit amet',
             capitalizeFirstWordInSentence: true,
             uppercase: false,
             capitalize: false,
-            countCharacter: '', // jQuery element
         }, options);
 
         // private
         let lipsum = {
+            quantity: 5,
+            output: settings.wrapper.find('[data-lipsum-result]'), // jQuery element
+            copy: settings.wrapper.find('[data-lipsum-copy]'), // jQuery element
+            button: settings.wrapper.find('[data-lipsum-generate]'), // jQuery element
+            noti: settings.wrapper.find('[data-lipsum-noti]'), // jQuery element
+            indicator: settings.wrapper.find('[data-lipsum-generate-indicator]'), // jQuery element
+            range: settings.wrapper.find('[data-lipsum-range]'), // jQuery element
             mode: 'word', // paragraph, sentence, word
             source: 'lorem ipsum dolor sit amet consectetur adipiscing elit integer nec odio praesent libero sed cursus ante dapibus diam nisi nulla quis sem at nibh elementum imperdiet duis sagittis mauris fusce tellus augue semper porta massa vestibulum lacinia arcu eget class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos curabitur sodales ligula in dignissim nunc tortor pellentesque aenean quam scelerisque maecenas mattis convallis tristique proin ut vel egestas porttitor morbi lectus risus iaculis suscipit luctus non ac turpis aliquet metus ullamcorper tincidunt euismod quisque volutpat condimentum velit nam urna neque a facilisi fringilla suspendisse potenti feugiat mi consequat sapien etiam ultrices justo eu magna lacus vitae pharetra auctor interdum primis faucibus orci et posuere cubilia curae molestie dui blandit congue pede facilisis laoreet donec viverra malesuada enim est pulvinar sollicitudin cras id nisl felis venenatis commodo ultricies accumsan pretium fermentum nullam purus aliquam mollis vivamus consectetuer si leo eros maximus gravida erat letius ex hendrerit lobortis tempus rutrum efficitur phasellus natoque penatibus magnis dis parturient montes nascetur ridiculus mus vehicula bibendum vulputate dictum finibus eleifend rhoncus placerat tempor ornare hac habitasse platea dictumst habitant senectus netus fames',
             wordsInASentence: {from: 8, to: 15,},
@@ -161,28 +164,34 @@ jQuery(document).ready(function ($) {
 
                 return result;
             },
+            /** Update all settings before generate **/
+            updateSettings: function () {
+                console.log(lipsum.mode);
+            },
             /** Generate lipsum base on settings **/
             generate: function () {
+                lipsum.updateSettings();
+
                 let result = '';
 
                 // generate
                 switch (lipsum.mode) {
                     case 'word':
-                        result = lipsum.getWordString(lipsum.getWordArray(settings.quantity));
+                        result = lipsum.getWordString(lipsum.getWordArray(lipsum.quantity));
                         break;
                     case 'sentence':
-                        result = lipsum.getSentenceString(lipsum.getSentenceArray(settings.quantity));
+                        result = lipsum.getSentenceString(lipsum.getSentenceArray(lipsum.quantity));
                         break;
                     case 'paragraph':
-                        result = lipsum.getParagraphString(lipsum.getParagraphArray(settings.quantity));
+                        result = lipsum.getParagraphString(lipsum.getParagraphArray(lipsum.quantity));
                         break;
                     default:
                         console.warn('Undefined lipsum generate type.');
                 }
 
                 // assign result
-                if (settings.output) {
-                    settings.output.html(result);
+                if (lipsum.output) {
+                    lipsum.output.html(result);
                 } else {
                     console.warn('Please set an output element.');
                 }
@@ -193,33 +202,33 @@ jQuery(document).ready(function ($) {
                 }
             },
             copyResultToClipboard: function () {
-                if (settings.output.html().length) {
-                    settings.output.select();
+                if (lipsum.output.html().length) {
+                    lipsum.output.select();
                     document.execCommand("copy");
 
                     // push notification
-                    if (settings.noti.length) {
-                        settings.noti.addClass('active');
+                    if (lipsum.noti.length) {
+                        lipsum.noti.addClass('active');
                         setTimeout(function () {
-                            settings.noti.removeClass('active');
+                            lipsum.noti.removeClass('active');
                         }, 1000);
                     }
                 }
             },
         }
 
-        // generate on button click
-        if (settings.button.length) {
-            settings.button.click(function (e) {
+        // on button click
+        if (lipsum.button.length) {
+            lipsum.button.click(function (e) {
                 e.preventDefault();
                 let $this = $(this);
 
-                settings.button.removeClass('active');
+                lipsum.button.removeClass('active');
                 $this.addClass('active');
 
                 // indicator
-                if (settings.indicator.length) {
-                    settings.indicator.css({
+                if (lipsum.indicator.length) {
+                    lipsum.indicator.css({
                         'width': $this.outerWidth() + 'px',
                         'left': $this.position().left + 'px',
                     });
@@ -231,11 +240,27 @@ jQuery(document).ready(function ($) {
                 // run
                 lipsum.generate();
             });
+
+            // trigger word generate
+            lipsum.button.eq(2).trigger('click');
+        }
+
+        // on range slider update
+        if (lipsum.range.length) {
+            lipsum.range.ionRangeSlider({
+                onChange: function (data) {
+                    // save quantity
+                    lipsum.quantity = data.from;
+
+                    // run
+                    lipsum.generate();
+                }
+            });
         }
 
         // copy
-        if (settings.copy.length) {
-            settings.copy.click(function () {
+        if (lipsum.copy.length) {
+            lipsum.copy.click(function () {
                 lipsum.copyResultToClipboard();
             });
         }
@@ -245,13 +270,9 @@ jQuery(document).ready(function ($) {
     $('.lipsum-generator').each(function () {
         let $wrapper = $(this);
 
+        // init lipsum generator
         lipsumGenerator({
-            quantity: 5,
-            output: $wrapper.find('[data-lipsum-result]'),
-            copy: $wrapper.find('[data-lipsum-copy]'),
-            button: $wrapper.find('[data-lipsum-generate]'),
-            noti: $wrapper.find('[data-lipsum-noti]'),
-            indicator: $wrapper.find('[data-lipsum-generate-indicator]'),
+            wrapper: $wrapper,
         });
     });
 });
