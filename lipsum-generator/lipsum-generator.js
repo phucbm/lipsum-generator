@@ -3,7 +3,9 @@ jQuery(document).ready(function ($) {
         // public
         let settings = $.extend({
             output: '', // jQuery element
-            mode: 'word', // paragraph, sentence, word
+            copy: '', // jQuery element
+            button: '', // jQuery element
+            noti: '', // jQuery element
             quantity: 5,
             hasPrefix: false,
             prefix: 'lorem ipsum dolor sit amet',
@@ -15,6 +17,7 @@ jQuery(document).ready(function ($) {
 
         // private
         let lipsum = {
+            mode: 'word', // paragraph, sentence, word
             source: 'lorem ipsum dolor sit amet consectetur adipiscing elit integer nec odio praesent libero sed cursus ante dapibus diam nisi nulla quis sem at nibh elementum imperdiet duis sagittis mauris fusce tellus augue semper porta massa vestibulum lacinia arcu eget class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos curabitur sodales ligula in dignissim nunc tortor pellentesque aenean quam scelerisque maecenas mattis convallis tristique proin ut vel egestas porttitor morbi lectus risus iaculis suscipit luctus non ac turpis aliquet metus ullamcorper tincidunt euismod quisque volutpat condimentum velit nam urna neque a facilisi fringilla suspendisse potenti feugiat mi consequat sapien etiam ultrices justo eu magna lacus vitae pharetra auctor interdum primis faucibus orci et posuere cubilia curae molestie dui blandit congue pede facilisis laoreet donec viverra malesuada enim est pulvinar sollicitudin cras id nisl felis venenatis commodo ultricies accumsan pretium fermentum nullam purus aliquam mollis vivamus consectetuer si leo eros maximus gravida erat letius ex hendrerit lobortis tempus rutrum efficitur phasellus natoque penatibus magnis dis parturient montes nascetur ridiculus mus vehicula bibendum vulputate dictum finibus eleifend rhoncus placerat tempor ornare hac habitasse platea dictumst habitant senectus netus fames',
             wordsInASentence: {from: 8, to: 15,},
             sentencesInAParagraph: {from: 4, to: 8,},
@@ -163,7 +166,7 @@ jQuery(document).ready(function ($) {
                 let result = '';
 
                 // generate
-                switch (settings.mode) {
+                switch (lipsum.mode) {
                     case 'word':
                         result = lipsum.getWordString(lipsum.getWordArray(settings.quantity));
                         break;
@@ -188,31 +191,58 @@ jQuery(document).ready(function ($) {
                 if (settings.countCharacter.length) {
                     settings.countCharacter.html(lipsum.countCharacter(result));
                 }
-            }
+            },
+            copyResultToClipboard: function () {
+                if (settings.output.html().length) {
+                    settings.output.select();
+                    document.execCommand("copy");
+
+                    // push notification
+                    if (settings.noti.length) {
+                        settings.noti.addClass('active');
+                        setTimeout(function () {
+                            settings.noti.removeClass('active');
+                        }, 1000);
+                    }
+                }
+            },
         }
 
-        // run
-        lipsum.generate();
+        // generate on button click
+        if (settings.button.length) {
+            settings.button.click(function (e) {
+                e.preventDefault();
+                let $this = $(this);
+
+                settings.button.removeClass('active');
+                $this.addClass('active');
+
+                // save mode
+                lipsum.mode = $this.attr('data-lipsum-generate');
+
+                // run
+                lipsum.generate();
+            });
+        }
+
+        // copy
+        if (settings.copy.length) {
+            settings.copy.click(function () {
+                lipsum.copyResultToClipboard();
+            });
+        }
     }
 
 
     $('.lipsum-generator').each(function () {
-        let $wrapper = $(this),
-            $button = $wrapper.find('[data-lipsum-generate]');
+        let $wrapper = $(this);
 
-        $button.click(function (e) {
-            e.preventDefault();
-            let $this = $(this),
-                type = $this.attr('data-lipsum-generate');
-
-            $button.removeClass('active');
-            $this.addClass('active');
-
-            lipsumGenerator({
-                output: $wrapper.find('[data-lipsum-result]'),
-                mode: type,
-                quantity: 5,
-            });
+        lipsumGenerator({
+            quantity: 5,
+            output: $wrapper.find('[data-lipsum-result]'),
+            copy: $wrapper.find('[data-lipsum-copy]'),
+            button: $wrapper.find('[data-lipsum-generate]'),
+            noti: $wrapper.find('[data-lipsum-noti]'),
         });
     });
 });

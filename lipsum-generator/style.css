@@ -48,12 +48,23 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 .lipsum-generator__generate button:not(:last-child) {margin-right:10px;}
 
 /* result */
+.lipsum-generator__result {position:relative; overflow:hidden;}
 .lipsum-generator__result-textarea {
     display:block; border-radius:4px; width:100%;
     height:200px; resize:none; padding:10px;
     background:rgba(255, 255, 255, 0.1); color:#9daab6;
     font-family: 'Roboto', sans-serif; font-weight:500; font-size:14px;
 }
+
+/* noti */
+.lipsum-generator__noti {
+    position:absolute; bottom:5px; left:50%;
+    transform:translate(-50%,0);
+    padding:5px; background:#26cb7c; border-radius:4px;
+    box-shadow:0 1px 1px 0 rgb(116 129 141 / 20%);
+    transition:all 250ms ease-out 0s; pointer-events:none;
+}
+.lipsum-generator__noti:not(.active) {transform:translate(-50%,40px) scale(.9);}
 
 /* copy */
 .lipsum-generator__copy button {padding:12px; width:100%;}
