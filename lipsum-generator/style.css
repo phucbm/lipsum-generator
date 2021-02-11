@@ -28,7 +28,6 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 
 .lipsum-generator a {color:#fff; text-decoration:none; transition:all 250ms ease-out 0s;}
 .lipsum-generator a:hover, .lipsum-generator a:focus {color:#1f65d6;}
-.lipsum-generator button.active {background:#1f65d6;}
 
 /* body */
 .lipsum-generator__body {background:#193155; padding:10px;}
@@ -43,9 +42,20 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 .lipsum-generator__footer a:hover, .lipsum-generator__footer a:focus {color:#fff;}
 
 /* generate buttons */
-.lipsum-generator__generate {display:flex;}
-.lipsum-generator__generate button {flex-grow:1;}
+.lipsum-generator__generate {
+    background:rgba(255, 255, 255, 0.1);
+    padding:5px; border-radius:4px;
+}
+.lipsum-generator__generate-inner {display:flex; position:relative;}
+.lipsum-generator__generate button {position:relative; z-index:1; flex-grow:1; background:transparent; color:#9daab6;}
+.lipsum-generator__generate button:hover, .lipsum-generator__generate button:focus {background:transparent;}
+.lipsum-generator__generate button:hover, .lipsum-generator__generate button:focus,
+.lipsum-generator__generate button.active {color:#fff;}
 .lipsum-generator__generate button:not(:last-child) {margin-right:10px;}
+.lipsum-generator__generate-indicator {
+    position:absolute; top:0; bottom:0; left:0; border-radius:4px;
+    transition:all 250ms ease-out 0s; background:#3884ff; width:0;
+}
 
 /* result */
 .lipsum-generator__result {position:relative; overflow:hidden;}

@@ -217,6 +217,14 @@ jQuery(document).ready(function ($) {
                 settings.button.removeClass('active');
                 $this.addClass('active');
 
+                // indicator
+                if (settings.indicator.length) {
+                    settings.indicator.css({
+                        'width': $this.outerWidth() + 'px',
+                        'left': $this.position().left + 'px',
+                    });
+                }
+
                 // save mode
                 lipsum.mode = $this.attr('data-lipsum-generate');
 
@@ -243,6 +251,7 @@ jQuery(document).ready(function ($) {
             copy: $wrapper.find('[data-lipsum-copy]'),
             button: $wrapper.find('[data-lipsum-generate]'),
             noti: $wrapper.find('[data-lipsum-noti]'),
+            indicator: $wrapper.find('[data-lipsum-generate-indicator]'),
         });
     });
 });
