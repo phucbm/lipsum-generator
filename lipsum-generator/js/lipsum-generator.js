@@ -195,7 +195,7 @@
         obj.result = settings.generate();
     };
 
-    // Public Method: $.lipsumGenerator.getOutput();
+    // Public Method: $.lipsumGenerator.getOutput(data);
     obj.get = function (data) {
         return settings[data];
     };

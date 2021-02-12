@@ -39,7 +39,7 @@ jQuery(document).ready(function ($) {
         // init lipsum generator
         $.lipsumGenerator.init();
 
-        // on button click
+        // on mode button click
         if ($buttons.length) {
             $buttons.click(function (e) {
                 e.preventDefault();
@@ -56,10 +56,10 @@ jQuery(document).ready(function ($) {
                     });
                 }
 
-                // save mode
+                // save setting
                 $.lipsumGenerator.update('mode', $this.attr('data-lipsum-generate'));
 
-                // run
+                // generate
                 $.lipsumGenerator.generate();
             });
 
@@ -71,10 +71,10 @@ jQuery(document).ready(function ($) {
         if ($rangeSlider.length) {
             $rangeSlider.ionRangeSlider({
                 onChange: function (data) {
-                    // save quantity
+                    // save setting
                     $.lipsumGenerator.update('quantity', data.from);
 
-                    // run
+                    // generate
                     $.lipsumGenerator.generate();
                 }
             });
@@ -87,7 +87,7 @@ jQuery(document).ready(function ($) {
                     $.lipsumGenerator.get('output').select();
                     document.execCommand("copy");
 
-                    // push notification
+                    // push copy notification
                     if ($noti.length) {
                         $noti.addClass('active');
                         setTimeout(function () {
@@ -98,12 +98,13 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        // update settings
+        // update check settings
         $checkboxUpdate.click(function () {
             let $this = $(this),
                 setting = $this.attr('data-lipsum-checkbox');
             $this.toggleClass('active');
 
+            // save setting
             $.lipsumGenerator.update(setting, $this.hasClass('active'));
         });
     });
