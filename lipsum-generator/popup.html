@@ -15,10 +15,6 @@
     <!-- ion range slider 2.3.1 -->
     <link rel="stylesheet" href="css/ion.rangeSlider.min.css">
     <script src="js/ion.rangeSlider.min.js"></script>
-
-    <!-- custom -->
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/lipsum-generator.js"></script>
 </head>
 <body>
 
@@ -63,8 +59,22 @@
             </div>
 
             <!-- quick settings -->
-            <!--<div class="lipsum-generator__quick-settings hidden">test<br>test
-            </div>-->
+            <div class="lipsum-generator__quick-settings">
+
+                <div class="lipsum-generator__checkbox">
+                    <label>Capitalize</label>
+                    <span data-lipsum-checkbox="capitalize">
+                        <input type="checkbox" name="capitalize"/>
+                    </span>
+                </div>
+                <div class="lipsum-generator__checkbox">
+                    <label>UPPERCASE</label>
+                    <span data-lipsum-checkbox="uppercase">
+                        <input type="checkbox" name="uppercase"/>
+                    </span>
+                </div>
+
+            </div>
 
         </div>
 
@@ -82,6 +92,11 @@
     </div>
 </div>
 
+
+<!-- custom -->
+<link rel="stylesheet" href="css/style.css">
+<script src="js/lipsum-generator.js"></script>
+<script src="js/popup.js"></script>
 
 </body>
 </html>
