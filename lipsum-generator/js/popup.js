@@ -103,10 +103,13 @@ jQuery(document).ready(function ($) {
             let $this = $(this),
                 type = $this.attr('data-lipsum-text-transform');
 
-            $textTransform.removeClass('active');
-            $this.toggleClass('active');
+            if (!$this.hasClass('active')) {
+                $textTransform.removeClass('active');
+                $this.addClass('active');
 
-            $.lipsumGenerator.applyTextTransform(type);
+                // generate
+                $.lipsumGenerator.generate($.lipsumGenerator.applyTextTransform(type));
+            }
         });
     });
 });

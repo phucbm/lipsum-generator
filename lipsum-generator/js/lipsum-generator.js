@@ -33,6 +33,7 @@
                     for (let i = 0; i < settings.textTransform.length; i++) {
                         settings[settings.textTransform[i]] = settings.textTransform[i] === type;
                     }
+                    return type;
                 } else {
                     // return the active one
                     for (let i = 0; i < settings.textTransform.length; i++) {
@@ -42,41 +43,59 @@
                     }
                 }
             },
-            capitalizeFilter: function (str, force) {
-                str = force ? str.toLowerCase() : str;
-                return str.replace(/(\b)([a-zA-Z])/g,
+            capitalizeString: function (string, force) {
+                string = force ? string.toLowerCase() : string;
+                return string.replace(/(\b)([a-zA-Z])/g,
                     function (firstLetter) {
                         return firstLetter.toUpperCase();
                     });
             },
-            applyTextFilter: function (type) {
+            capitalizeFirstLetter: function (string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            },
+            applyTextTransform: function (type) {
                 let string = settings.output.html();
-
-                // save active text transform
-                settings.prioritizeTextTransform(type);
 
                 // if output has string
                 if (string.length) {
+                    type = settings.prioritizeTextTransform(type);
+
                     switch (type) {
                         case 'capitalizeFirstWordInSentence':
-
                             if (settings.mode === 'word') {
-                                // todo
-                            }
+                                string = settings.capitalizeFirstLetter(string.toLowerCase());
+                            } else {
+                                let sentences = string.toLowerCase().split('.'),
+                                    result = '';
 
+                                for (let i = 0; i < sentences.length; i++) {
+                                    if (sentences[i].length) {
+                                        if (sentences[i].charAt(0) === ' ') {
+                                            // first letter is a white space
+                                            result += ' ' + settings.capitalizeFirstLetter(sentences[i].trim());
+                                        } else if (sentences[i].charAt(0) === '\n' && sentences[i].charAt(1) === '\n') {
+                                            // new lines
+                                            result += '\n\n' + settings.capitalizeFirstLetter(sentences[i].trim().replace(/(\r\n|\n|\r)/gm, ""));
+                                        } else {
+                                            result += settings.capitalizeFirstLetter(sentences[i]);
+                                        }
+                                        result += '.';
+                                    }
+                                }
+                                string = result;
+                            }
                             break;
                         case 'uppercase':
                             string = string.toUpperCase();
                             break;
                         case 'capitalize':
-                            string = settings.capitalizeFilter(string, true);
+                            string = settings.capitalizeString(string, true);
                             break;
                         default:
                             string = string.toLowerCase();
                     }
 
-                    // generate with given string
-                    settings.generate(string);
+                    return string;
                 }
             },
 
@@ -87,9 +106,6 @@
             // get a random integer in range [min;max]
             random: function (min, max) {
                 return Math.floor(Math.random() * (max - min + 1) + min);
-            },
-            capitalizeFirstLetter: function (string) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
             },
             // get a random word
             getWord: function () {
@@ -227,14 +243,20 @@
                     }
                 }
 
+                //result = settings.applyTextTransform();
+
+                settings.setOutput(result);
+
+                return result;
+            },
+            setOutput: function (result) {
+                console.log(settings.prioritizeTextTransform());
                 // assign result
                 if (settings.output.length) {
                     settings.output.html(result);
                 } else {
                     console.warn('Please set an output element.');
                 }
-
-                return result;
             },
         };
 
@@ -270,7 +292,7 @@
 
     // Public Method: $.lipsumGenerator.applyTextTransform(type);
     obj.applyTextTransform = function (type) {
-        settings.applyTextFilter(type);
+        return settings.applyTextTransform(type);
     };
 
     // APIs
