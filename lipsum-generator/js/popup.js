@@ -33,13 +33,12 @@ jQuery(document).ready(function ($) {
             $indicator = $wrapper.find('[data-lipsum-generate-indicator]'),
             $rangeSlider = $wrapper.find('[data-lipsum-range]'),
             $copyTrigger = $wrapper.find('[data-lipsum-copy]'),
-            $noti = $wrapper.find('[data-lipsum-noti]'),
-            $checkboxUpdate = $wrapper.find('[data-lipsum-checkbox]');
+            $noti = $wrapper.find('[data-lipsum-noti]');
 
         // init lipsum generator
         $.lipsumGenerator.init();
 
-        // on mode button click
+        // GENERATE MODE: on button click
         if ($buttons.length) {
             $buttons.click(function (e) {
                 e.preventDefault();
@@ -67,7 +66,7 @@ jQuery(document).ready(function ($) {
             $buttons.eq(2).trigger('click');
         }
 
-        // on range slider update
+        // QUANTITY: on range slider update
         if ($rangeSlider.length) {
             $rangeSlider.ionRangeSlider({
                 onChange: function (data) {
@@ -80,7 +79,7 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        // copy
+        // COPY
         if ($copyTrigger.length) {
             $copyTrigger.click(function () {
                 if ($.lipsumGenerator.get('output').html().length) {
@@ -98,14 +97,16 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        // update check settings
-        $checkboxUpdate.click(function () {
+        // TEXT TRANSFORM: on check box change
+        let $textTransform = $wrapper.find('[data-lipsum-text-transform]');
+        $textTransform.click(function () {
             let $this = $(this),
-                setting = $this.attr('data-lipsum-checkbox');
+                type = $this.attr('data-lipsum-text-transform');
+
+            $textTransform.removeClass('active');
             $this.toggleClass('active');
 
-            // save setting
-            $.lipsumGenerator.update(setting, $this.hasClass('active'));
+            $.lipsumGenerator.applyTextTransform(type);
         });
     });
 });

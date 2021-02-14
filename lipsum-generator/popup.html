@@ -60,17 +60,28 @@
 
             <!-- quick settings -->
             <div class="lipsum-generator__quick-settings">
-
+                <div class="lipsum-generator__checkbox">
+                    <label>lowercase</label>
+                    <span class="active" data-lipsum-text-transform="lowercase">
+                        <input type="checkbox" name="lowercase"/>
+                    </span>
+                </div>
                 <div class="lipsum-generator__checkbox">
                     <label>Capitalize</label>
-                    <span data-lipsum-checkbox="capitalize">
+                    <span data-lipsum-text-transform="capitalize">
                         <input type="checkbox" name="capitalize"/>
                     </span>
                 </div>
                 <div class="lipsum-generator__checkbox">
                     <label>UPPERCASE</label>
-                    <span data-lipsum-checkbox="uppercase">
+                    <span data-lipsum-text-transform="uppercase">
                         <input type="checkbox" name="uppercase"/>
+                    </span>
+                </div>
+                <div class="lipsum-generator__checkbox">
+                    <label>Capitalize the first word in a sentence.</label>
+                    <span data-lipsum-text-transform="capitalizeFirstWordInSentence">
+                        <input type="checkbox" name="capitalizeFirstWordInSentence"/>
                     </span>
                 </div>
 
