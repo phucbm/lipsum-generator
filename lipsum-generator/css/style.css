@@ -11,7 +11,7 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 
 /* Lipsum Generator */
 .lipsum-generator {
-    width:400px; margin:0 auto;
+    width:500px; margin:0 auto;
     font-family: 'Roboto', sans-serif; font-size:14px; font-weight:400px;
     color:#fff;
 }
