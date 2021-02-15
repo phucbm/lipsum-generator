@@ -36,6 +36,19 @@ jQuery(document).ready(function ($) {
             $noti = $wrapper.find('[data-lipsum-noti]');
 
 
+        // QUANTITY: on range slider update
+        if ($rangeSlider.length) {
+            $rangeSlider.ionRangeSlider({
+                onChange: function (data) {
+                    // save setting
+                    $.lipsumGenerator.updateQuantity(data.from);
+
+                    // generate
+                    $.lipsumGenerator.generate();
+                }
+            });
+        }
+
         // GENERATE MODE: on button click
         if ($buttons.length) {
             $buttons.click(function (e) {
@@ -54,7 +67,10 @@ jQuery(document).ready(function ($) {
                 }
 
                 // save setting
-                $.lipsumGenerator.update('mode', $this.attr('data-lipsum-generate'));
+                let data = $.lipsumGenerator.updateMode($this.attr('data-lipsum-generate'));
+                $rangeSlider.data("ionRangeSlider").update({
+                    from: data.quantity,
+                });
 
                 // generate
                 $.lipsumGenerator.generate();
@@ -62,19 +78,6 @@ jQuery(document).ready(function ($) {
 
             // trigger word generate
             $buttons.eq(0).trigger('click');
-        }
-
-        // QUANTITY: on range slider update
-        if ($rangeSlider.length) {
-            $rangeSlider.ionRangeSlider({
-                onChange: function (data) {
-                    // save setting
-                    $.lipsumGenerator.update('quantity', data.from);
-
-                    // generate
-                    $.lipsumGenerator.generate();
-                }
-            });
         }
 
         // TEXT TRANSFORM: on check box change

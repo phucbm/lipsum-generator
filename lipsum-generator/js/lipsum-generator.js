@@ -134,7 +134,16 @@
      */
     settings = {
         mode: 'word', // paragraph, sentence, word
-        quantity: 5,
+        quantity: {
+            'word': {number: 5},
+            'sentence': {number: 3, from: 8, to: 15},
+            'paragraph': {number: 2, from: 4, to: 8},
+        },
+        // get quantity base on current mode
+        getQuantity: function () {
+            return settings.quantity[settings.mode].number;
+        },
+
         output: $('[data-lipsum-result]'), // jQuery element
         source: 'lorem ipsum dolor sit amet consectetur adipiscing elit integer nec odio praesent libero sed cursus ante dapibus diam nisi nulla quis sem at nibh elementum imperdiet duis sagittis mauris fusce tellus augue semper porta massa vestibulum lacinia arcu eget class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos curabitur sodales ligula in dignissim nunc tortor pellentesque aenean quam scelerisque maecenas mattis convallis tristique proin ut vel egestas porttitor morbi lectus risus iaculis suscipit luctus non ac turpis aliquet metus ullamcorper tincidunt euismod quisque volutpat condimentum velit nam urna neque a facilisi fringilla suspendisse potenti feugiat mi consequat sapien etiam ultrices justo eu magna lacus vitae pharetra auctor interdum primis faucibus orci et posuere cubilia curae molestie dui blandit congue pede facilisis laoreet donec viverra malesuada enim est pulvinar sollicitudin cras id nisl felis venenatis commodo ultricies accumsan pretium fermentum nullam purus aliquam mollis vivamus consectetuer si leo eros maximus gravida erat letius ex hendrerit lobortis tempus rutrum efficitur phasellus natoque penatibus magnis dis parturient montes nascetur ridiculus mus vehicula bibendum vulputate dictum finibus eleifend rhoncus placerat tempor ornare hac habitasse platea dictumst habitant senectus netus fames',
         wordsInASentence: {from: 8, to: 15,},
@@ -242,24 +251,26 @@
 
         /** Generate lipsum base on settings **/
         generate: function (string) {
-            let result = typeof string !== 'undefined' ? string : '';
+            let result = typeof string !== 'undefined' ? string : '',
+                quantity;
 
             // generate new string if result is empty
             if (!result.length) {
+                quantity = settings.getQuantity();
                 switch (settings.mode) {
                     case 'word':
-                        result = settings.getWordString(settings.getWordArray(settings.quantity));
+                        result = settings.getWordString(settings.getWordArray(quantity));
                         break;
                     case 'sentence':
-                        result = settings.getSentenceString(settings.getSentenceArray(settings.quantity));
+                        result = settings.getSentenceString(settings.getSentenceArray(quantity));
                         break;
                     case 'paragraph':
-                        result = settings.getParagraphString(settings.getParagraphArray(settings.quantity));
+                        result = settings.getParagraphString(settings.getParagraphArray(quantity));
                         break;
                     default:
                         console.warn('Undefined lipsum generate type.');
                 }
-                console.log('generate new string, quantity=' + settings.quantity);
+                console.log('generate new string, quantity=' + quantity);
             } else {
                 console.log('generate with given string');
             }
@@ -288,10 +299,20 @@
      * Public methods
      */
 
-    // $.lipsumGenerator.update(setting, value);
-    obj.update = function (name, value) {
-        console.log('update: settings[' + name + '] = ' + value);
-        settings[name] = value;
+    // $.lipsumGenerator.updateQuantity(number);
+    obj.updateQuantity = function (number) {
+        console.log('updateQuantity: ' + number);
+        settings.quantity[settings.mode].number = number;
+    };
+
+    // $.lipsumGenerator.updateMode(mode);
+    obj.updateMode = function (mode) {
+        console.log('updateMode: ' + mode);
+        settings.mode = mode;
+
+        return {
+            quantity: settings.getQuantity()
+        }
     };
 
     // $.lipsumGenerator.generate();
