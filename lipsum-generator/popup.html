@@ -12,6 +12,10 @@
     <!-- jQuery 3.5.1 -->
     <script src="js/jquery.min.js"></script>
 
+    <!-- nice select 1.0 -->
+    <script src="js/jquery.nice-select.min.js"></script>
+    <link rel="stylesheet" href="css/nice-select.css">
+
     <!-- ion range slider 2.3.1 -->
     <link rel="stylesheet" href="css/ion.rangeSlider.min.css">
     <script src="js/ion.rangeSlider.min.js"></script>
@@ -49,42 +53,38 @@
 
             <!-- result -->
             <div class="lipsum-generator__result">
-                <textarea class="lipsum-generator__result-textarea" data-lipsum-result readonly></textarea>
+                <textarea class="lipsum-generator__result-textarea" data-lipsum-result data-lipsum-copy
+                          readonly></textarea>
                 <div class="lipsum-generator__noti" data-lipsum-noti>Copied</div>
-            </div>
-
-            <!-- copy -->
-            <div class="lipsum-generator__copy">
-                <button class="lipsum-generator__copy-button" data-lipsum-copy>Copy</button>
             </div>
 
             <!-- quick settings -->
             <div class="lipsum-generator__quick-settings">
-                <div class="lipsum-generator__checkbox">
+                <!--<div class="lipsum-generator__checkbox">
                     <label>lowercase</label>
                     <span class="active" data-lipsum-text-transform="lowercase">
                         <input type="checkbox" name="lowercase"/>
                     </span>
-                </div>
-                <div class="lipsum-generator__checkbox">
-                    <label>Capitalize</label>
-                    <span data-lipsum-text-transform="capitalize">
-                        <input type="checkbox" name="capitalize"/>
-                    </span>
-                </div>
-                <div class="lipsum-generator__checkbox">
-                    <label>UPPERCASE</label>
-                    <span data-lipsum-text-transform="uppercase">
-                        <input type="checkbox" name="uppercase"/>
-                    </span>
-                </div>
-                <div class="lipsum-generator__checkbox">
-                    <label>Capitalize the first word in a sentence.</label>
-                    <span data-lipsum-text-transform="capitalizeFirstWordInSentence">
-                        <input type="checkbox" name="capitalizeFirstWordInSentence"/>
-                    </span>
+                </div>-->
+
+                <div class="lipsum-generator__quick-settings__text-transform lipsum-generator-select">
+                    <label class="lipsum-generator-label">Text transform:</label>
+                    <select class="up">
+                        <option value="capitalizeFirstWordInSentence" selected>Capitalize the first word in a
+                            sentence.
+                        </option>
+                        <option value="lowercase">lowercase</option>
+                        <option value="capitalize">Capitalize</option>
+                        <option value="uppercase">UPPERCASE</option>
+                    </select>
                 </div>
 
+            </div>
+
+
+            <!-- copy -->
+            <div class="lipsum-generator__copy">
+                <button class="lipsum-generator__copy-button" data-lipsum-copy>Copy</button>
             </div>
 
         </div>

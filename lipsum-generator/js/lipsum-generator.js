@@ -41,7 +41,7 @@
             'capitalizeFirstWordInSentence',
             'uppercase', 'capitalize', 'lowercase'
         ],
-        lowercase: true,
+        lowercase: false,
         capitalizeFirstWordInSentence: false,
         uppercase: false,
         capitalize: false,

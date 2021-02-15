@@ -64,6 +64,9 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
     height:200px; resize:none; padding:10px;
     background:rgba(255, 255, 255, 0.1); color:#9daab6;
     font-family: 'Roboto', sans-serif; font-weight:500; font-size:14px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 /* noti */
@@ -122,3 +125,8 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 }
 .lipsum-generator__checkbox span.active {background:#3884ff;}
 .lipsum-generator__checkbox span.active:before {left:22px;}
+
+.lipsum-generator-label {
+    color:#9daab6; text-transform:uppercase; letter-spacing:1px; font-weight:500;
+    margin-bottom:3px; display:block; font-size:12px; opacity:.8;
+}

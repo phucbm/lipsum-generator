@@ -85,7 +85,7 @@ jQuery(document).ready(function ($) {
         }
 
         // TEXT TRANSFORM: on check box change
-        let $textTransform = $wrapper.find('[data-lipsum-text-transform]');
+        /*let $textTransform = $wrapper.find('[data-lipsum-text-transform]');
         $textTransform.click(function () {
             let $this = $(this),
                 type = $this.attr('data-lipsum-text-transform');
@@ -97,6 +97,18 @@ jQuery(document).ready(function ($) {
                 // update text transform
                 $.lipsumGenerator.updateTextTransform(type);
             }
+        });*/
+
+        // update text transform default
+        $.lipsumGenerator.updateTextTransform('capitalizeFirstWordInSentence');
+        $wrapper.find('.lipsum-generator__quick-settings__text-transform select').on('change', function () {
+            // update text transform
+            $.lipsumGenerator.updateTextTransform($(this).val());
+        });
+
+        // NICE SELECT
+        $('.lipsum-generator-select select').each(function () {
+            $(this).niceSelect();
         });
 
         // COPY
@@ -105,6 +117,7 @@ jQuery(document).ready(function ($) {
                 if ($.lipsumGenerator.get('output').html().length) {
                     $.lipsumGenerator.get('output').select();
                     document.execCommand("copy");
+                    document.getSelection().removeAllRanges();
 
                     // push copy notification
                     if ($noti.length) {
