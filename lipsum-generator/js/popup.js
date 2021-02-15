@@ -35,8 +35,6 @@ jQuery(document).ready(function ($) {
             $copyTrigger = $wrapper.find('[data-lipsum-copy]'),
             $noti = $wrapper.find('[data-lipsum-noti]');
 
-        // init lipsum generator
-        $.lipsumGenerator.init();
 
         // GENERATE MODE: on button click
         if ($buttons.length) {
@@ -63,7 +61,7 @@ jQuery(document).ready(function ($) {
             });
 
             // trigger word generate
-            $buttons.eq(2).trigger('click');
+            $buttons.eq(0).trigger('click');
         }
 
         // QUANTITY: on range slider update
@@ -78,6 +76,21 @@ jQuery(document).ready(function ($) {
                 }
             });
         }
+
+        // TEXT TRANSFORM: on check box change
+        let $textTransform = $wrapper.find('[data-lipsum-text-transform]');
+        $textTransform.click(function () {
+            let $this = $(this),
+                type = $this.attr('data-lipsum-text-transform');
+
+            if (!$this.hasClass('active')) {
+                $textTransform.removeClass('active');
+                $this.addClass('active');
+
+                // text transform
+                $.lipsumGenerator.applyTextTransform(type);
+            }
+        });
 
         // COPY
         if ($copyTrigger.length) {
@@ -96,20 +109,5 @@ jQuery(document).ready(function ($) {
                 }
             });
         }
-
-        // TEXT TRANSFORM: on check box change
-        let $textTransform = $wrapper.find('[data-lipsum-text-transform]');
-        $textTransform.click(function () {
-            let $this = $(this),
-                type = $this.attr('data-lipsum-text-transform');
-
-            if (!$this.hasClass('active')) {
-                $textTransform.removeClass('active');
-                $this.addClass('active');
-
-                // generate
-                $.lipsumGenerator.generate($.lipsumGenerator.applyTextTransform(type));
-            }
-        });
     });
 });
