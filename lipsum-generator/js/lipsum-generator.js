@@ -68,7 +68,7 @@
             // if output has string
             if (string.length) {
                 type = textTransform.prioritize(type);
-                console.log('apply <' + type + '> for current string');
+                settings.log('apply <' + type + '> for current string');
 
                 switch (type) {
                     case 'capitalizeFirstWordInSentence':
@@ -133,6 +133,12 @@
      * Settings and functions
      */
     settings = {
+        dev: true,
+        log: function (string) {
+            if (settings.dev) {
+                console.log(string);
+            }
+        },
         mode: 'word', // paragraph, sentence, word
         quantity: {
             'word': {number: 5, min: 1, max: 99},
@@ -276,9 +282,9 @@
                     default:
                         console.warn('Undefined lipsum generate type.');
                 }
-                console.log('generate new string, quantity=' + quantity);
+                settings.log('generate new string, quantity=' + quantity);
             } else {
-                console.log('generate with given string');
+                settings.log('generate with given string');
             }
 
 
@@ -292,8 +298,8 @@
             // assign result
             if (settings.output.length) {
                 settings.output.html(result);
-                console.log('setOutput() successful');
-                console.log('------');
+                settings.log('setOutput() successful');
+                settings.log('------');
             } else {
                 console.warn('Please set an output element.');
             }
@@ -307,13 +313,13 @@
 
     // $.lipsumGenerator.updateQuantity(number);
     obj.updateQuantity = function (number) {
-        console.log('updateQuantity: ' + number);
+        settings.log('updateQuantity: ' + number);
         settings.quantity[settings.mode].number = number;
     };
 
     // $.lipsumGenerator.updateMode(mode);
     obj.updateMode = function (mode) {
-        console.log('updateMode: ' + mode);
+        settings.log('updateMode: ' + mode);
         settings.mode = mode;
 
         return settings.quantity[settings.mode];
