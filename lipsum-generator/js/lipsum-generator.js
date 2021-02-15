@@ -46,7 +46,7 @@
         uppercase: false,
         capitalize: false,
         // set active or return the active
-        prioritizeTextTransform: function (type) {
+        prioritize: function (type) {
             if (typeof type !== 'undefined') {
                 // active the given one, reset others
                 for (let i = 0; i < textTransform.list.length; i++) {
@@ -62,12 +62,12 @@
                 }
             }
         },
-        applyTextTransform: function (type) {
+        update: function (type) {
             let string = settings.output.html();
 
             // if output has string
             if (string.length) {
-                type = textTransform.prioritizeTextTransform(type);
+                type = textTransform.prioritize(type);
                 console.log('apply <' + type + '> for current string');
 
                 switch (type) {
@@ -107,7 +107,7 @@
 
                 settings.setOutput(string);
             } else {
-                console.warn('applyTextTransform() not execute due to empty string');
+                console.warn('updateTextTransform() not execute due to empty string');
             }
         },
 
@@ -135,19 +135,25 @@
     settings = {
         mode: 'word', // paragraph, sentence, word
         quantity: {
-            'word': {number: 5},
-            'sentence': {number: 3, from: 8, to: 15},
-            'paragraph': {number: 2, from: 4, to: 8},
+            'word': {number: 5, min: 1, max: 99},
+            'sentence': {number: 3, from: 6, to: 12, min: 1, max: 15}, // from/to: number of words in a sentence
+            'paragraph': {number: 2, from: 4, to: 8, min: 1, max: 25}, // from/to: number of sentences in a paragraph
         },
         // get quantity base on current mode
-        getQuantity: function () {
-            return settings.quantity[settings.mode].number;
+        getQuantity: function (data) {
+            if (typeof data === 'undefined') {
+                // return number by default
+                return settings.quantity[settings.mode].number;
+            } else {
+                // return range from/to
+                if (settings.mode !== 'word' && (data === 'from' || data === 'to')) {
+                    return settings.quantity[settings.mode][data];
+                }
+            }
         },
 
         output: $('[data-lipsum-result]'), // jQuery element
         source: 'lorem ipsum dolor sit amet consectetur adipiscing elit integer nec odio praesent libero sed cursus ante dapibus diam nisi nulla quis sem at nibh elementum imperdiet duis sagittis mauris fusce tellus augue semper porta massa vestibulum lacinia arcu eget class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos curabitur sodales ligula in dignissim nunc tortor pellentesque aenean quam scelerisque maecenas mattis convallis tristique proin ut vel egestas porttitor morbi lectus risus iaculis suscipit luctus non ac turpis aliquet metus ullamcorper tincidunt euismod quisque volutpat condimentum velit nam urna neque a facilisi fringilla suspendisse potenti feugiat mi consequat sapien etiam ultrices justo eu magna lacus vitae pharetra auctor interdum primis faucibus orci et posuere cubilia curae molestie dui blandit congue pede facilisis laoreet donec viverra malesuada enim est pulvinar sollicitudin cras id nisl felis venenatis commodo ultricies accumsan pretium fermentum nullam purus aliquam mollis vivamus consectetuer si leo eros maximus gravida erat letius ex hendrerit lobortis tempus rutrum efficitur phasellus natoque penatibus magnis dis parturient montes nascetur ridiculus mus vehicula bibendum vulputate dictum finibus eleifend rhoncus placerat tempor ornare hac habitasse platea dictumst habitant senectus netus fames',
-        wordsInASentence: {from: 8, to: 15,},
-        sentencesInAParagraph: {from: 4, to: 8,},
 
         /** Get array object in a certain quantity **/
         getWordArray: function (quantity) {
@@ -174,7 +180,7 @@
 
             // loop until have enough quantity
             while (result.length < quantity) {
-                words = settings.getWordArray(helpers.random(settings.wordsInASentence.from, settings.wordsInASentence.to));
+                words = settings.getWordArray(helpers.random(settings.getQuantity('from'), settings.getQuantity('to')));
                 result.push(words);
             }
 
@@ -191,7 +197,7 @@
 
             // loop until have enough quantity
             while (result.length < quantity) {
-                sentences = settings.getSentenceArray(helpers.random(settings.sentencesInAParagraph.from, settings.sentencesInAParagraph.to));
+                sentences = settings.getSentenceArray(helpers.random(settings.getQuantity('from'), settings.getQuantity('to')));
                 result.push(sentences);
             }
 
@@ -278,7 +284,7 @@
 
             settings.setOutput(result);
 
-            result = textTransform.applyTextTransform();
+            result = textTransform.update();
 
             return result;
         },
@@ -310,9 +316,7 @@
         console.log('updateMode: ' + mode);
         settings.mode = mode;
 
-        return {
-            quantity: settings.getQuantity()
-        }
+        return settings.quantity[settings.mode];
     };
 
     // $.lipsumGenerator.generate();
@@ -327,16 +331,16 @@
             return settings;
         } else if (data === 'textTransform') {
             // return active text transform
-            return textTransform.prioritizeTextTransform();
+            return textTransform.prioritize();
         }
 
         // return specific data
         return settings[data];
     };
 
-    // $.lipsumGenerator.applyTextTransform(type);
-    obj.applyTextTransform = function (type) {
-        textTransform.applyTextTransform(type);
+    // $.lipsumGenerator.updateTextTransform(type);
+    obj.updateTextTransform = function (type) {
+        textTransform.update(type);
     };
 
     // APIs

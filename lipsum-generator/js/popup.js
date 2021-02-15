@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
         if ($rangeSlider.length) {
             $rangeSlider.ionRangeSlider({
                 onChange: function (data) {
-                    // save setting
+                    // update quantity
                     $.lipsumGenerator.updateQuantity(data.from);
 
                     // generate
@@ -66,10 +66,14 @@ jQuery(document).ready(function ($) {
                     });
                 }
 
-                // save setting
+                // update mode and get quantity as return data
                 let data = $.lipsumGenerator.updateMode($this.attr('data-lipsum-generate'));
+
+                // update range slider
                 $rangeSlider.data("ionRangeSlider").update({
-                    from: data.quantity,
+                    from: data.number,
+                    min: data.min,
+                    max: data.max,
                 });
 
                 // generate
@@ -90,8 +94,8 @@ jQuery(document).ready(function ($) {
                 $textTransform.removeClass('active');
                 $this.addClass('active');
 
-                // text transform
-                $.lipsumGenerator.applyTextTransform(type);
+                // update text transform
+                $.lipsumGenerator.updateTextTransform(type);
             }
         });
 
