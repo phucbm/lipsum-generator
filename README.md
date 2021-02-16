@@ -1,18 +1,25 @@
-# Lorem-Ipsum-Generator
+# Lipsum Generator v2.0 - Chrome Extension
+Create lorem ipsum dummy text.
 
-**Install here: https://bit.ly/lipsum-phuc**
+**[Visit Chrome Web Store](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)**
 
-This extension helps to generate lorem ipsum text by just one click.
+## Introduce
 
-**Features**
-* Using mousewheel to modify number of text to generate.
-* Click to copy to clipboard.
-* No word duplicate in one sentence.
-* Option to auto copy whenever open extension.
-* Option to always begin with "Lorem ipsum dolor sit amet".
+Create and copy lorem ipsum dummy text in only two steps:
+1. Modify your settings.
+2. Turn on "auto copy when open extension".
 
------
-**Change logs**
+From now on, every time you open the extension, you will have a different lorem ipsum text based on your previous settings.
 
+## Features
+
+- Create lorem ipsum text in word, sentence or paragraph mode.
+- Able to custom the number of text in each mode.
+- Text transform support: capitalize, uppercase, lowercase.
+- Auto copy when open extension.
+
+## Change logs
+
+* v2.0 (19-Feb-21) Re-build source code and UI.
 * v1.5 (11-Nov-18) Fix some permission problems
 * v1.0 (04-Nov-18)
