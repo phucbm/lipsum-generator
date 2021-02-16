@@ -1,0 +1,70 @@
+/*  jQuery Nice Select - v1.0
+    https://github.com/hernansartorio/jquery-nice-select */
+
+.nice-select {
+    user-select:none; position:relative; cursor:pointer;
+    display:flex; align-items:center; justify-content:space-between;
+    transition:all .3s ease; line-height:1.2;
+}
+.nice-select.open .list, .nice-select.up.open ul.list {
+    opacity:1; pointer-events:auto;
+    transform:scale(1) translateY(0);
+}
+
+.nice-select .list {
+    opacity:0; overflow:hidden; pointer-events:none; list-style:none; margin:0; padding:0;
+    position:absolute; top:100%; left:0; z-index:9;
+    -webkit-transform-origin: 50% 0;
+    -ms-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+    transform: scale(0.75) translateY(-21px);
+    transition:all .15s ease;
+}
+.nice-select.up ul.list {
+    transform: scale(0.75) translateY(21px); transform-origin:left bottom;
+    top:auto; bottom:100%; margin:0 0 4px;
+}
+
+.nice-select .option {
+    display:flex; align-items:center;
+    transition:all .3s ease;
+}
+.nice-select .option.disabled {cursor:default; opacity:.5;}
+
+.no-csspointerevents .nice-select .list {display:none;}
+.no-csspointerevents .nice-select.open .list {display:block;}
+
+
+/****************************
+ * Custom Nice Select
+****************************/
+/* field */
+.lipsum-generator-select .nice-select {
+    color:#9daab6; background:rgba(255, 255, 255, 0.1); border-radius:4px;
+    height:40px; width:100%; min-width:170px; padding:2px 10px;
+}
+.lipsum-generator-select .nice-select .current {}
+.lipsum-generator-select .nice-select:after {
+    content:'▾'; font-size:22px;
+    display:inline-block; transition:transform .3s ease; margin-left:8px;
+}
+
+/* hover, active */
+.lipsum-generator-select .nice-select.open, .lipsum-generator-select:hover .nice-select {
+    background:rgba(255, 255, 255, 0.2); color:#fff;
+}
+.lipsum-generator-select .nice-select.open:after {transform:rotate(180deg);}
+
+/* popup */
+.lipsum-generator-select ul.list {
+    background-color:#193155; border:solid 1px #3884ff;
+    margin:3px 0 0; width:100%; max-width:300px; border-radius:4px;
+}
+.lipsum-generator-select .nice-select .option:not(:last-child) {border-bottom:1px solid #3884ff;}
+.lipsum-generator-select .nice-select .option {
+    padding:5px 10px; min-height:40px; color:#9daab6; background:rgba(255, 255, 255, 0.1);
+}
+
+.lipsum-generator-select .nice-select .list:hover .option {}
+.lipsum-generator-select .nice-select .list:hover .option:hover {color:#fff;}
+.lipsum-generator-select .nice-select .list .option.selected.focus {background-color:#1f65d6; color:#fff;}
