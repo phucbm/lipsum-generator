@@ -6,13 +6,32 @@
 #9daab6
 #f5f7f9
  */
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../font/Roboto-Bold.woff2') format('woff2'),
+    url('../font/Roboto-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../font/Roboto-Medium.woff2') format('woff2'),
+    url('../font/Roboto-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 .hidden {display:none;}
 
 /* Lipsum Generator */
 .lipsum-generator {
     width:500px; margin:0 auto; position:relative;
-    font-family: 'Roboto', sans-serif; font-size:14px; font-weight:400px;
+    font-family: 'Roboto', sans-serif; font-size:14px;
     color:#fff;
 }
 
@@ -136,6 +155,7 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
     width:16px; height:16px; background:#9daab6; border-radius:50%;
     transition:all .3s ease;
 }
+.lipsum-generator__checkbox-input:hover {background:rgba(255, 255, 255, 0.2);}
 .lipsum-generator__checkbox-input.active {background:#3884ff;}
 .lipsum-generator__checkbox-input.active:before {left:22px; background:#fff;}
 

@@ -141,7 +141,7 @@
      * Settings and functions
      */
     settings = {
-        dev: true,
+        dev: false,
         log: function (string) {
             if (settings.dev) {
                 console.log(string);

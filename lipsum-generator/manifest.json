@@ -3,9 +3,6 @@
   "description": "Create lorem ipsum dummy text.",
   "version": "2.0",
   "manifest_version": 3,
-  "background": {
-    "service_worker": "background.js"
-  },
   "permissions": [
     "storage"
   ],
@@ -23,6 +20,5 @@
     "32": "/images/32.png",
     "48": "/images/48.png",
     "128": "/images/128.png"
-  },
-  "options_page": "options.html"
+  }
 }
