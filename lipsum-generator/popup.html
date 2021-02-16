@@ -60,22 +60,29 @@
 
             <!-- quick settings -->
             <div class="lipsum-generator__quick-settings">
-                <!--<div class="lipsum-generator__checkbox">
-                    <label>lowercase</label>
-                    <span class="active" data-lipsum-text-transform="lowercase">
-                        <input type="checkbox" name="lowercase"/>
-                    </span>
-                </div>-->
+
+                <div class="lipsum-generator__quick-settings__prefix lipsum-generator__checkbox">
+                    <label>Begin with "<span data-lipsum-prefix-text>lorem ipsum dolor sit amet</span>"</label>
+                    <div class="lipsum-generator__checkbox-input" data-lipsum-prefix>
+                        <input type="checkbox" name="prefix"/>
+                    </div>
+                </div>
+
+                <div class="lipsum-generator__quick-settings__prefix lipsum-generator__checkbox">
+                    <label>Auto copy when open extension</label>
+                    <div class="lipsum-generator__checkbox-input" data-lipsum-autocopy>
+                        <input type="checkbox" name="autocopy"/>
+                    </div>
+                </div>
 
                 <div class="lipsum-generator__quick-settings__text-transform lipsum-generator-select">
-                    <label class="lipsum-generator-label">Text transform:</label>
                     <select class="up">
                         <option value="capitalizeFirstWordInSentence" selected>Capitalize the first word in a
                             sentence.
                         </option>
-                        <option value="lowercase">lowercase</option>
                         <option value="capitalize">Capitalize</option>
                         <option value="uppercase">UPPERCASE</option>
+                        <option value="lowercase">lowercase</option>
                     </select>
                 </div>
 

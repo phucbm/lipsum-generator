@@ -65,10 +65,12 @@
         update: function (type) {
             let string = settings.output.html();
 
+            type = textTransform.prioritize(type);
+
             // if output has string
             if (string.length) {
-                type = textTransform.prioritize(type);
                 settings.log('apply <' + type + '> for current string');
+                string = textTransform.filterPrefix(string);
 
                 switch (type) {
                     case 'capitalizeFirstWordInSentence':
@@ -107,24 +109,30 @@
 
                 settings.setOutput(string);
             } else {
-                console.warn('updateTextTransform() not execute due to empty string');
+                settings.log('updateTextTransform() generate new string');
             }
         },
 
         // PREFIX
-
         hasPrefix: false,
         prefix: 'lorem ipsum dolor sit amet',
 
-        // apply filter prefix for array of words
-        filterPrefix: function (wordArray) {
-            let prefixArray = helpers.parseString(textTransform.prefix);
+        // apply filter prefix for string
+        filterPrefix: function (string) {
+            if (string.length && textTransform.hasPrefix) {
+                settings.log('filterPrefix <' + textTransform.prefix + '>');
 
-            for (let i = 0; i < Math.min(wordArray.length, prefixArray.length); i++) {
-                wordArray[i] = prefixArray[i];
+                let stringArray = string.split(' '),
+                    prefixArray = helpers.parseString(textTransform.prefix),
+                    count = Math.min(stringArray.length, prefixArray.length);
+
+                for (let i = 0; i < count; i++) {
+                    stringArray[i] = prefixArray[i];
+                }
+
+                string = stringArray.join(' ');
             }
-
-            return wordArray;
+            return string;
         },
     };
 
@@ -174,11 +182,6 @@
                 }
             }
 
-            // add prefix
-            if (textTransform.hasPrefix) {
-                result = textTransform.filterPrefix(result);
-            }
-
             return result;
         },
         getSentenceArray: function (quantity) {
@@ -188,11 +191,6 @@
             while (result.length < quantity) {
                 words = settings.getWordArray(helpers.random(settings.getQuantity('from'), settings.getQuantity('to')));
                 result.push(words);
-            }
-
-            // add prefix
-            if (textTransform.hasPrefix) {
-                result[0] = textTransform.filterPrefix(result[0]);
             }
 
             return result;
@@ -205,11 +203,6 @@
             while (result.length < quantity) {
                 sentences = settings.getSentenceArray(helpers.random(settings.getQuantity('from'), settings.getQuantity('to')));
                 result.push(sentences);
-            }
-
-            // add prefix
-            if (textTransform.hasPrefix) {
-                result[0][0] = textTransform.filterPrefix(result[0][0]);
             }
 
             return result;
@@ -287,7 +280,6 @@
                 settings.log('generate with given string');
             }
 
-
             settings.setOutput(result);
 
             result = textTransform.update();
@@ -347,6 +339,27 @@
     // $.lipsumGenerator.updateTextTransform(type);
     obj.updateTextTransform = function (type) {
         textTransform.update(type);
+    };
+
+    // $.lipsumGenerator.updatePrefix(bool);
+    obj.updatePrefix = function (bool) {
+        if (typeof bool !== 'undefined') {
+            textTransform.hasPrefix = bool;
+            settings.log('updatePrefix <' + bool + '>');
+
+            if (bool) {
+                // apply prefix to the current string
+                textTransform.update();
+            } else {
+                // generate new string
+                settings.generate();
+            }
+        }
+
+        return {
+            hasPrefix: textTransform.hasPrefix,
+            prefix: textTransform.prefix,
+        };
     };
 
     // APIs

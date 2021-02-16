@@ -36,6 +36,18 @@ jQuery(document).ready(function ($) {
             $noti = $wrapper.find('[data-lipsum-noti]');
 
 
+        // TEXT TRANSFORM: on select change
+        $.lipsumGenerator.updateTextTransform('capitalizeFirstWordInSentence');
+        $wrapper.find('.lipsum-generator__quick-settings__text-transform select').on('change', function () {
+            // update text transform
+            $.lipsumGenerator.updateTextTransform($(this).val());
+        });
+
+        // NICE SELECT
+        $('.lipsum-generator-select select').each(function () {
+            $(this).niceSelect();
+        });
+
         // QUANTITY: on range slider update
         if ($rangeSlider.length) {
             $rangeSlider.ionRangeSlider({
@@ -84,31 +96,19 @@ jQuery(document).ready(function ($) {
             $buttons.eq(0).trigger('click');
         }
 
-        // TEXT TRANSFORM: on check box change
-        /*let $textTransform = $wrapper.find('[data-lipsum-text-transform]');
-        $textTransform.click(function () {
-            let $this = $(this),
-                type = $this.attr('data-lipsum-text-transform');
+        // PREFIX
+        // set prefix text
+        $wrapper.find('[data-lipsum-prefix-text]').text($.lipsumGenerator.updatePrefix().prefix);
+        // update prefix status
+        if ($.lipsumGenerator.updatePrefix().hasPrefix) {
+            $wrapper.find('[data-lipsum-prefix]').addClass('active');
+        }
+        // on check box change
+        $wrapper.find('[data-lipsum-prefix]').click(function () {
+            let $this = $(this);
 
-            if (!$this.hasClass('active')) {
-                $textTransform.removeClass('active');
-                $this.addClass('active');
-
-                // update text transform
-                $.lipsumGenerator.updateTextTransform(type);
-            }
-        });*/
-
-        // update text transform default
-        $.lipsumGenerator.updateTextTransform('capitalizeFirstWordInSentence');
-        $wrapper.find('.lipsum-generator__quick-settings__text-transform select').on('change', function () {
-            // update text transform
-            $.lipsumGenerator.updateTextTransform($(this).val());
-        });
-
-        // NICE SELECT
-        $('.lipsum-generator-select select').each(function () {
-            $(this).niceSelect();
+            $this.toggleClass('active');
+            $.lipsumGenerator.updatePrefix($this.hasClass('active'));
         });
 
         // COPY

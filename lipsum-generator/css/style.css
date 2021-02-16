@@ -61,7 +61,7 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 .lipsum-generator__result {position:relative; overflow:hidden;}
 .lipsum-generator__result-textarea {
     display:block; border-radius:4px; width:100%;
-    height:200px; resize:none; padding:10px;
+    height:200px; resize:none; padding:10px; cursor:copy;
     background:rgba(255, 255, 255, 0.1); color:#9daab6;
     font-family: 'Roboto', sans-serif; font-weight:500; font-size:14px;
     -webkit-user-select: none; /* Safari */
@@ -80,7 +80,7 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 .lipsum-generator__noti:not(.active) {transform:translate(-50%,40px) scale(.9);}
 
 /* copy */
-.lipsum-generator__copy button {padding:12px; width:100%;}
+.lipsum-generator__copy button {padding:12px; width:100%; cursor:copy;}
 
 
 /* ion range slider */
@@ -106,25 +106,25 @@ body {background:#193155b8; font-family: 'Roboto', sans-serif; font-weight:500;}
 .lipsum-range-slider .irs--flat .irs-single:before {display:none;}
 
 /* checkbox */
-.lipsum-generator__checkbox:not(:last-child) {margin-bottom:5px;}
+.lipsum-generator__checkbox:not(:last-child) {margin-bottom:10px;}
 .lipsum-generator__checkbox {
     position:relative; min-height:20px; padding-right:50px;
     display:flex; align-items:center;
 }
 .lipsum-generator__checkbox label {color:#9daab6;}
-.lipsum-generator__checkbox span {
+.lipsum-generator__checkbox-input {
     display:block; position:absolute; top:0; right:0; cursor:pointer;
     width:40px; height:20px; background:rgba(255, 255, 255, 0.1); border-radius:10px;
     transition:all .3s ease;
 }
-.lipsum-generator__checkbox span input {opacity:0; visibility:hidden;}
-.lipsum-generator__checkbox span:before {
+.lipsum-generator__checkbox-input input {opacity:0; visibility:hidden;}
+.lipsum-generator__checkbox-input:before {
     content:''; position:absolute; top:2px; left:2px;
     width:16px; height:16px; background:#fff; border-radius:50%;
     transition:all .3s ease;
 }
-.lipsum-generator__checkbox span.active {background:#3884ff;}
-.lipsum-generator__checkbox span.active:before {left:22px;}
+.lipsum-generator__checkbox-input.active {background:#3884ff;}
+.lipsum-generator__checkbox-input.active:before {left:22px;}
 
 .lipsum-generator-label {
     color:#9daab6; text-transform:uppercase; letter-spacing:1px; font-weight:500;
