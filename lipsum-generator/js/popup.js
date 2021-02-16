@@ -1,4 +1,4 @@
-let chromeStorageOn = typeof chrome.storage !== 'undefined',
+let isExtension = typeof chrome.storage !== 'undefined',
     chromeSettings = {
         mode: 'word', // paragraph, sentence, word
         quantity: {
@@ -12,7 +12,7 @@ let chromeStorageOn = typeof chrome.storage !== 'undefined',
     };
 
 function saveSettings() {
-    if (chromeStorageOn) {
+    if (isExtension) {
         chrome.storage.sync.set({lipsum: chromeSettings}, function () {
             //console.log('saveSettings');
         });
@@ -42,7 +42,7 @@ jQuery(document).ready(function ($) {
 
             // TEXT TRANSFORM
             let $textTransformSelect = $wrapper.find('.lipsum-generator__quick-settings__text-transform select'),
-                currentTextTransform = chromeStorageOn ?
+                currentTextTransform = isExtension ?
                     chromeSettings.textTransform :
                     $.lipsumGenerator.get('textTransform');
 
@@ -107,7 +107,7 @@ jQuery(document).ready(function ($) {
                     // update mode and get quantity as return data
                     let newMode = $this.attr('data-lipsum-generate'),
                         data = $.lipsumGenerator.updateMode(newMode),
-                        currentModeQuantity = chromeStorageOn ?
+                        currentModeQuantity = isExtension ?
                             chromeSettings.quantity[newMode].number :
                             data.number;
 
@@ -129,13 +129,13 @@ jQuery(document).ready(function ($) {
                     $.lipsumGenerator.generate();
                 });
 
-                let currentMode = chromeStorageOn ? chromeSettings.mode : 'word';
+                let currentMode = isExtension ? chromeSettings.mode : 'word';
                 $wrapper.find('[data-lipsum-generate="' + currentMode + '"]').trigger('click');
             }
 
             // PREFIX
             let $prefixCheckbox = $wrapper.find('[data-lipsum-prefix]'),
-                hasPrefix = chromeStorageOn ?
+                hasPrefix = isExtension ?
                     chromeSettings.hasPrefix :
                     $.lipsumGenerator.updatePrefix().hasPrefix;
 
@@ -205,9 +205,17 @@ jQuery(document).ready(function ($) {
                 }, 100);
             }
         });
+
+        // open link in new tab
+        if (isExtension) {
+            $lipsum.find('a[href]').click(function () {
+                let href = $(this).attr('href');
+                chrome.tabs.create({url: href});
+            });
+        }
     }
 
-    if (chromeStorageOn) {
+    if (isExtension) {
         // get settings from chrome storage
         loadSettings(function () {
             // run in callback due to delay when load settings from chrome storage
