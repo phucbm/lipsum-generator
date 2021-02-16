@@ -6,6 +6,8 @@ let chromeStorageOn = typeof chrome.storage !== 'undefined',
             'sentence': {number: 3},
             'paragraph': {number: 2},
         },
+        textTransform: 'capitalizeFirstWordInSentence',
+        hasPrefix: false,
     };
 
 function saveSettings() {
@@ -40,11 +42,26 @@ jQuery(document).ready(function ($) {
                 $noti = $wrapper.find('[data-lipsum-noti]');
 
 
-            // TEXT TRANSFORM: on select change
-            $.lipsumGenerator.updateTextTransform('capitalizeFirstWordInSentence');
-            $wrapper.find('.lipsum-generator__quick-settings__text-transform select').on('change', function () {
+            // TEXT TRANSFORM
+            let $textTransformSelect = $wrapper.find('.lipsum-generator__quick-settings__text-transform select'),
+                currentTextTransform = chromeStorageOn ?
+                    chromeSettings.textTransform :
+                    $.lipsumGenerator.get('textTransform');
+
+            // load settings
+            $.lipsumGenerator.updateTextTransform(currentTextTransform);
+            $textTransformSelect.val(currentTextTransform);
+
+            // on select change
+            $textTransformSelect.on('change', function () {
+                let newTextTransform = $(this).val();
+
+                // update chrome storage
+                chromeSettings.textTransform = newTextTransform;
+                saveSettings();
+
                 // update text transform
-                $.lipsumGenerator.updateTextTransform($(this).val());
+                $.lipsumGenerator.updateTextTransform(newTextTransform);
             });
 
             // NICE SELECT
@@ -119,18 +136,30 @@ jQuery(document).ready(function ($) {
             }
 
             // PREFIX
+            let $prefixCheckbox = $wrapper.find('[data-lipsum-prefix]'),
+                hasPrefix = chromeStorageOn ?
+                    chromeSettings.hasPrefix :
+                    $.lipsumGenerator.updatePrefix().hasPrefix;
+
             // set prefix text
             $wrapper.find('[data-lipsum-prefix-text]').text($.lipsumGenerator.updatePrefix().prefix);
+
             // update prefix status
-            if ($.lipsumGenerator.updatePrefix().hasPrefix) {
-                $wrapper.find('[data-lipsum-prefix]').addClass('active');
+            if (hasPrefix) {
+                $prefixCheckbox.addClass('active');
             }
+            $.lipsumGenerator.updatePrefix(hasPrefix);
+
             // on check box change
-            $wrapper.find('[data-lipsum-prefix]').click(function () {
+            $prefixCheckbox.click(function () {
                 let $this = $(this);
 
                 $this.toggleClass('active');
                 $.lipsumGenerator.updatePrefix($this.hasClass('active'));
+
+                // update chrome storage
+                chromeSettings.hasPrefix = $this.hasClass('active');
+                saveSettings();
             });
 
             // COPY

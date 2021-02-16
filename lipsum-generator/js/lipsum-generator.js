@@ -42,7 +42,7 @@
             'uppercase', 'capitalize', 'lowercase'
         ],
         lowercase: false,
-        capitalizeFirstWordInSentence: false,
+        capitalizeFirstWordInSentence: true,
         uppercase: false,
         capitalize: false,
         // set active or return the active
@@ -141,7 +141,7 @@
      * Settings and functions
      */
     settings = {
-        dev: false,
+        dev: true,
         log: function (string) {
             if (settings.dev) {
                 console.log(string);
