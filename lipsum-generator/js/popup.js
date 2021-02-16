@@ -8,6 +8,7 @@ let chromeStorageOn = typeof chrome.storage !== 'undefined',
         },
         textTransform: 'capitalizeFirstWordInSentence',
         hasPrefix: false,
+        autoCopy: false,
     };
 
 function saveSettings() {
@@ -37,10 +38,7 @@ jQuery(document).ready(function ($) {
         $lipsum.each(function () {
             let $wrapper = $(this),
                 $indicator = $wrapper.find('[data-lipsum-generate-indicator]'),
-                $rangeSlider = $wrapper.find('[data-lipsum-range]'),
-                $copyTrigger = $wrapper.find('[data-lipsum-copy]'),
-                $noti = $wrapper.find('[data-lipsum-noti]');
-
+                $rangeSlider = $wrapper.find('[data-lipsum-range]');
 
             // TEXT TRANSFORM
             let $textTransformSelect = $wrapper.find('.lipsum-generator__quick-settings__text-transform select'),
@@ -163,22 +161,48 @@ jQuery(document).ready(function ($) {
             });
 
             // COPY
-            if ($copyTrigger.length) {
-                $copyTrigger.click(function () {
-                    if ($.lipsumGenerator.get('output').html().length) {
-                        $.lipsumGenerator.get('output').select();
-                        document.execCommand("copy");
-                        document.getSelection().removeAllRanges();
+            let $autoCopyCheckbox = $wrapper.find('[data-lipsum-autocopy]'),
+                $copyTrigger = $wrapper.find('[data-lipsum-copy]'),
+                $noti = $wrapper.find('[data-lipsum-noti]');
 
-                        // push copy notification
-                        if ($noti.length) {
-                            $noti.addClass('active');
-                            setTimeout(function () {
-                                $noti.removeClass('active');
-                            }, 1000);
-                        }
+            function copyLipsum() {
+                if ($.lipsumGenerator.get('output').html().length) {
+                    $.lipsumGenerator.get('output').select();
+                    document.execCommand("copy");
+                    document.getSelection().removeAllRanges();
+
+                    // push copy notification
+                    if ($noti.length) {
+                        $noti.addClass('active');
+                        setTimeout(function () {
+                            $noti.removeClass('active');
+                        }, 1000);
                     }
-                });
+                }
+            }
+
+            // on click
+            $copyTrigger.click(function () {
+                copyLipsum();
+            });
+
+            // auto copy checkbox
+            $autoCopyCheckbox.click(function () {
+                let $this = $(this);
+
+                $this.toggleClass('active');
+
+                // update chrome storage
+                chromeSettings.autoCopy = $this.hasClass('active');
+                saveSettings();
+            });
+
+            // on extension open
+            if (chromeSettings.autoCopy) {
+                $autoCopyCheckbox.addClass('active');
+                setTimeout(function () {
+                    copyLipsum();
+                }, 100);
             }
         });
     }
