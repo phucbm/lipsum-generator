@@ -1,133 +1,170 @@
-/*
-// Initialize butotn with users's prefered color
-let changeColor = document.getElementById("changeColor");
+let chromeStorageOn = typeof chrome.storage !== 'undefined',
+    chromeSettings = {
+        mode: 'word', // paragraph, sentence, word
+        quantity: {
+            'word': {number: 5},
+            'sentence': {number: 3},
+            'paragraph': {number: 2},
+        },
+    };
 
-chrome.storage.sync.get("color", ({ color }) => {
-  changeColor.style.backgroundColor = color;
-});
-
-// When the button is clicked, inject setPageBackgroundColor into current page
-changeColor.addEventListener("click", async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: setPageBackgroundColor,
-  });
-});
-
-// The body of this function will be execuetd as a content script inside the
-// current page
-function setPageBackgroundColor() {
-  chrome.storage.sync.get("color", ({ color }) => {
-    document.body.style.backgroundColor = color;
-  });
+function saveSettings() {
+    if (chromeStorageOn) {
+        chrome.storage.sync.set({lipsum: chromeSettings}, function () {
+            //console.log('saveSettings');
+        });
+    }
 }
-*/
 
+function loadSettings(callback) {
+    chrome.storage.sync.get(['lipsum'], function (result) {
+        // for global access
+        $('body').attr('data-lipsum-settings', JSON.stringify(result.lipsum));
+    });
+
+    setTimeout(function () {
+        chromeSettings = JSON.parse($('body').attr('data-lipsum-settings'));
+        callback();
+    }, 10);
+}
 
 jQuery(document).ready(function ($) {
-    $('.lipsum-generator').each(function () {
-        let $wrapper = $(this),
-            $buttons = $wrapper.find('[data-lipsum-generate]'),
-            $indicator = $wrapper.find('[data-lipsum-generate-indicator]'),
-            $rangeSlider = $wrapper.find('[data-lipsum-range]'),
-            $copyTrigger = $wrapper.find('[data-lipsum-copy]'),
-            $noti = $wrapper.find('[data-lipsum-noti]');
+    let $lipsum = $('.lipsum-generator');
+
+    function lipsumApp() {
+        $lipsum.each(function () {
+            let $wrapper = $(this),
+                $indicator = $wrapper.find('[data-lipsum-generate-indicator]'),
+                $rangeSlider = $wrapper.find('[data-lipsum-range]'),
+                $copyTrigger = $wrapper.find('[data-lipsum-copy]'),
+                $noti = $wrapper.find('[data-lipsum-noti]');
 
 
-        // TEXT TRANSFORM: on select change
-        $.lipsumGenerator.updateTextTransform('capitalizeFirstWordInSentence');
-        $wrapper.find('.lipsum-generator__quick-settings__text-transform select').on('change', function () {
-            // update text transform
-            $.lipsumGenerator.updateTextTransform($(this).val());
-        });
+            // TEXT TRANSFORM: on select change
+            $.lipsumGenerator.updateTextTransform('capitalizeFirstWordInSentence');
+            $wrapper.find('.lipsum-generator__quick-settings__text-transform select').on('change', function () {
+                // update text transform
+                $.lipsumGenerator.updateTextTransform($(this).val());
+            });
 
-        // NICE SELECT
-        $('.lipsum-generator-select select').each(function () {
-            $(this).niceSelect();
-        });
+            // NICE SELECT
+            $('.lipsum-generator-select select').each(function () {
+                $(this).niceSelect();
+            });
 
-        // QUANTITY: on range slider update
-        if ($rangeSlider.length) {
-            $rangeSlider.ionRangeSlider({
-                onChange: function (data) {
+            // QUANTITY: on range slider update
+            if ($rangeSlider.length) {
+                $rangeSlider.ionRangeSlider({
+                    onChange: function (data) {
+                        let newQuantity = data.from;
+
+                        // update quantity
+                        $.lipsumGenerator.updateQuantity(newQuantity);
+
+                        // update chrome storage
+                        chromeSettings.quantity[chromeSettings.mode].number = newQuantity;
+                        saveSettings();
+
+                        // generate
+                        $.lipsumGenerator.generate();
+                    }
+                });
+            }
+
+            // MODE: on button click
+            let $buttons = $wrapper.find('[data-lipsum-generate]');
+            if ($buttons.length) {
+                $buttons.click(function (e) {
+                    e.preventDefault();
+                    let $this = $(this);
+
+                    $buttons.removeClass('active');
+                    $this.addClass('active');
+
+                    // indicator
+                    if ($indicator.length) {
+                        $indicator.css({
+                            'width': $this.outerWidth() + 'px',
+                            'left': $this.position().left + 'px',
+                        });
+                    }
+
+                    // update mode and get quantity as return data
+                    let newMode = $this.attr('data-lipsum-generate'),
+                        data = $.lipsumGenerator.updateMode(newMode),
+                        currentModeQuantity = chromeStorageOn ?
+                            chromeSettings.quantity[newMode].number :
+                            data.number;
+
                     // update quantity
-                    $.lipsumGenerator.updateQuantity(data.from);
+                    $.lipsumGenerator.updateQuantity(currentModeQuantity);
+
+                    // update chrome storage
+                    chromeSettings.mode = newMode;
+                    saveSettings();
+
+                    // update range slider
+                    $rangeSlider.data("ionRangeSlider").update({
+                        from: currentModeQuantity,
+                        min: data.min,
+                        max: data.max,
+                    });
 
                     // generate
                     $.lipsumGenerator.generate();
-                }
-            });
-        }
-
-        // GENERATE MODE: on button click
-        if ($buttons.length) {
-            $buttons.click(function (e) {
-                e.preventDefault();
-                let $this = $(this);
-
-                $buttons.removeClass('active');
-                $this.addClass('active');
-
-                // indicator
-                if ($indicator.length) {
-                    $indicator.css({
-                        'width': $this.outerWidth() + 'px',
-                        'left': $this.position().left + 'px',
-                    });
-                }
-
-                // update mode and get quantity as return data
-                let data = $.lipsumGenerator.updateMode($this.attr('data-lipsum-generate'));
-
-                // update range slider
-                $rangeSlider.data("ionRangeSlider").update({
-                    from: data.number,
-                    min: data.min,
-                    max: data.max,
                 });
 
-                // generate
-                $.lipsumGenerator.generate();
+                let currentMode = chromeStorageOn ? chromeSettings.mode : 'word';
+                $wrapper.find('[data-lipsum-generate="' + currentMode + '"]').trigger('click');
+            }
+
+            // PREFIX
+            // set prefix text
+            $wrapper.find('[data-lipsum-prefix-text]').text($.lipsumGenerator.updatePrefix().prefix);
+            // update prefix status
+            if ($.lipsumGenerator.updatePrefix().hasPrefix) {
+                $wrapper.find('[data-lipsum-prefix]').addClass('active');
+            }
+            // on check box change
+            $wrapper.find('[data-lipsum-prefix]').click(function () {
+                let $this = $(this);
+
+                $this.toggleClass('active');
+                $.lipsumGenerator.updatePrefix($this.hasClass('active'));
             });
 
-            // trigger word generate
-            $buttons.eq(0).trigger('click');
-        }
+            // COPY
+            if ($copyTrigger.length) {
+                $copyTrigger.click(function () {
+                    if ($.lipsumGenerator.get('output').html().length) {
+                        $.lipsumGenerator.get('output').select();
+                        document.execCommand("copy");
+                        document.getSelection().removeAllRanges();
 
-        // PREFIX
-        // set prefix text
-        $wrapper.find('[data-lipsum-prefix-text]').text($.lipsumGenerator.updatePrefix().prefix);
-        // update prefix status
-        if ($.lipsumGenerator.updatePrefix().hasPrefix) {
-            $wrapper.find('[data-lipsum-prefix]').addClass('active');
-        }
-        // on check box change
-        $wrapper.find('[data-lipsum-prefix]').click(function () {
-            let $this = $(this);
-
-            $this.toggleClass('active');
-            $.lipsumGenerator.updatePrefix($this.hasClass('active'));
-        });
-
-        // COPY
-        if ($copyTrigger.length) {
-            $copyTrigger.click(function () {
-                if ($.lipsumGenerator.get('output').html().length) {
-                    $.lipsumGenerator.get('output').select();
-                    document.execCommand("copy");
-                    document.getSelection().removeAllRanges();
-
-                    // push copy notification
-                    if ($noti.length) {
-                        $noti.addClass('active');
-                        setTimeout(function () {
-                            $noti.removeClass('active');
-                        }, 1000);
+                        // push copy notification
+                        if ($noti.length) {
+                            $noti.addClass('active');
+                            setTimeout(function () {
+                                $noti.removeClass('active');
+                            }, 1000);
+                        }
                     }
-                }
-            });
-        }
-    });
+                });
+            }
+        });
+    }
+
+    if (chromeStorageOn) {
+        // get settings from chrome storage
+        loadSettings(function () {
+            // run in callback due to delay when load settings from chrome storage
+            lipsumApp();
+            setTimeout(function () {
+                $lipsum.removeClass('loading');
+            }, 50);
+        });
+    } else {
+        lipsumApp();
+        $lipsum.removeClass('loading');
+    }
 });

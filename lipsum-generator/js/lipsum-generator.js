@@ -141,7 +141,7 @@
      * Settings and functions
      */
     settings = {
-        dev: true,
+        dev: false,
         log: function (string) {
             if (settings.dev) {
                 console.log(string);
@@ -361,13 +361,6 @@
             prefix: textTransform.prefix,
         };
     };
-
-    // APIs
-    //obj.output = settings.output;
-
-    // Events
-    /*let scrollDirection = $.Event("scrollDirection");
-    $w.trigger(scrollDirection);*/
 
     // assign to jQuery.lipsumGenerator if jQuery is loaded
     if (jQuery) {
