@@ -35,6 +35,7 @@ body {background:var(--body-background); font-size:var(--app-font-size); line-he
     color:#fff;
 }
 .app-body {background:var(--app-background); padding:10px; position:relative;}
+.app-body > div:not(:last-child) {margin-bottom:10px;}
 
 /* Footer */
 .app-footer {
@@ -144,6 +145,7 @@ a:hover, a:focus {color:var(--color-on-primary);}
     --checkbox-thumb:16px;
     --checkbox-padding:2px;
 }
+.checkbox:not(:last-child) {margin-bottom:5px;}
 .checkbox input[type=checkbox] {position:absolute; opacity:0;}
 .checkbox input[type=checkbox] + label {
     display:block; position:relative; cursor:pointer; color:var(--color-on-secondary);
@@ -192,3 +194,16 @@ textarea:hover, textarea:focus {
 *::-webkit-scrollbar {width:4px;}
 *::-webkit-scrollbar-track {background:var(--color-secondary);}
 *::-webkit-scrollbar-thumb {background-color:var(--color-on-secondary);}
+
+/*********************************
+ * Toast
+ *********************************/
+.toast {
+    position:absolute; bottom:5px; left:50%; z-index:99;
+    padding:2px 7px;
+    background:var(--color-primary); color:var(--color-on-primary);
+    transition:var(--transition); border-radius:4px;
+    opacity:0; transform:translate(-50%, 10px);
+}
+.toast.show {opacity:1; transform:translate(-50%, 0);}
+.toast.vanish {opacity:0; transform:translate(-50%, -15px);}

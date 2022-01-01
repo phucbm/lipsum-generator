@@ -4,7 +4,9 @@ jQuery(function($){
         onClick: event => {
             const type = $(event.target).attr('data-type');
             if(type){
-                console.log(type)
+                $().toast({
+                    text: type
+                });
             }
         }
     });

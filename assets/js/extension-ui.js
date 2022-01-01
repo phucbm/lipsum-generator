@@ -102,4 +102,43 @@ jQuery(function($){
 
         return {set, increase, decrease, val, change};
     };
+
+
+    /**
+     * Toast
+     * @param config
+     */
+    $.fn.toast = function(config){
+        const options = {
+            ...{
+                wrapper: $('.textarea'),
+                text: '',
+                delay: 700, // ms
+            }, ...config
+        };
+        const id = uniqueId();
+
+        // html
+        options.wrapper.append(`<div class="toast" id="${id}">${options.text}</div>`);
+        const $toast = options.wrapper.find(`#${id}`);
+
+
+        // position relative
+        if(options.wrapper.css('position') === 'static'){
+            options.wrapper.css('position', 'relative');
+        }
+
+        // show/hide
+        setTimeout(() => {
+            $toast.addClass('show');
+
+            setTimeout(() => {
+                $toast.addClass('vanish');
+
+                setTimeout(() => {
+                    $toast.detach();
+                }, 300);
+            }, options.delay);
+        }, 1);
+    }
 });
