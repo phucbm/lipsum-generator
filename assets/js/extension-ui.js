@@ -120,7 +120,7 @@ jQuery(function($){
     $.fn.toast = function(config){
         const options = {
             ...{
-                wrapper: $('.textarea'),
+                wrapper: $('body'),
                 text: '',
                 delay: 700, // ms
             }, ...config

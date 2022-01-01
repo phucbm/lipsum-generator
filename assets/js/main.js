@@ -2,7 +2,9 @@ jQuery(function($){
     let quantity, type;
     const $btnCopyText = $('[data-copy-text]');
     const $btnCopySlug = $('[data-copy-slug]');
+    const $outputWrapper = $('.output-wrapper');
     const $output = $('[data-output]');
+    const $outputLength = $('[data-output-length]');
     const $range = $('input[data-quantity]');
     const rangeConfig = {
         'word': {quantity: 5, min: 1, max: 99},
@@ -11,7 +13,14 @@ jQuery(function($){
     };
 
 
-    const set = (type, quantity) => $output.val(Lipsum.get(type, quantity));
+    const set = (type, quantity) => {
+        const val = Lipsum.get(type, quantity);
+
+        // set output
+        $output.val(val);
+
+        $outputLength.text(val.length);
+    };
     const change = type => {
         // update button
         if(type === 'word'){
@@ -48,12 +57,12 @@ jQuery(function($){
     // button > copy text
     $btnCopyText.on('click', () => {
         copyValueToClipboard($output.val());
-        $().toast({text: 'Text copied 🧡'});
+        $().toast({text: 'Text copied 🧡', wrapper: $outputWrapper});
     });
 
     // button > copy slug (type:word)
     $btnCopySlug.on('click', () => {
         copyValueToClipboard(stringToSlug($output.val()));
-        $().toast({text: 'Slug copied 🧡'});
+        $().toast({text: 'Slug copied 🧡', wrapper: $outputWrapper});
     });
 });
