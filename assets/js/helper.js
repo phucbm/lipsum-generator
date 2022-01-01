@@ -8,6 +8,36 @@ function uniqueId(prefix = ''){
 
 
 /**
+ * Copy text to clipboard from given value
+ * @param val
+ */
+const copyValueToClipboard = (val) => {
+    const dummy = document.createElement("textarea");
+    document.body.appendChild(dummy);
+
+    dummy.setAttribute("id", "dummy_id");
+    document.getElementById("dummy_id").value = val;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+}
+
+
+/**
+ * String to slug
+ * https://stackoverflow.com/a/1054862/10636614
+ * @param string
+ * @returns {string}
+ */
+function stringToSlug(string = ''){
+    return string
+        .toLowerCase()
+        .replace(/[^\w ]+/g, '')
+        .replace(/ +/g, '-');
+}
+
+
+/**
  * Capitalize all words in string
  * @param string
  * @param force

@@ -16,7 +16,7 @@
 <main id="lipsum" class="app-container">
     <div class="app-body">
 
-        <div class="btn-group">
+        <div class="btn-group is-indicator">
             <div class="btn-group-item">
                 <button class="btn" data-type="word">Word</button>
             </div>
@@ -39,7 +39,7 @@
 
         <div class="textarea">
             <label>
-                <textarea readonly data-output></textarea>
+                <textarea readonly data-output data-copy-text></textarea>
             </label>
         </div>
 
@@ -67,8 +67,13 @@
             </label>
         </div>
 
-        <div>
-            <button class="btn btn-block btn-copy">Copy</button>
+        <div class="btn-group">
+            <div class="btn-group-item">
+                <button class="btn btn-block btn-copy" data-copy-text>Copy Text</button>
+            </div>
+            <div class="btn-group-item">
+                <button class="btn btn-block btn-copy disabled" data-copy-slug>Copy Slug</button>
+            </div>
         </div>
 
     </div>

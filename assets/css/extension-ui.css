@@ -57,6 +57,9 @@ body {background:var(--body-background); font-size:var(--app-font-size); line-he
 .btn:hover {background:var(--color-secondary-hightlight);}
 .btn-copy {cursor:copy;}
 
+/* Disabled */
+.btn.disabled {pointer-events:none; opacity:.4;}
+
 /* Hyperlink */
 a {color:var(--color-on-secondary); text-decoration:none; transition:var(--transition);}
 a:hover, a:focus {color:var(--color-on-primary);}
@@ -64,19 +67,23 @@ a:hover, a:focus {color:var(--color-on-primary);}
 /*********************************
  * Button group
  *********************************/
-.btn-group {
-    display:flex;
+.btn-group {display:flex;}
+.btn-group-item {position:relative; z-index:1; flex-grow:1;}
+.btn-group-item:not(:last-child) {margin-right:10px;}
+
+/* With indicator */
+.btn-group.is-indicator {
     background:var(--color-secondary);
     padding:5px; border-radius:4px;
 }
-.btn-group-item {position:relative; z-index:1; flex-grow:1;}
-.btn-group-item:not(:last-child) {margin-right:5px;}
-.btn-group-item button {
+.btn-group.is-indicator .btn-group-item:not(:last-child) {margin-right:10px;}
+.btn-group.is-indicator .btn-group-item button {
     width:100%; box-shadow:none;
     background:transparent; color:var(--color-on-secondary);
 }
-.btn-group-item button.active,
-.btn-group-item button:hover, .btn-group-item button:focus {background:transparent; color:var(--color-on-primary);}
+.btn-group.is-indicator .btn-group-item button.active,
+.btn-group.is-indicator .btn-group-item button:hover,
+.btn-group.is-indicator .btn-group-item button:focus {background:transparent; color:var(--color-on-primary);}
 
 .btn-group-indicator {
     position:absolute; transition:var(--transition);
