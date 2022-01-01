@@ -12,6 +12,7 @@ jQuery(function($){
                 }
             }, ...config
         };
+        let $active;
         $(this).each(function(){
             const $wrapper = $(this);
             const $triggers = $wrapper.find(options.trigger);
@@ -31,6 +32,8 @@ jQuery(function($){
                     width: $trigger.outerWidth(),
                     left: $trigger.parent().position().left + 'px',
                 });
+
+                $active = $trigger;
             };
             activate($triggers.eq(options.activeIndex));
 
@@ -40,6 +43,10 @@ jQuery(function($){
                 activate($(this));
             });
         });
+
+        return {
+            get: () => $active
+        };
     };
 
 
@@ -87,6 +94,8 @@ jQuery(function($){
             const thumbHalfWidth = 15 * 0.5;
             const left = (((val() - min()) / (max() - min())) * (($this.width() - thumbHalfWidth) - thumbHalfWidth)) + thumbHalfWidth;
 
+            $wrapper.find('.range-slider-label.min').text(min());
+            $wrapper.find('.range-slider-label.max').text(max());
             $wrapper.find('.range-slider-label.val').text(val());
             $wrapper.find('.range-slider-label.val').css('left', `${left}px`);
         };
@@ -100,7 +109,7 @@ jQuery(function($){
         // on drag
         $this.on('input', updateLabels);
 
-        return {set, increase, decrease, val, change};
+        return {set, increase, decrease, val, change, updateLabels};
     };
 
 
