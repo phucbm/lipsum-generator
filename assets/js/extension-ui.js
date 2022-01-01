@@ -84,7 +84,7 @@ jQuery(function($){
             updateLabels();
         };
         const updateLabels = () => {
-            const thumbHalfWidth = 18 * 0.5;
+            const thumbHalfWidth = 15 * 0.5;
             const left = (((val() - min()) / (max() - min())) * (($this.width() - thumbHalfWidth) - thumbHalfWidth)) + thumbHalfWidth;
 
             $wrapper.find('.range-slider-label.val').text(val());

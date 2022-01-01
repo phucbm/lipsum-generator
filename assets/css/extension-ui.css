@@ -44,12 +44,12 @@ body {background:var(--body-background); font-size:var(--app-font-size);}
     border-radius:4px; padding:10px 10px;
     background:rgba(255, 255, 255, 0.1); color:#fff;
     box-shadow:rgb(116 129 141 / 10%) 0 1px 1px 0;
-    transition:all 250ms ease-out 0s; cursor:pointer;
+    transition:var(--transition); cursor:pointer;
 }
 .btn:hover {background:rgba(255, 255, 255, 0.2);}
 
 /* Hyperlink */
-a {color:var(--color-on-primary); text-decoration:none; transition:all 250ms ease-out 0s;}
+a {color:var(--color-on-primary); text-decoration:none; transition:var(--transition);}
 a:hover, a:focus {color:var(--color-primary);}
 
 /*********************************
@@ -57,20 +57,20 @@ a:hover, a:focus {color:var(--color-primary);}
  *********************************/
 .btn-group {
     display:flex;
-    background:rgba(255, 255, 255, 0.1);
+    background:var(--color-secondary);
     padding:5px; border-radius:4px;
 }
 .btn-group-item {position:relative; z-index:1; flex-grow:1;}
 .btn-group-item:not(:last-child) {margin-right:5px;}
 .btn-group-item button {
     width:100%; box-shadow:none;
-    background:transparent; color:#9daab6;
+    background:transparent; color:var(--color-on-secondary);
 }
 .btn-group-item button.active,
 .btn-group-item button:hover, .btn-group-item button:focus {background:transparent; color:var(--color-on-primary);}
 
 .btn-group-indicator {
-    position:absolute; transition:all 250ms ease-out 0s;
+    position:absolute; transition:var(--transition);
     background:var(--color-primary);
     border-radius:4px;
 }
@@ -79,59 +79,81 @@ a:hover, a:focus {color:var(--color-primary);}
 /*********************************
  * Range slider
  *********************************/
+.range-slider {
+    --track-color:var(--color-on-secondary);
+    --track-color-hover:#fff;
+    --thumb-color:var(--color-primary);
+    --thumb-shadow-color:var(--color-on-secondary);
+    --thumb-shadow-color-hover:#fff;
+    --thumb-width:15px;
+}
 .range-slider-inner {position:relative; padding:15px 0 0;}
 
-/* label */
-.range-slider-label {position:absolute; top:0; font-size:12px; background:var(--app-background);}
-.range-slider-label.edge {color:rgba(255, 255, 255, 0.5); z-index:1;}
-.range-slider-label.min {left:0;}
-.range-slider-label.max {right:0;}
-.range-slider-label.val {transform:translateX(-50%); min-width:20px; padding:0 2px; text-align:center; z-index:2;}
-
-/* input */
+/* track */
 .range-slider input[type=range] {
     -webkit-appearance:none; outline:none;
     width:100%; height:4px;
-    border-radius:5px; background:rgba(255, 255, 255, 0.5);
-    transition:background .2s;
+    border-radius:5px; background:var(--track-color);
+    transition:var(--transition);
 }
-.range-slider input[type=range]:hover {background:#fff;}
 
 /* thumb */
 .range-slider input[type=range]::-webkit-slider-thumb {
     -webkit-appearance:none;
     appearance:none;
-    width:18px; height:18px;
-    border-radius:50%; background:var(--color-primary); border:1px solid rgba(255, 255, 255, 0.5);
+    width:var(--thumb-width); height:var(--thumb-width);
+    border-radius:50%; background:var(--thumb-color);
+    box-shadow:0 0 0 2px var(--thumb-shadow-color);
     cursor:pointer;
 }
-
 .range-slider input[type=range]::-moz-range-thumb {
-    width:18px; height:18px;
-    border-radius:50%; background:var(--color-primary);
+    width:var(--thumb-width); height:var(--thumb-width);
+    border-radius:50%; background:var(--thumb-color);
+    box-shadow:0 0 0 2px var(--thumb-shadow-color);
     cursor:pointer;
 }
 
+/* hover */
+.range-slider input[type=range]:hover {
+    --thumb-shadow-color:var(--thumb-shadow-color-hover);
+    --track-color:var(--track-color-hover);
+}
+
+/* label */
+.range-slider-label {position:absolute; top:0; font-size:12px; background:var(--app-background);}
+.range-slider-label.edge {color:var(--color-on-secondary); z-index:1;}
+.range-slider-label.min {left:0;}
+.range-slider-label.max {right:0;}
+.range-slider-label.val {transform:translateX(-50%); min-width:20px; padding:0 2px; text-align:center; z-index:2;}
 
 /*********************************
  * Checkbox
  *********************************/
-.checkbox {position:relative;}
+.checkbox {
+    position:relative;
+    --checkbox-width:40px;
+    --checkbox-height:20px;
+    --checkbox-thumb:16px;
+    --checkbox-padding:2px;
+}
 .checkbox input[type=checkbox] {position:absolute; opacity:0;}
-.checkbox input[type=checkbox] + label {display:block; position:relative; cursor:pointer;}
+.checkbox input[type=checkbox] + label {
+    display:block; position:relative; cursor:pointer;
+    padding-right:calc(var(--checkbox-width) + 10px); min-height:var(--checkbox-height);
+}
 .checkbox input[type=checkbox] + label:before {
     content:""; position:absolute; top:0; right:0;
-    display:block; width:40px; height:20px;
-    background:rgba(255, 255, 255, 0.1); border-radius:10px;
-    transition:all .3s ease;
+    display:block; width:var(--checkbox-width); height:var(--checkbox-height);
+    background:var(--color-secondary); border-radius:10px;
+    transition:var(--transition);
 }
 .checkbox input[type=checkbox] + label:after {
-    content:""; position:absolute; top:2px; right:22px;
-    width:16px; height:16px; background:#9daab6; border-radius:50%;
-    transition:all .3s ease;
+    content:""; position:absolute; top:var(--checkbox-padding); right:calc(var(--checkbox-width) - var(--checkbox-thumb) - var(--checkbox-padding));
+    width:var(--checkbox-thumb); height:var(--checkbox-thumb); background:var(--color-on-secondary); border-radius:50%;
+    transition:var(--transition);
 }
 
 .checkbox input[type=checkbox] + label:hover:before,
 .checkbox input[type=checkbox] + label:focus:before {background:rgba(255, 255, 255, 0.2);}
 .checkbox input[type=checkbox]:checked + label:before {background:var(--color-primary);}
-.checkbox input[type=checkbox]:checked + label:after {right:2px; background:var(--color-on-primary);}
+.checkbox input[type=checkbox]:checked + label:after {right:var(--checkbox-padding); background:var(--color-on-primary);}

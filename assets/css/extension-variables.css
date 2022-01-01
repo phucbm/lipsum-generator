@@ -7,5 +7,10 @@
     --color-primary:#1f65d6;
     --color-on-primary:#fff;
 
+    --color-secondary:rgba(255, 255, 255, 0.1);
+    --color-on-secondary:#9daab6;
+
     --font-primary:"Roboto", sans-serif;
+
+    --transition:all 250ms ease-out;
 }
