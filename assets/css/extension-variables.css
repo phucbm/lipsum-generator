@@ -7,8 +7,11 @@
     --color-primary:#1f65d6;
     --color-on-primary:#fff;
 
-    --color-secondary:rgba(255, 255, 255, 0.1);
+    --color-secondary:#304666;
     --color-on-secondary:#9daab6;
+
+    --color-secondary-hightlight:#475a77;
+    --color-on-secondary-hightlight:#fff;
 
     --font-primary:"Roboto", sans-serif;
 

@@ -42,11 +42,11 @@ body {background:var(--body-background); font-size:var(--app-font-size);}
 .btn-block {display:block; width:100%;}
 .btn {
     border-radius:4px; padding:10px 10px;
-    background:rgba(255, 255, 255, 0.1); color:#fff;
+    background:var(--color-secondary); color:#fff;
     box-shadow:rgb(116 129 141 / 10%) 0 1px 1px 0;
     transition:var(--transition); cursor:pointer;
 }
-.btn:hover {background:rgba(255, 255, 255, 0.2);}
+.btn:hover {background:var(--color-secondary-hightlight);}
 
 /* Hyperlink */
 a {color:var(--color-on-primary); text-decoration:none; transition:var(--transition);}
@@ -154,6 +154,6 @@ a:hover, a:focus {color:var(--color-primary);}
 }
 
 .checkbox input[type=checkbox] + label:hover:before,
-.checkbox input[type=checkbox] + label:focus:before {background:rgba(255, 255, 255, 0.2);}
+.checkbox input[type=checkbox] + label:focus:before {background:var(--color-secondary-hightlight);}
 .checkbox input[type=checkbox]:checked + label:before {background:var(--color-primary);}
 .checkbox input[type=checkbox]:checked + label:after {right:var(--checkbox-padding); background:var(--color-on-primary);}

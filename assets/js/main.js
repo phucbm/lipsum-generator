@@ -15,7 +15,4 @@ jQuery(function($){
             console.log(data)
         }
     });
-    setInterval(() => {
-        quantityRange.increase()
-    }, 1000)
 });
