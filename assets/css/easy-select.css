@@ -62,6 +62,7 @@
     transition:transform .3s ease;
 }
 .easy-select.show-dropdown .easy-select-current .easy-select-option:after {transform:translateY(-50%) rotate(180deg);}
+.easy-select-current .easy-select-option:hover {background:var(--color-secondary-hightlight); color:var(--color-on-secondary-hightlight);}
 
 /* dropdown showing */
 .easy-select.show-dropdown {z-index:2;}

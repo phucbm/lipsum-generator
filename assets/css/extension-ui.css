@@ -27,30 +27,38 @@
 }
 
 /* Body */
-body {background:var(--body-background); font-size:var(--app-font-size);}
+body {background:var(--body-background); font-size:var(--app-font-size); line-height:1.5;}
 
 /*  Container */
 .app-container {
     width:500px; margin:0 auto; position:relative;
     color:#fff;
 }
-.app-body {background:var(--app-background); padding:10px; position:relative; height:482px;}
+.app-body {background:var(--app-background); padding:10px; position:relative;}
+
+/* Footer */
+.app-footer {
+    background:#142845; padding:10px; text-align:center;
+    color:var(--color-on-secondary);
+}
 
 /*********************************
  * Button
  *********************************/
-.btn-block {display:block; width:100%;}
+.btn-block {width:100%;}
 .btn {
-    border-radius:4px; padding:10px 10px;
+    border-radius:4px; padding:10px 10px; min-height:40px;
     background:var(--color-secondary); color:#fff;
     box-shadow:rgb(116 129 141 / 10%) 0 1px 1px 0;
     transition:var(--transition); cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center;
 }
 .btn:hover {background:var(--color-secondary-hightlight);}
+.btn-copy {cursor:copy;}
 
 /* Hyperlink */
-a {color:var(--color-on-primary); text-decoration:none; transition:var(--transition);}
-a:hover, a:focus {color:var(--color-primary);}
+a {color:var(--color-on-secondary); text-decoration:none; transition:var(--transition);}
+a:hover, a:focus {color:var(--color-on-primary);}
 
 /*********************************
  * Button group
@@ -138,8 +146,9 @@ a:hover, a:focus {color:var(--color-primary);}
 }
 .checkbox input[type=checkbox] {position:absolute; opacity:0;}
 .checkbox input[type=checkbox] + label {
-    display:block; position:relative; cursor:pointer;
+    display:block; position:relative; cursor:pointer; color:var(--color-on-secondary);
     padding-right:calc(var(--checkbox-width) + 10px); min-height:var(--checkbox-height);
+    transition:var(--transition);
 }
 .checkbox input[type=checkbox] + label:before {
     content:""; position:absolute; top:0; right:0;
@@ -153,7 +162,33 @@ a:hover, a:focus {color:var(--color-primary);}
     transition:var(--transition);
 }
 
+.checkbox input[type=checkbox] + label:hover,
+.checkbox input[type=checkbox] + label:focus {color:#fff;}
 .checkbox input[type=checkbox] + label:hover:before,
 .checkbox input[type=checkbox] + label:focus:before {background:var(--color-secondary-hightlight);}
 .checkbox input[type=checkbox]:checked + label:before {background:var(--color-primary);}
 .checkbox input[type=checkbox]:checked + label:after {right:var(--checkbox-padding); background:var(--color-on-primary);}
+
+/*********************************
+ * Textarea
+ *********************************/
+textarea {
+    background:var(--color-secondary); color:var(--color-on-secondary);
+    display:block; border-radius:4px; width:100%;
+    height:200px; resize:none; padding:10px; cursor:copy;
+    transition:var(--transition);
+    -webkit-user-select:none; /* Safari */
+    -ms-user-select:none; /* IE 10 and IE 11 */
+    user-select:none; /* Standard syntax */
+}
+textarea:hover, textarea:focus {
+    background:var(--color-secondary-hightlight); color:var(--color-on-secondary-hightlight);
+}
+
+/*********************************
+ * Custom scrollbar
+ *********************************/
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {width:4px;}
+*::-webkit-scrollbar-track {background:var(--color-secondary);}
+*::-webkit-scrollbar-thumb {background-color:var(--color-on-secondary);}
