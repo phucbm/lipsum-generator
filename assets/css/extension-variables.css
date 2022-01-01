@@ -1,0 +1,11 @@
+:root {
+    /* App */
+    --body-background:#193155b8;
+    --app-background:#193155;
+    --app-font-size:14px;
+
+    --color-primary:#1f65d6;
+    --color-on-primary:#fff;
+
+    --font-primary:"Roboto", sans-serif;
+}

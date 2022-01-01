@@ -1,0 +1,76 @@
+/*********************************
+ * UI components for extension
+ *********************************/
+/* Font */
+@font-face {
+    font-family:"Roboto";
+    src:url("../font/Roboto-Bold.woff2") format("woff2"),
+    url("../font/Roboto-Bold.woff") format("woff");
+    font-weight:bold;
+    font-style:normal;
+    font-display:swap;
+}
+
+@font-face {
+    font-family:"Roboto";
+    src:url("../font/Roboto-Medium.woff2") format("woff2"),
+    url("../font/Roboto-Medium.woff") format("woff");
+    font-weight:500;
+    font-style:normal;
+    font-display:swap;
+}
+
+/* Reset */
+* {
+    margin:0; padding:0; border:none; outline:none; box-sizing:border-box;
+    font-family:var(--font-primary); font-weight:500; letter-spacing:.02em;
+}
+
+/* Body */
+body {background:var(--body-background); font-size:var(--app-font-size);}
+
+/*  Container */
+.app-container {
+    width:500px; margin:0 auto; position:relative;
+    color:#fff;
+}
+.app-body {background:var(--app-background); padding:10px; position:relative; height:482px;}
+
+/*********************************
+ * Button
+ *********************************/
+.btn-block {display:block; width:100%;}
+.btn {
+    border-radius:4px; padding:10px 10px;
+    background:rgba(255, 255, 255, 0.1); color:#fff;
+    box-shadow:rgb(116 129 141 / 10%) 0 1px 1px 0;
+    transition:all 250ms ease-out 0s; cursor:pointer;
+}
+.btn:hover {background:rgba(255, 255, 255, 0.2);}
+
+/* Hyperlink */
+a {color:var(--color-on-primary); text-decoration:none; transition:all 250ms ease-out 0s;}
+a:hover, a:focus {color:var(--color-primary);}
+
+/*********************************
+ * Button group
+ *********************************/
+.btn-group {
+    display:flex;
+    background:rgba(255, 255, 255, 0.1);
+    padding:5px; border-radius:4px;
+}
+.btn-group-item {position:relative; z-index:1; flex-grow:1;}
+.btn-group-item:not(:last-child) {margin-right:5px;}
+.btn-group-item button {
+    width:100%; box-shadow:none;
+    background:transparent; color:#9daab6;
+}
+.btn-group-item button.active,
+.btn-group-item button:hover, .btn-group-item button:focus {background:transparent; color:var(--color-on-primary);}
+
+.btn-group-indicator {
+    position:absolute; transition:all 250ms ease-out 0s;
+    background:var(--color-primary);
+    border-radius:4px;
+}
