@@ -8,4 +8,11 @@ jQuery(function($){
             }
         }
     });
+
+    // range slider > quantity
+    const quantityRange = $('input[data-quantity]').rangeSlider({
+        onChange: data => {
+            console.log(data)
+        }
+    });
 });

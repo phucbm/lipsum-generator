@@ -1,8 +1,12 @@
 jQuery(function($){
-    jQuery.fn.buttonGroupEffect = function(config){
+    /**
+     * Button Group Effect
+     * @param config
+     */
+    $.fn.buttonGroupEffect = function(config){
         const options = {
             ...{
-                trigger: 'button',
+                trigger: '.btn',
                 activeIndex: 0,
                 onClick: event => {
                 }
@@ -14,7 +18,7 @@ jQuery(function($){
 
 
             // indicator
-            $wrapper.append('<i class="btn-group-indicator"></i>');
+            $wrapper.prepend('<i class="btn-group-indicator"></i>');
             const $indicator = $wrapper.find('.btn-group-indicator');
 
             // activate
@@ -36,5 +40,37 @@ jQuery(function($){
                 activate($(this));
             });
         });
+    };
+
+
+    /**
+     * Range Slider
+     * @param config
+     * @returns {{val: (function(): number), set: set, change: (function(): *), increase: (function(): void), decrease: (function(): void)}}
+     */
+    $.fn.rangeSlider = function(config){
+        if($(this).attr('type') !== 'range') return;
+
+        const options = {
+            ...{
+                step: 5,
+                onChange: () => {
+                }
+            }, ...config
+        };
+
+        const set = (number) => {
+            $(this).val(number);
+            change();
+        };
+        const change = () => options.onChange({target: this, val: val()});
+        const val = () => parseInt($(this).val());
+        const increase = () => set(val() + options.step);
+        const decrease = () => set(val() - options.step);
+
+        // on change
+        $(this).on('change', change);
+
+        return {set, increase, decrease, val, change};
     };
 });
