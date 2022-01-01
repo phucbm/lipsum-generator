@@ -7,6 +7,15 @@ jQuery(function($){
                 $().toast({
                     text: type
                 });
+                if(type === 'word'){
+                    console.log(Lipsum.getWords(10))
+                }
+                if(type === 'sentence'){
+                    console.log(Lipsum.getSentences(3))
+                }
+                if(type === 'paragraph'){
+                    console.log(Lipsum.getParagraphs(2))
+                }
             }
         }
     });
