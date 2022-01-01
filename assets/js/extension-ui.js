@@ -46,11 +46,11 @@ jQuery(function($){
     /**
      * Range Slider
      * @param config
-     * @returns {{val: (function(): number), set: set, change: (function(): *), increase: (function(): void), decrease: (function(): void)}}
+     * @returns {*}
      */
     $.fn.rangeSlider = function(config){
-        if($(this).attr('type') !== 'range') return;
-
+        const $this = $(this);
+        if($this.attr('type') !== 'range') return false;
         const options = {
             ...{
                 step: 5,
@@ -59,17 +59,46 @@ jQuery(function($){
             }, ...config
         };
 
-        const set = (number) => {
-            $(this).val(number);
-            change();
-        };
-        const change = () => options.onChange({target: this, val: val()});
-        const val = () => parseInt($(this).val());
+        const val = () => parseInt($this.val());
+        const min = () => parseInt($this.attr('min'));
+        const max = () => parseInt($this.attr('max'));
         const increase = () => set(val() + options.step);
         const decrease = () => set(val() - options.step);
 
+        // generate html
+        $this.wrapAll('<div class="range-slider-inner">');
+        const $wrapper = $this.parent();
+
+        // labels
+        $wrapper.append(`<div class="range-slider-label min edge">${min()}</div>`);
+        $wrapper.append(`<div class="range-slider-label max edge">${max()}</div>`);
+        $wrapper.append(`<div class="range-slider-label val">${val()}</div>`);
+
+        // methods
+        const set = (number) => {
+            $this.val(number);
+            change();
+        };
+        const change = () => {
+            options.onChange({target: this, val: val()});
+            updateLabels();
+        };
+        const updateLabels = () => {
+            const thumbHalfWidth = 18 * 0.5;
+            const left = (((val() - min()) / (max() - min())) * (($this.width() - thumbHalfWidth) - thumbHalfWidth)) + thumbHalfWidth;
+
+            $wrapper.find('.range-slider-label.val').text(val());
+            $wrapper.find('.range-slider-label.val').css('left', `${left}px`);
+        };
+
+        // on init
+        updateLabels();
+
         // on change
-        $(this).on('change', change);
+        $this.on('change', change);
+
+        // on drag
+        $this.on('input', updateLabels);
 
         return {set, increase, decrease, val, change};
     };
