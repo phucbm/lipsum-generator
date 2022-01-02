@@ -1,0 +1,292 @@
+/*********************************
+ * UI components for extension
+ *********************************/
+/* Font */
+@font-face {
+    font-family:"Roboto";
+    src:url("../font/Roboto-Bold.woff2") format("woff2"),
+    url("../font/Roboto-Bold.woff") format("woff");
+    font-weight:bold;
+    font-style:normal;
+    font-display:swap;
+}
+
+@font-face {
+    font-family:"Roboto";
+    src:url("../font/Roboto-Medium.woff2") format("woff2"),
+    url("../font/Roboto-Medium.woff") format("woff");
+    font-weight:500;
+    font-style:normal;
+    font-display:swap;
+}
+
+/* Reset */
+* {
+    margin:0; padding:0; border:none; outline:none; box-sizing:border-box;
+    font-family:var(--font-primary); font-weight:500; letter-spacing:.02em;
+}
+
+/* Body */
+body {
+    background:var(--body-background); color:#fff;
+    font-size:var(--app-font-size); line-height:1.5;
+
+}
+
+/*  Container */
+.app-container {
+    position:relative; background:var(--app-background);
+    display:flex; flex-direction:column; justify-content:space-between;
+}
+.app-body-inner {padding:10px; position:relative; max-width:600px; width:100%; margin:0 auto;}
+.app-body-inner > div:not(:last-child) {margin-bottom:10px;}
+
+/* Footer */
+.app-footer {
+    background:#142845; padding:10px; text-align:center;
+    color:var(--color-on-secondary);
+}
+
+/*********************************
+ * Extension page
+ *********************************/
+body.is-extension {width:500px;}
+
+/*********************************
+ * Web page
+ *********************************/
+body.is-web {
+    --app-font-size:16px;
+    --app-font-size-small:14px;
+}
+body.is-web [data-output] {height:350px;}
+body:not(.is-web) .app-header {display:none;}
+body.is-web .app-container {min-height:100vh;}
+body.is-web .app-container:before {content:"";}
+body.is-web .app-body {min-height:600px;}
+.app-header {text-align:center; padding:0 0 1em;}
+
+body.is-web .for-extension {display:none;}
+
+/*********************************
+ * Button
+ *********************************/
+.btn-block {width:100%;}
+.btn {
+    border-radius:4px; padding:10px 10px; min-height:40px;
+    background:var(--color-secondary); color:#fff;
+    box-shadow:rgb(116 129 141 / 10%) 0 1px 1px 0;
+    transition:var(--transition); cursor:pointer;
+    display:inline-flex; align-items:center; justify-content:center;
+}
+.btn:hover {background:var(--color-secondary-hightlight);}
+.btn-copy {cursor:copy;}
+
+/* Disabled */
+.btn.disabled {pointer-events:none; opacity:.4;}
+
+/* Hyperlink */
+a {color:var(--color-on-secondary); text-decoration:none; transition:var(--transition);}
+a:hover, a:focus {color:var(--color-on-primary);}
+
+/*********************************
+ * Button group
+ *********************************/
+.btn-group {display:flex;}
+.btn-group-item {position:relative; z-index:1; flex-grow:1;}
+.btn-group-item:not(:last-child) {margin-right:10px;}
+
+/* With indicator */
+.btn-group.is-indicator {
+    background:var(--color-secondary);
+    padding:5px; border-radius:4px;
+}
+.btn-group.is-indicator .btn-group-item:not(:last-child) {margin-right:10px;}
+.btn-group.is-indicator .btn-group-item button {
+    width:100%; box-shadow:none;
+    background:transparent; color:var(--color-on-secondary);
+}
+.btn-group.is-indicator .btn-group-item button.active,
+.btn-group.is-indicator .btn-group-item button:hover,
+.btn-group.is-indicator .btn-group-item button:focus {background:transparent; color:var(--color-on-primary);}
+
+.btn-group-indicator {
+    position:absolute; transition:var(--transition);
+    background:var(--color-primary);
+    border-radius:4px;
+}
+
+
+/*********************************
+ * Range slider
+ *********************************/
+.range-slider {
+    --track-color:var(--color-on-secondary);
+    --track-color-hover:#fff;
+    --thumb-color:var(--color-primary);
+    --thumb-shadow-color:var(--color-on-secondary);
+    --thumb-shadow-color-hover:#fff;
+    --thumb-width:15px;
+}
+.range-slider-inner {position:relative; padding:15px 0 0;}
+.range-slider label {display:block; width:100%;}
+
+/* track */
+.range-slider input[type=range] {
+    -webkit-appearance:none; outline:none;
+    width:100%; height:4px;
+    border-radius:5px; background:var(--track-color);
+    transition:var(--transition);
+}
+
+/* thumb */
+.range-slider input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance:none;
+    appearance:none;
+    width:var(--thumb-width); height:var(--thumb-width);
+    border-radius:50%; background:var(--thumb-color);
+    box-shadow:0 0 0 2px var(--thumb-shadow-color);
+    cursor:pointer;
+}
+.range-slider input[type=range]::-moz-range-thumb {
+    width:var(--thumb-width); height:var(--thumb-width);
+    border-radius:50%; background:var(--thumb-color);
+    box-shadow:0 0 0 2px var(--thumb-shadow-color);
+    cursor:pointer;
+}
+
+/* hover */
+.range-slider input[type=range]:hover {
+    --thumb-shadow-color:var(--thumb-shadow-color-hover);
+    --track-color:var(--track-color-hover);
+}
+
+/* label */
+.range-slider-label {position:absolute; top:0; font-size:var(--app-font-size-small); background:var(--app-background);}
+.range-slider-label.edge {color:var(--color-on-secondary); z-index:1;}
+.range-slider-label.min {left:0;}
+.range-slider-label.max {right:0;}
+.range-slider-label.val {transform:translateX(-50%); min-width:20px; padding:0 2px; text-align:center; z-index:2;}
+
+/* has arrows */
+.range-slider-has-arrows {display:flex;}
+.range-slider-arrow {padding:15px 0 0;}
+.range-slider-arrow.down {padding-right:3px;}
+.range-slider-arrow.up {padding-left:3px;}
+.range-slider-arrow.down button:before {border-right:10px solid var(--range-arrow-color);}
+.range-slider-arrow.up button:before {border-left:10px solid var(--range-arrow-color);}
+
+.range-slider-arrow button {
+    --range-arrow-color:var(--color-on-secondary);
+    background:transparent; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    width:20px; height:25px; border-radius:3px;
+}
+.range-slider-arrow button:before {
+    content:""; display:block; width:0; height:0;
+    border-top:5px solid transparent;
+    border-bottom:5px solid transparent;
+    transition:var(--transition);
+}
+.range-slider-arrow button:hover, .range-slider-arrow button:focus {
+    --range-arrow-color:#fff;
+}
+
+/*********************************
+ * Checkbox
+ *********************************/
+.checkbox {
+    position:relative;
+    --checkbox-width:40px;
+    --checkbox-height:20px;
+    --checkbox-thumb:16px;
+    --checkbox-padding:2px;
+}
+.checkbox:not(:last-child) {margin-bottom:5px;}
+.checkbox input[type=checkbox] {position:absolute; opacity:0;}
+.checkbox input[type=checkbox] + label {
+    display:block; position:relative; cursor:pointer; color:var(--color-on-secondary);
+    padding-right:calc(var(--checkbox-width) + 10px); min-height:var(--checkbox-height);
+    transition:var(--transition);
+}
+.checkbox input[type=checkbox] + label:before {
+    content:""; position:absolute; top:0; right:0;
+    display:block; width:var(--checkbox-width); height:var(--checkbox-height);
+    background:var(--color-secondary); border-radius:10px;
+    transition:var(--transition);
+}
+.checkbox input[type=checkbox] + label:after {
+    content:""; position:absolute; top:var(--checkbox-padding); right:calc(var(--checkbox-width) - var(--checkbox-thumb) - var(--checkbox-padding));
+    width:var(--checkbox-thumb); height:var(--checkbox-thumb); background:var(--color-on-secondary); border-radius:50%;
+    transition:var(--transition);
+}
+
+.checkbox input[type=checkbox] + label:hover,
+.checkbox input[type=checkbox] + label:focus {color:#fff;}
+.checkbox input[type=checkbox] + label:hover:before,
+.checkbox input[type=checkbox] + label:focus:before {background:var(--color-secondary-hightlight);}
+.checkbox input[type=checkbox]:checked + label:before {background:var(--color-primary);}
+.checkbox input[type=checkbox]:checked + label:after {right:var(--checkbox-padding); background:var(--color-on-primary);}
+
+/*********************************
+ * Textarea
+ *********************************/
+textarea, [data-output] {
+    background:var(--color-secondary); color:var(--color-on-secondary);
+    display:block; border-radius:4px; width:100%;
+    height:200px; resize:none; padding:10px; cursor:copy;
+    transition:var(--transition);
+    -webkit-user-select:none; /* Safari */
+    -ms-user-select:none; /* IE 10 and IE 11 */
+    user-select:none; /* Standard syntax */
+    overflow:auto; white-space:pre-line;
+}
+[data-output]:hover,
+textarea:hover, textarea:focus {
+    background:var(--color-secondary-hightlight); color:var(--color-on-secondary-hightlight);
+}
+
+/*********************************
+ * Custom scrollbar
+ *********************************/
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {width:4px;}
+*::-webkit-scrollbar-track {background:var(--color-secondary);}
+*::-webkit-scrollbar-thumb {background-color:var(--color-on-secondary);}
+
+/*********************************
+ * Toast
+ *********************************/
+.toast {
+    position:absolute; bottom:5px; left:50%; z-index:99;
+    padding:2px 7px;
+    background:var(--color-primary); color:var(--color-on-primary);
+    transition:var(--transition); border-radius:4px;
+    opacity:0; transform:translate(-50%, 10px);
+}
+.toast.show {opacity:1; transform:translate(-50%, 0);}
+.toast.vanish {opacity:0; transform:translate(-50%, -15px);}
+
+
+/*********************************
+ * Loading
+ *********************************/
+.loading {position:relative;}
+.loading:before {
+    content:""; position:absolute; top:0; left:0; right:0; bottom:0; z-index:99;
+    background-color:var(--app-background);
+}
+.loading:after {
+    --loading-size:35px;
+    content:""; position:absolute; top:50%; left:50%; z-index:100;
+    width:var(--loading-size); height:var(--loading-size);
+    margin:calc(-0.5 * var(--loading-size)) 0 0 calc(-0.5 * var(--loading-size));
+    border-radius:50%; border:2px dashed transparent;
+    border-bottom-color:var(--color-primary);
+    border-right-color:var(--color-primary);
+    animation:spinner .6s linear infinite;
+    box-sizing:border-box;
+}
+@keyframes spinner {
+    to {transform:rotate(360deg);}
+}

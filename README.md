@@ -1,25 +1,29 @@
-# Lipsum Generator v2.0 - Chrome Extension
-Create lorem ipsum dummy text.
+# Lipsum Generator Extension v3.0.0
 
-**[Visit Chrome Web Store](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)**
+[![release](https://badgen.net/github/release/phucbm/lipsum-generator/?cache=600)](https://github.com/phucbm/lipsum-generator/releases/latest)
+[![license](https://badgen.net/github/license/phucbm/lipsum-generator/)](https://github.com/phucbm/lipsum-generator/blob/main/LICENSE)
+[![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
 
-## Introduce
+> Chrome Extension to generate lorem ipsum dummy text.
 
-Create and copy lorem ipsum dummy text in only two steps:
-1. Modify your settings.
-2. Turn on "auto copy when open extension".
+## Getting started
 
-From now on, every time you open the extension, you will have a different lorem ipsum text based on your previous settings.
+👉 **[Chrome Extension version](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)**
 
-## Features
+👉 **[Web version](#)**
 
-- Create lorem ipsum text in word, sentence or paragraph mode.
-- Able to custom the number of text in each mode.
-- Text transform support: capitalize, uppercase, lowercase.
-- Auto copy when open extension.
+## Local deployment
 
-## Change logs
+```text
+npm install
+```
 
-* v2.0 (19-Feb-21) Re-build source code and UI.
-* v1.5 (11-Nov-18) Fix some permission problems
-* v1.0 (04-Nov-18)
+```text
+gulp serve
+```
+
+## License
+
+[MIT License](https://github.com/phucbm/lipsum-generator/blob/main/LICENSE)
+
+Copyright (c) 2022 Minh-Phuc Bui

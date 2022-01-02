@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lipsum Generator v3</title>
+    <link rel="icon" href="assets/img/128.png" type="image/x-icon">
+
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="assets/css/extension-variables.css">
+    <link rel="stylesheet" href="assets/css/easy-select.css">
+    <link rel="stylesheet" href="assets/css/extension-ui.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<main id="lipsum" class="app-container">
+
+    <div class="app-body loading">
+        <div class="app-header">
+            <h1>Lipsum Generator</h1>
+        </div>
+
+        <div class="app-body-inner">
+            <div class="btn-group is-indicator">
+                <div class="btn-group-item">
+                    <button class="btn" data-type="word">Word</button>
+                </div>
+                <div class="btn-group-item">
+                    <button class="btn" data-type="sentence">Sentence</button>
+                </div>
+                <div class="btn-group-item">
+                    <button class="btn" data-type="paragraph">Paragraph</button>
+                </div>
+                <div class="btn-group-item">
+                    <button class="btn" data-type="list">List (HTML)</button>
+                </div>
+            </div>
+
+            <div class="range-slider">
+                <label>
+                    <input type="range" min="1" max="100" value="0" data-quantity>
+                </label>
+            </div>
+
+            <div class="output-wrapper">
+                <div data-output data-copy-text class="output-area"></div>
+                <span class="output-length" data-output-length>0</span>
+            </div>
+
+            <div>
+                <div class="checkbox">
+                    <input type="checkbox" id="prefix" data-checkbox="prefix">
+                    <label for="prefix">Begin with "Lorem ipsum dolor sit amet"</label>
+                </div>
+                <div class="checkbox for-extension">
+                    <input type="checkbox" id="auto-copy" data-checkbox="auto-copy">
+                    <label for="auto-copy">Auto copy when open extension</label>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <label>
+                    <select data-easy-select data-text-transform>
+                        <option value="capitalizeFirstWordInSentence" selected>
+                            Capitalize the first word in a sentence.
+                        </option>
+                        <option value="capitalize">Capitalize</option>
+                        <option value="uppercase">UPPERCASE</option>
+                        <option value="lowercase">lowercase</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="btn-group">
+                <div class="btn-group-item">
+                    <button class="btn btn-block btn-copy" data-copy-text>Copy Text</button>
+                </div>
+                <div class="btn-group-item">
+                    <button class="btn btn-block btn-copy disabled" data-copy-slug>Copy Slug</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="app-footer">
+        © 2022 - <a
+            href="https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna"
+            title="Rate this on Chrome store" target="_blank">Lipsum Generator</a> - <a
+            href="https://github.com/phucbm/lipsum-generator" target="_blank">GitHub</a>
+    </div>
+</main>
+
+
+<!-- script -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/helper.js"></script>
+<script src="assets/js/easy-select.min.js"></script>
+<script src="assets/js/extension-ui.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/lipsum.js"></script>
+
+</body>
+</html>

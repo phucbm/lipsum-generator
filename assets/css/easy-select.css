@@ -1,0 +1,90 @@
+/*!
+ * Easy Select v3.0.1
+ * https://github.com/viivue/easy-select
+ * MIT license - 2021
+ */
+
+/****************************
+ * Easy Select Core (no edit)
+****************************/
+.easy-select {position:relative; z-index:1; cursor:pointer;}
+.easy-select * {box-sizing:border-box;}
+
+/* keep select tag invisible over the current text, but still clickable */
+.easy-select-native select {
+    position:absolute; top:0; left:0; width:100%; height:100%; z-index:2;
+    opacity:0; cursor:pointer;
+}
+
+/* this will handle the visual display */
+.easy-select-current {
+    position:relative; z-index:1;
+    transition:all .3s ease;
+    user-select:none;
+}
+
+/* custom dropdown */
+.easy-select:not(.show-dropdown) .easy-select-dropdown {opacity:0; visibility:hidden; transform:scale(.9);}
+.easy-select-dropdown {
+    position:absolute; bottom:calc(100% + 1px); left:0; z-index:2;
+    width:100%;
+    transition:all .2s ease;
+    transform-origin:bottom left;
+}
+.easy-select-dropdown ul {margin:0; padding:0; list-style:none; max-height:300px; overflow:auto;}
+.easy-select-dropdown ul li {padding:0;}
+
+/* option */
+.easy-select-option {
+    display:flex; align-items:center; position:relative;
+    width:100%; min-height:40px; padding:7px 15px;
+    transition:all .3s ease;
+}
+
+/* disabled */
+.easy-select-disabled {cursor:not-allowed;}
+.easy-select-option.disabled,
+.easy-select-disabled .easy-select-current {opacity:.5; pointer-events:none;}
+.easy-select-disabled select {pointer-events:none;}
+
+/****************************
+ * Easy Select - Default theme
+****************************/
+.easy-select {width:100%;}
+
+/* current */
+.easy-select-current {border-radius:4px; overflow:hidden;}
+.easy-select-current .easy-select-option:after {
+    position:absolute; top:50%; right:15px;
+    transform:translateY(-50%);
+    content:"▼"; font-size:.8em; color:inherit;
+    display:inline-block; margin-left:10px;
+    transition:transform .3s ease;
+}
+.easy-select.show-dropdown .easy-select-current .easy-select-option:after {transform:translateY(-50%) rotate(180deg);}
+.easy-select-current .easy-select-option:hover {background:var(--color-secondary-hightlight); color:var(--color-on-secondary-hightlight);}
+
+/* dropdown showing */
+.easy-select.show-dropdown {z-index:2;}
+
+/* dropdown */
+.easy-select-dropdown {
+    max-width:300px;
+    background:var(--color-secondary); color:var(--color-on-secondary);
+    border-radius:4px; overflow:hidden; box-shadow:0 0 0 1px rgba(0, 0, 0, .1);
+}
+.easy-select-dropdown ul li:not(:last-child) {border-bottom:1px solid rgba(0, 0, 0, .1);}
+
+/* option */
+.easy-select-option {line-height:1.1;}
+
+/* dropdown hover: off */
+.easy-select-current .easy-select-option,
+.easy-select-dropdown:hover .easy-select-option.active,
+.easy-select-option {background:var(--color-secondary); color:var(--color-on-secondary);}
+
+/* dropdown hover: on */
+.easy-select-native:not(.easy-select-disabled):hover .easy-select-current .easy-select-option,
+.easy-select-dropdown:hover .easy-select-option.active:hover,
+.easy-select-option:hover,
+.easy-select-option.active {color:var(--color-on-primary); background:var(--color-primary);}

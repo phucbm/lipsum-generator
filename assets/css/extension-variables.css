@@ -1,0 +1,20 @@
+:root {
+    /* App */
+    --body-background:#193155b8;
+    --app-background:#193155;
+    --app-font-size:14px;
+    --app-font-size-small:12px;
+
+    --color-primary:#1f65d6;
+    --color-on-primary:#fff;
+
+    --color-secondary:#304666;
+    --color-on-secondary:#9daab6;
+
+    --color-secondary-hightlight:#475a77;
+    --color-on-secondary-hightlight:#fff;
+
+    --font-primary:"Roboto", sans-serif;
+
+    --transition:all 250ms ease-out;
+}

@@ -1,0 +1,13 @@
+/*********************************
+ * Output
+ *********************************/
+.output-wrapper {position:relative;}
+.output-length {
+    position:absolute; bottom:3px; right:7px; z-index:2;
+    color:var(--color-on-secondary); font-size:12px;
+    background:var(--color-secondary); padding:2px 5px;
+    transition:var(--transition);
+}
+.output-wrapper:hover .output-length {opacity:0;}
+
+.output-wrapper ul {margin-left:15px;}
