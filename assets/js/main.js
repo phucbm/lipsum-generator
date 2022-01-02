@@ -1,5 +1,5 @@
 jQuery(function($){
-    let quantity, type;
+    let quantity, type, checkboxes;
     const $btnCopyText = $('[data-copy-text]');
     const $btnCopySlug = $('[data-copy-slug]');
     const $outputWrapper = $('.output-wrapper');
@@ -49,6 +49,13 @@ jQuery(function($){
     // button group > type
     type = $('.btn-group.is-indicator').buttonGroupEffect({
         onClick: event => change($(event.target).attr('data-type'))
+    });
+
+    // checkboxes > options
+    checkboxes = $('[data-checkbox]').checkboxes({
+        onChange: data => {
+            console.log(data)
+        }
     });
 
     // on load

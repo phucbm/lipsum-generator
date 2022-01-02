@@ -150,4 +150,44 @@ jQuery(function($){
             }, options.delay);
         }, 1);
     }
+
+
+    /**
+     * Checkboxes
+     * @param config
+     * @returns {*}
+     */
+    $.fn.checkboxes = function(config){
+        const $this = $(this);
+        if($this.attr('type') !== 'checkbox') return false;
+        const options = {
+            ...{
+                onChange: () => {
+                }
+            }, ...config
+        };
+
+
+        const getInput = checkbox => $this.filter(`[data-checkbox="${checkbox}"]`);
+        const get = checkbox => {
+            const $input = typeof checkbox === 'string' ? getInput(checkbox) : checkbox;
+            return {
+                isChecked: $input.is(':checked'),
+                checkbox: $input.attr('data-checkbox'),
+                target: $input
+            };
+        };
+        const set = (checkbox, isChecked) => {
+            getInput(checkbox).prop("checked", isChecked);
+            options.onChange(get(checkbox));
+        };
+        const toggle = checkbox => set(checkbox, !get(checkbox).isChecked);
+
+
+        $this.on('change', function(){
+            options.onChange(get($(this)));
+        });
+
+        return {get, set, toggle};
+    };
 });
