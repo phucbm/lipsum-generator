@@ -51,13 +51,6 @@ jQuery(function($){
                     onChange: data => {
                         this.options.type = data.type;
 
-                        // update copy button
-                        if(this.options.type === 'word'){
-                            this.buttonCopySlug.removeClass('disabled');
-                        }else{
-                            this.buttonCopySlug.addClass('disabled');
-                        }
-
                         this.triggerOptionsUpdateEvent();
                         this.updateRangeSlider();
                         this.generate();
@@ -162,6 +155,13 @@ jQuery(function($){
         }
 
         triggerOptionsUpdateEvent(){
+            // update copy buttons
+            if(this.options.type === 'word'){
+                this.buttonCopySlug.removeClass('disabled');
+            }else{
+                this.buttonCopySlug.addClass('disabled');
+            }
+
             this.options.onOptionsUpdate(this.options);
         }
     }
