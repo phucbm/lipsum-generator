@@ -164,7 +164,7 @@ jQuery(function($){
     }
 
     // detect
-    const isExtension = typeof chrome.storage !== 'undefined';
+    const isExtension = typeof chrome !== 'undefined' && typeof chrome.storage !== 'undefined';
     $('body').addClass(isExtension ? 'is-extension' : 'is-web');
 
     // load settings from storage
