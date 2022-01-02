@@ -241,3 +241,27 @@ textarea:hover, textarea:focus {
 }
 .toast.show {opacity:1; transform:translate(-50%, 0);}
 .toast.vanish {opacity:0; transform:translate(-50%, -15px);}
+
+
+/*********************************
+ * Loading
+ *********************************/
+.loading {position:relative;}
+.loading:before {
+    content:""; position:absolute; top:0; left:0; right:0; bottom:0; z-index:99;
+    background-color:var(--app-background);
+}
+.loading:after {
+    --loading-size:35px;
+    content:""; position:absolute; top:50%; left:50%; z-index:100;
+    width:var(--loading-size); height:var(--loading-size);
+    margin:calc(-0.5 * var(--loading-size)) 0 0 calc(-0.5 * var(--loading-size));
+    border-radius:50%; border:2px dashed transparent;
+    border-bottom-color:var(--color-primary);
+    border-right-color:var(--color-primary);
+    animation:spinner .6s linear infinite;
+    box-sizing:border-box;
+}
+@keyframes spinner {
+    to {transform:rotate(360deg);}
+}

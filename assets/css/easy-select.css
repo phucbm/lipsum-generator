@@ -26,10 +26,10 @@
 /* custom dropdown */
 .easy-select:not(.show-dropdown) .easy-select-dropdown {opacity:0; visibility:hidden; transform:scale(.9);}
 .easy-select-dropdown {
-    position:absolute; top:calc(100% + 1px); left:0; z-index:2;
+    position:absolute; bottom:calc(100% + 1px); left:0; z-index:2;
     width:100%;
     transition:all .2s ease;
-    transform-origin:top left;
+    transform-origin:bottom left;
 }
 .easy-select-dropdown ul {margin:0; padding:0; list-style:none; max-height:300px; overflow:auto;}
 .easy-select-dropdown ul li {padding:0;}
@@ -71,7 +71,7 @@
 .easy-select-dropdown {
     max-width:300px;
     background:var(--color-secondary); color:var(--color-on-secondary);
-    border-radius:4px; overflow:hidden;
+    border-radius:4px; overflow:hidden; box-shadow:0 0 0 1px rgba(0, 0, 0, .1);
 }
 .easy-select-dropdown ul li:not(:last-child) {border-bottom:1px solid rgba(0, 0, 0, .1);}
 

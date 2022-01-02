@@ -23,6 +23,8 @@ jQuery(function($){
                     onChange: () => {
                     },
                     onOptionsUpdate: () => {
+                    },
+                    onAfterInit: () => {
                     }
                 }, ...config
             };
@@ -118,6 +120,9 @@ jQuery(function($){
 
             // update text transform (also generate)
             this.control.textTransform.set(this.options.textTransform);
+
+            // event > after init
+            this.options.onAfterInit(this.options);
         }
 
         updateRangeSlider(number = this.options.rangeQuantity[this.options.type]){
@@ -167,6 +172,11 @@ jQuery(function($){
         ...browserStorage.get(), dev: false,
         onOptionsUpdate: data => {
             browserStorage.set(data);
+        },
+        onAfterInit: () => {
+            setTimeout(() => {
+                $('.app-body.loading').removeClass('loading');
+            }, 200);
         }
     });
 });
