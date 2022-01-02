@@ -140,7 +140,10 @@ jQuery(function($){
         }
 
         generate(){
-            this.value = Lipsum.get(this.options);
+            this.value = Lipsum.get({
+                ...this.options,
+                quantity: this.options.rangeQuantity[this.options.type]
+            });
 
             // set output
             this.output.html(this.value);

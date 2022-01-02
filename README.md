@@ -10,7 +10,7 @@
 
 👉 **[Chrome Extension version](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)**
 
-👉 **[Web version](#)**
+👉 **[Web version](https://phucbm.github.io/lipsum-generator)**
 
 ## Local deployment
 
