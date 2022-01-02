@@ -1,91 +1,156 @@
 jQuery(function($){
-    let quantityControl, typeControl, checkboxesControl, textTransformControl;
-    const $btnCopyText = $('[data-copy-text]');
-    const $btnCopySlug = $('[data-copy-slug]');
-    const $outputWrapper = $('.output-wrapper');
-    const $output = $('[data-output]');
-    const $outputLength = $('[data-output-length]');
-    const $range = $('input[data-quantity]');
-    const rangeConfig = {
-        'word': {quantity: 5, min: 1, max: 99},
-        'sentence': {quantity: 3, min: 1, max: 15},
-        'paragraph': {quantity: 2, min: 1, max: 10},
-        'list': {quantity: 3, min: 1, max: 10},
-    };
+    class LipsumApp{
+        constructor(config){
+            // range slider config
+            this.rangeConfig = {
+                'word': {min: 1, max: 99},
+                'sentence': {min: 1, max: 15},
+                'paragraph': {min: 1, max: 10},
+                'list': {min: 1, max: 10},
+            };
 
+            // options (to save to storage)
+            this.options = {
+                ...{
+                    dev: false,
+                    type: 'word',
+                    rangeQuantity: {
+                        'word': 5,
+                        'sentence': 3,
+                        'paragraph': 2,
+                        'list': 3,
+                    },
+                    onChange: () => {
+                    }
+                }, ...config
+            };
 
-    const set = (type = typeControl.getType(), quantity = quantityControl.val()) => {
-        const options = {
-            type, quantity, hasPrefix: checkboxesControl.is('prefix'),
-            textTransform: textTransformControl.get()
-        };
-        const val = Lipsum.get(options);
+            this.value = '';
+            this.range = $('input[data-quantity]');
+            this.buttonCopySlug = $('[data-copy-slug]');
+            this.buttonCopyText = $('[data-copy-text]');
+            this.outputLength = $('[data-output-length]');
+            this.output = $('[data-output]');
+            this.outputWrapper = $('.output-wrapper');
 
-        // set output
-        $output.html(val);
+            // controllers
+            this.control = {
+                quantity: this.range.rangeSlider({
+                    hasArrows: true, onChange: data => {
+                        this.options.rangeQuantity[this.options.type] = data.val;
 
-        $outputLength.text(val.length);
-    };
+                        this.updateRangeSlider(data.val);
+                        this.generate();
+                    }
+                }),
+                type: $('.btn-group.is-indicator').buttonGroupEffect({
+                    onChange: data => {
+                        this.options.type = data.type;
 
-    /**
-     * Change typeControl
-     * @param type
-     */
-    const changeType = type => {
-        // update button
-        if(type === 'word'){
-            $btnCopySlug.removeClass('disabled');
-        }else{
-            $btnCopySlug.addClass('disabled');
+                        // update copy button
+                        if(this.options.type === 'word'){
+                            this.buttonCopySlug.removeClass('disabled');
+                        }else{
+                            this.buttonCopySlug.addClass('disabled');
+                        }
+
+                        this.updateRangeSlider();
+                        this.generate();
+                    }
+                }),
+                checkboxes: $('[data-checkbox]').checkboxes({
+                    onChange: data => {
+                        if(data.checkbox === 'prefix'){
+                            this.generate();
+                        }
+                    }
+                }),
+                textTransform: $('[data-text-transform]').dropdownControl({
+                    onChange: () => this.generate()
+                })
+            };
+
+            // init
+            this.init();
         }
 
-        // update range slider
-        if(rangeConfig[type]){
-            $range.attr('min', rangeConfig[type].min);
-            $range.attr('max', rangeConfig[type].max);
-            quantityControl.updateLabels();
+        init(){
+            if(this.options.dev) console.log('init', this.options);
+
+            // button > copy text
+            this.buttonCopyText.on('click', () => {
+                copyValueToClipboard(this.output.html());
+                const text = `Copied ${app.control.quantity.val()} ${app.control.type.getType() === 'list' ? 'list item' : app.control.type.getType()}${app.control.quantity.val() > 1 ? 's' : ''} 🧡`;
+                this.toast(text);
+            });
+
+            // button > copy slug (type:word)
+            this.buttonCopySlug.on('click', () => {
+                copyValueToClipboard(stringToSlug(this.output.html()));
+                this.toast('Slug copied 🧡');
+            });
+
+
+            // update range slider
+            this.updateRangeSlider();
+
+            // update type
+            this.control.type.set(this.options.type);
+
+            // first run
+            this.generate();
         }
 
-        // output
-        set(type);
-    };
+        updateRangeSlider(number = this.options.rangeQuantity[this.options.type]){
+            if(this.options.dev) console.log('updateRangeSlider', number);
 
-
-    // range slider > quantity
-    quantityControl = $range.rangeSlider({hasArrows: true, onChange: () => set()});
-
-    // button group > typeControl
-    typeControl = $('.btn-group.is-indicator').buttonGroupEffect({
-        onClick: event => changeType($(event.target).attr('data-type'))
-    });
-
-    // checkboxes > options
-    checkboxesControl = $('[data-checkbox]').checkboxes({
-        onChange: data => {
-            if(data.checkbox === 'prefix'){
-                set();
+            // update range slider
+            if(this.rangeConfig[this.options.type]){
+                this.range.attr('min', this.rangeConfig[this.options.type].min);
+                this.range.attr('max', this.rangeConfig[this.options.type].max);
+                this.control.quantity.updateLabels();
             }
+
+            // update quantity
+            this.control.quantity.set(number, false);
         }
-    });
 
-    // select > textTransformControl
-    textTransformControl = $('[data-text-transform]').dropdownControl({
-        onChange: () => set()
-    });
+        generate(){
+            this.value = Lipsum.get(this.options);
 
-    // on load
-    changeType('word');
+            // set output
+            this.output.html(this.value);
 
-    // button > copy text
-    $btnCopyText.on('click', () => {
-        copyValueToClipboard($output.html());
-        const text = `Copied ${quantityControl.val()} ${typeControl.getType() === 'list' ? 'list item' : typeControl.getType()}${quantityControl.val() > 1 ? 's' : ''} 🧡`;
-        $().toast({text: text, wrapper: $outputWrapper});
-    });
+            // update length
+            this.outputLength.text(this.value.length);
 
-    // button > copy slug (type:word)
-    $btnCopySlug.on('click', () => {
-        copyValueToClipboard(stringToSlug($output.html()));
-        $().toast({text: 'Slug copied 🧡', wrapper: $outputWrapper});
+            // event > onChange
+            this.options.onChange(this.options);
+
+            if(this.options.dev) console.log('generated', this.options);
+        }
+
+        toast(text){
+            $().toast({text: text, wrapper: this.outputWrapper});
+        }
+    }
+
+
+    // init app
+    const options = {
+        dev: true,
+        type: 'list',
+        rangeQuantity: {
+            'word': 1,
+            'sentence': 2,
+            'paragraph': 3,
+            'list': 4,
+        }
+    };
+    const app = new LipsumApp({
+        ...options,
+        onChange: data => {
+            //console.log(data)
+        }
     });
 });

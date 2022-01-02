@@ -8,45 +8,47 @@ jQuery(function($){
             ...{
                 trigger: '.btn',
                 activeIndex: 0,
-                onClick: event => {
+                onChange: () => {
                 }
             }, ...config
         };
         let $active;
-        $(this).each(function(){
-            const $wrapper = $(this);
-            const $triggers = $wrapper.find(options.trigger);
+        const $wrapper = $(this);
+        const $triggers = $wrapper.find(options.trigger);
 
 
-            // indicator
-            $wrapper.prepend('<i class="btn-group-indicator"></i>');
-            const $indicator = $wrapper.find('.btn-group-indicator');
+        // indicator
+        $wrapper.prepend('<i class="btn-group-indicator"></i>');
+        const $indicator = $wrapper.find('.btn-group-indicator');
 
-            // activate
-            const activate = $trigger => {
-                $trigger.addClass('active');
-                $triggers.not($trigger).removeClass('active');
+        const getButton = type => $triggers.filter(`[data-type="${type}"]`);
+        const getType = () => $active.attr('data-type');
 
-                $indicator.css({
-                    height: $trigger.outerHeight(),
-                    width: $trigger.outerWidth(),
-                    left: $trigger.parent().position().left + 'px',
-                });
+        // activate
+        const activate = $trigger => {
+            $trigger.addClass('active');
+            $triggers.not($trigger).removeClass('active');
 
-                $active = $trigger;
-            };
-            activate($triggers.eq(options.activeIndex));
-
-            // on click
-            $triggers.on('click', function(event){
-                options.onClick(event);
-                activate($(this));
+            $indicator.css({
+                height: $trigger.outerHeight(),
+                width: $trigger.outerWidth(),
+                left: $trigger.parent().position().left + 'px',
             });
+
+            $active = $trigger;
+        };
+        activate($triggers.eq(options.activeIndex));
+
+        // on click
+        $triggers.on('click', function(event){
+            activate($(this));
+            options.onChange({type: getType(), target: $(this), event});
         });
 
         return {
+            set: type => activate(getButton(type)),
             get: () => $active,
-            getType: () => $active.attr('data-type')
+            getType
         };
     };
 
@@ -95,9 +97,13 @@ jQuery(function($){
         }
 
         // methods
-        const set = (number) => {
+        const set = (number, triggerEvent = true) => {
             $this.val(number);
-            change();
+            if(triggerEvent){
+                change();
+            }else{
+                updateLabels();
+            }
         };
         const change = () => {
             options.onChange({target: this, val: val()});
