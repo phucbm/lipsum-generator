@@ -45,7 +45,8 @@ jQuery(function($){
         });
 
         return {
-            get: () => $active
+            get: () => $active,
+            getType: () => $active.attr('data-type')
         };
     };
 
@@ -172,7 +173,7 @@ jQuery(function($){
         const get = checkbox => {
             const $input = typeof checkbox === 'string' ? getInput(checkbox) : checkbox;
             return {
-                isChecked: $input.is(':checked'),
+                isChecked: is(checkbox),
                 checkbox: $input.attr('data-checkbox'),
                 target: $input
             };
@@ -181,13 +182,14 @@ jQuery(function($){
             getInput(checkbox).prop("checked", isChecked);
             options.onChange(get(checkbox));
         };
-        const toggle = checkbox => set(checkbox, !get(checkbox).isChecked);
+        const toggle = checkbox => set(checkbox, !is(checkbox));
+        const is = checkbox => getInput(checkbox).is(':checked');
 
 
         $this.on('change', function(){
             options.onChange(get($(this)));
         });
 
-        return {get, set, toggle};
+        return {get, set, toggle, is};
     };
 });

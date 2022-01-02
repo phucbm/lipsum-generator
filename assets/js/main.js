@@ -1,5 +1,5 @@
 jQuery(function($){
-    let quantity, type, checkboxes;
+    let quantityControl, typeControl, checkboxesControl;
     const $btnCopyText = $('[data-copy-text]');
     const $btnCopySlug = $('[data-copy-slug]');
     const $outputWrapper = $('.output-wrapper');
@@ -13,15 +13,23 @@ jQuery(function($){
     };
 
 
-    const set = (type, quantity) => {
-        const val = Lipsum.get(type, quantity);
+    const set = (type = typeControl.getType(), quantity = quantityControl.val()) => {
+        const options = {
+            type, quantity, hasPrefix: checkboxesControl.is('prefix')
+        };
+        const val = Lipsum.get(options);
 
         // set output
         $output.val(val);
 
         $outputLength.text(val.length);
     };
-    const change = type => {
+
+    /**
+     * Change typeControl
+     * @param type
+     */
+    const changeType = type => {
         // update button
         if(type === 'word'){
             $btnCopySlug.removeClass('disabled');
@@ -33,33 +41,33 @@ jQuery(function($){
         if(rangeConfig[type]){
             $range.attr('min', rangeConfig[type].min);
             $range.attr('max', rangeConfig[type].max);
-            quantity.updateLabels();
+            quantityControl.updateLabels();
         }
 
         // output
-        set(type, quantity.val());
+        set(type);
     };
 
 
     // range slider > quantity
-    quantity = $range.rangeSlider({
-        onChange: data => set(type.get().attr('data-type'), data.val)
-    });
+    quantityControl = $range.rangeSlider({onChange: () => set()});
 
-    // button group > type
-    type = $('.btn-group.is-indicator').buttonGroupEffect({
-        onClick: event => change($(event.target).attr('data-type'))
+    // button group > typeControl
+    typeControl = $('.btn-group.is-indicator').buttonGroupEffect({
+        onClick: event => changeType($(event.target).attr('data-type'))
     });
 
     // checkboxes > options
-    checkboxes = $('[data-checkbox]').checkboxes({
+    checkboxesControl = $('[data-checkbox]').checkboxes({
         onChange: data => {
-            console.log(data)
+            if(data.checkbox === 'prefix'){
+                set();
+            }
         }
     });
 
     // on load
-    change('word');
+    changeType('word');
 
     // button > copy text
     $btnCopyText.on('click', () => {
