@@ -191,21 +191,25 @@ jQuery(function($){
         const get = checkbox => {
             const $input = typeof checkbox === 'string' ? getInput(checkbox) : checkbox;
             return {
-                isChecked: is(checkbox),
+                isChecked: is($input),
                 checkbox: $input.attr('data-checkbox'),
                 target: $input
             };
         };
-        const set = (checkbox, isChecked) => {
+        const set = (checkbox, isChecked, trigger = true) => {
             getInput(checkbox).prop("checked", isChecked);
-            change();
+            if(trigger){
+                change();
+            }
         };
         const toggle = checkbox => set(checkbox, !is(checkbox));
-        const is = checkbox => getInput(checkbox).is(':checked');
-        const change = () => options.onChange(get($(this)));
+        const is = checkbox => typeof checkbox === 'string' ? getInput(checkbox).is(':checked') : checkbox.is(':checked');
+        const change = $input => options.onChange(get($input));
 
 
-        $this.on('change', change);
+        $this.on('change', function(){
+            change($(this));
+        });
 
         return {get, set, toggle, is};
     };
@@ -227,9 +231,11 @@ jQuery(function($){
         };
 
         const get = () => $this.val();
-        const set = value => {
+        const set = (value, trigger = true) => {
             $this.val(value);
-            $this.trigger('change');
+            if(trigger){
+                $this.trigger('change');
+            }
         };
 
         $this.on('change', () => {

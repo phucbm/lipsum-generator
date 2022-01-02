@@ -15,12 +15,14 @@ jQuery(function($){
                     dev: false,
                     type: 'word',
                     rangeQuantity: {
-                        'word': 5,
-                        'sentence': 3,
-                        'paragraph': 2,
-                        'list': 3,
+                        'word': 5, 'sentence': 3, 'paragraph': 2, 'list': 3,
                     },
+                    hasPrefix: false,
+                    isAutoCopy: false,
+                    textTransform: 'capitalizeFirstWordInSentence',
                     onChange: () => {
+                    },
+                    onOptionsUpdate: () => {
                     }
                 }, ...config
             };
@@ -39,11 +41,11 @@ jQuery(function($){
                     hasArrows: true, onChange: data => {
                         this.options.rangeQuantity[this.options.type] = data.val;
 
+                        this.triggerOptionsUpdateEvent();
                         this.updateRangeSlider(data.val);
                         this.generate();
                     }
-                }),
-                type: $('.btn-group.is-indicator').buttonGroupEffect({
+                }), type: $('.btn-group.is-indicator').buttonGroupEffect({
                     onChange: data => {
                         this.options.type = data.type;
 
@@ -54,19 +56,32 @@ jQuery(function($){
                             this.buttonCopySlug.addClass('disabled');
                         }
 
+                        this.triggerOptionsUpdateEvent();
                         this.updateRangeSlider();
                         this.generate();
                     }
-                }),
-                checkboxes: $('[data-checkbox]').checkboxes({
+                }), checkboxes: $('[data-checkbox]').checkboxes({
                     onChange: data => {
-                        if(data.checkbox === 'prefix'){
-                            this.generate();
+                        switch(data.checkbox){
+                            case 'prefix':
+                                this.options.hasPrefix = data.isChecked;
+                                this.generate();
+                                break;
+                            case 'auto-copy':
+                                this.options.isAutoCopy = data.isChecked;
+                                break;
                         }
+
+                        this.triggerOptionsUpdateEvent();
                     }
                 }),
                 textTransform: $('[data-text-transform]').dropdownControl({
-                    onChange: () => this.generate()
+                    onChange: data => {
+                        this.options.textTransform = data;
+
+                        this.triggerOptionsUpdateEvent();
+                        this.generate();
+                    }
                 })
             };
 
@@ -97,8 +112,12 @@ jQuery(function($){
             // update type
             this.control.type.set(this.options.type);
 
-            // first run
-            this.generate();
+            // update checkbox prefix (no trigger generate)
+            this.control.checkboxes.set('prefix', this.options.hasPrefix, false);
+            this.control.checkboxes.set('auto-copy', this.options.isAutoCopy, false);
+
+            // update text transform (also generate)
+            this.control.textTransform.set(this.options.textTransform);
         }
 
         updateRangeSlider(number = this.options.rangeQuantity[this.options.type]){
@@ -133,24 +152,21 @@ jQuery(function($){
         toast(text){
             $().toast({text: text, wrapper: this.outputWrapper});
         }
+
+        triggerOptionsUpdateEvent(){
+            this.options.onOptionsUpdate(this.options);
+        }
     }
 
 
+    // load settings from storage
+    const browserStorage = new MyStorage('lipsum-generator');
+
     // init app
-    const options = {
-        dev: true,
-        type: 'list',
-        rangeQuantity: {
-            'word': 1,
-            'sentence': 2,
-            'paragraph': 3,
-            'list': 4,
-        }
-    };
     const app = new LipsumApp({
-        ...options,
-        onChange: data => {
-            //console.log(data)
+        ...browserStorage.get(), dev: false,
+        onOptionsUpdate: data => {
+            browserStorage.set(data);
         }
     });
 });
