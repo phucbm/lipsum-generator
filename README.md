@@ -13,13 +13,17 @@ There are 2 versions of Lipsum Generator that you can choose according to your n
 
 ### 👉 **[Chrome Extension version](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)**
 
-![](assets/img/screenshot-extension.png)
+![](media/v3/1280-ext.jpg)
+![](media/v3/1280-word.jpg)
+![](media/v3/1280-sentence.jpg)
+![](media/v3/1280-paragraph.jpg)
+![](media/v3/1280-list.jpg)
 
 By using extension, you can have this tool works even when you're offline.
 
 ### 👉 **[Web version](https://lipsum-generator.netlify.app)**
 
-![](assets/img/screenshot-web-app.png)
+![](media/v3/1280-web-app.jpg)
 
 The web version allows you to use on any browser, not just Chrome.
 
