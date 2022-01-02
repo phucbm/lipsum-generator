@@ -180,16 +180,44 @@ jQuery(function($){
         };
         const set = (checkbox, isChecked) => {
             getInput(checkbox).prop("checked", isChecked);
-            options.onChange(get(checkbox));
+            change();
         };
         const toggle = checkbox => set(checkbox, !is(checkbox));
         const is = checkbox => getInput(checkbox).is(':checked');
+        const change = () => options.onChange(get($(this)));
 
 
-        $this.on('change', function(){
-            options.onChange(get($(this)));
-        });
+        $this.on('change', change);
 
         return {get, set, toggle, is};
     };
+
+
+    /**
+     * Dropdown control
+     * @param config
+     * @returns {boolean|{set: set, get: (function(): *)}}
+     */
+    $.fn.dropdownControl = function(config){
+        const $this = $(this);
+        if(!$this.is('select')) return false;
+        const options = {
+            ...{
+                onChange: () => {
+                }
+            }, ...config
+        };
+
+        const get = () => $this.val();
+        const set = value => {
+            $this.val(value);
+            $this.trigger('change');
+        };
+
+        $this.on('change', () => {
+            options.onChange(get());
+        });
+
+        return {get, set};
+    }
 });

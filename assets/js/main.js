@@ -1,5 +1,5 @@
 jQuery(function($){
-    let quantityControl, typeControl, checkboxesControl;
+    let quantityControl, typeControl, checkboxesControl, textTransformControl;
     const $btnCopyText = $('[data-copy-text]');
     const $btnCopySlug = $('[data-copy-slug]');
     const $outputWrapper = $('.output-wrapper');
@@ -63,6 +63,13 @@ jQuery(function($){
             if(data.checkbox === 'prefix'){
                 set();
             }
+        }
+    });
+
+    // select > textTransformControl
+    textTransformControl = $('[data-text-transform]').dropdownControl({
+        onChange: data => {
+            console.log(data)
         }
     });
 
