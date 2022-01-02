@@ -15,7 +15,8 @@ jQuery(function($){
 
     const set = (type = typeControl.getType(), quantity = quantityControl.val()) => {
         const options = {
-            type, quantity, hasPrefix: checkboxesControl.is('prefix')
+            type, quantity, hasPrefix: checkboxesControl.is('prefix'),
+            textTransform: textTransformControl.get()
         };
         const val = Lipsum.get(options);
 
@@ -68,9 +69,7 @@ jQuery(function($){
 
     // select > textTransformControl
     textTransformControl = $('[data-text-transform]').dropdownControl({
-        onChange: data => {
-            console.log(data)
-        }
+        onChange: () => set()
     });
 
     // on load
