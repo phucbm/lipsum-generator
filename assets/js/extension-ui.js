@@ -61,7 +61,8 @@ jQuery(function($){
         if($this.attr('type') !== 'range') return false;
         const options = {
             ...{
-                step: 5,
+                step: 1,
+                hasArrows: false,
                 onChange: () => {
                 }
             }, ...config
@@ -75,12 +76,23 @@ jQuery(function($){
 
         // generate html
         $this.wrapAll('<div class="range-slider-inner">');
-        const $wrapper = $this.parent();
+        const $wrapper = $this.closest('.range-slider');
+        const $inner = $this.parent();
 
         // labels
-        $wrapper.append(`<div class="range-slider-label min edge">${min()}</div>`);
-        $wrapper.append(`<div class="range-slider-label max edge">${max()}</div>`);
-        $wrapper.append(`<div class="range-slider-label val">${val()}</div>`);
+        $inner.append(`<div class="range-slider-label min edge">${min()}</div>`);
+        $inner.append(`<div class="range-slider-label max edge">${max()}</div>`);
+        $inner.append(`<div class="range-slider-label val">${val()}</div>`);
+
+        // arrows
+        if(options.hasArrows){
+            $wrapper.addClass('range-slider-has-arrows');
+            $wrapper.prepend(`<div class="range-slider-arrow down"><button></button></div>`);
+            $wrapper.append(`<div class="range-slider-arrow up"><button></button></div>`);
+
+            $wrapper.find('.range-slider-arrow.down button').on('click', decrease);
+            $wrapper.find('.range-slider-arrow.up button').on('click', increase);
+        }
 
         // methods
         const set = (number) => {
@@ -95,10 +107,10 @@ jQuery(function($){
             const thumbHalfWidth = 15 * 0.5;
             const left = (((val() - min()) / (max() - min())) * (($this.width() - thumbHalfWidth) - thumbHalfWidth)) + thumbHalfWidth;
 
-            $wrapper.find('.range-slider-label.min').text(min());
-            $wrapper.find('.range-slider-label.max').text(max());
-            $wrapper.find('.range-slider-label.val').text(val());
-            $wrapper.find('.range-slider-label.val').css('left', `${left}px`);
+            $inner.find('.range-slider-label.min').text(min());
+            $inner.find('.range-slider-label.max').text(max());
+            $inner.find('.range-slider-label.val').text(val());
+            $inner.find('.range-slider-label.val').css('left', `${left}px`);
         };
 
         // on init

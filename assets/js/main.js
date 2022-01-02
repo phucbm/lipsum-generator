@@ -52,7 +52,7 @@ jQuery(function($){
 
 
     // range slider > quantity
-    quantityControl = $range.rangeSlider({onChange: () => set()});
+    quantityControl = $range.rangeSlider({hasArrows: true, onChange: () => set()});
 
     // button group > typeControl
     typeControl = $('.btn-group.is-indicator').buttonGroupEffect({

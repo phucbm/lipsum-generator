@@ -104,6 +104,7 @@ a:hover, a:focus {color:var(--color-on-primary);}
     --thumb-width:15px;
 }
 .range-slider-inner {position:relative; padding:15px 0 0;}
+.range-slider label {display:block; width:100%;}
 
 /* track */
 .range-slider input[type=range] {
@@ -141,6 +142,30 @@ a:hover, a:focus {color:var(--color-on-primary);}
 .range-slider-label.min {left:0;}
 .range-slider-label.max {right:0;}
 .range-slider-label.val {transform:translateX(-50%); min-width:20px; padding:0 2px; text-align:center; z-index:2;}
+
+/* has arrows */
+.range-slider-has-arrows {display:flex;}
+.range-slider-arrow {padding:15px 0 0;}
+.range-slider-arrow.down {padding-right:3px;}
+.range-slider-arrow.up {padding-left:3px;}
+.range-slider-arrow.down button:before {border-right:10px solid var(--range-arrow-color);}
+.range-slider-arrow.up button:before {border-left:10px solid var(--range-arrow-color);}
+
+.range-slider-arrow button {
+    --range-arrow-color:var(--color-on-secondary);
+    background:transparent; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    width:20px; height:25px; border-radius:3px;
+}
+.range-slider-arrow button:before {
+    content:""; display:block; width:0; height:0;
+    border-top:5px solid transparent;
+    border-bottom:5px solid transparent;
+    transition:var(--transition);
+}
+.range-slider-arrow button:hover, .range-slider-arrow button:focus {
+    --range-arrow-color:#fff;
+}
 
 /*********************************
  * Checkbox
