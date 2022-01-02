@@ -163,6 +163,9 @@ jQuery(function($){
         }
     }
 
+    // detect
+    const isExtension = typeof chrome.storage !== 'undefined';
+    $('body').addClass(isExtension ? 'is-extension' : 'is-web');
 
     // load settings from storage
     const browserStorage = new MyStorage('lipsum-generator');
@@ -173,10 +176,14 @@ jQuery(function($){
         onOptionsUpdate: data => {
             browserStorage.set(data);
         },
-        onAfterInit: () => {
+        onAfterInit: data => {
             setTimeout(() => {
                 $('.app-body.loading').removeClass('loading');
-            }, 200);
+
+                if(isExtension && data.isAutoCopy){
+                    $('[data-copy-text]').trigger('click');
+                }
+            }, 300);
         }
     });
 });
