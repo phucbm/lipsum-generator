@@ -123,7 +123,7 @@ jQuery(function($){
             ...{
                 wrapper: $('body'),
                 text: '',
-                delay: 700, // ms
+                delay: 850, // ms
             }, ...config
         };
         const id = uniqueId();

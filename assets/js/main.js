@@ -79,7 +79,8 @@ jQuery(function($){
     // button > copy text
     $btnCopyText.on('click', () => {
         copyValueToClipboard($output.html());
-        $().toast({text: 'Text copied 🧡', wrapper: $outputWrapper});
+        const text = `Copied ${quantityControl.val()} ${typeControl.getType() === 'list' ? 'list item' : typeControl.getType()}${quantityControl.val() > 1 ? 's' : ''} 🧡`;
+        $().toast({text: text, wrapper: $outputWrapper});
     });
 
     // button > copy slug (type:word)
