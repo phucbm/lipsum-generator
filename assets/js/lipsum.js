@@ -21,7 +21,7 @@
             this.options = {
                 ...{
                     sourceString: 'lorem ipsum dolor sit amet consectetur adipiscing elit integer nec odio praesent libero sed cursus ante dapibus diam nisi nulla quis sem at nibh elementum imperdiet duis sagittis mauris fusce tellus augue semper porta massa vestibulum lacinia arcu eget class aptent taciti sociosqu ad litora torquent per conubia nostra inceptos himenaeos curabitur sodales ligula in dignissim nunc tortor pellentesque aenean quam scelerisque maecenas mattis convallis tristique proin ut vel egestas porttitor morbi lectus risus iaculis suscipit luctus non ac turpis aliquet metus ullamcorper tincidunt euismod quisque volutpat condimentum velit nam urna neque a facilisi fringilla suspendisse potenti feugiat mi consequat sapien etiam ultrices justo eu magna lacus vitae pharetra auctor interdum primis faucibus orci et posuere cubilia curae molestie dui blandit congue pede facilisis laoreet donec viverra malesuada enim est pulvinar sollicitudin cras id nisl felis venenatis commodo ultricies accumsan pretium fermentum nullam purus aliquam mollis vivamus consectetuer si leo eros maximus gravida erat letius ex hendrerit lobortis tempus rutrum efficitur phasellus natoque penatibus magnis dis parturient montes nascetur ridiculus mus vehicula bibendum vulputate dictum finibus eleifend rhoncus placerat tempor ornare hac habitasse platea dictumst habitant senectus netus fames',
-                    prefixString: 'lorem ipsum dolor sit amet',
+                    prefixString: 'Lorem ipsum dolor sit amet',
                     type: 'word', // default type
                     quantity: this.defaultQuantity[config.type]
                 }, ...config
@@ -81,28 +81,62 @@
          */
         getString(type = this.options.type, quantity = this.options.quantity, array = []){
             array = array.length ? array : this.getArray(type, quantity);
-            let result = '';
+            let string = '';
 
             switch(type){
                 case "word":
-                    for(const word of array) result += word + ' ';
+                    for(const word of array) string += word + ' ';
                     break;
                 case "sentence":
-                    for(const words of array){
-                        result += capitalizeFirstLetter(this.getString("word", quantity, words)) + '. ';
+                    for(let wordsArray of array){
+                        string += capitalizeFirstLetter(this.getString("word", quantity, wordsArray)) + '. ';
                     }
                     break;
                 case "paragraph":
-                    for(const sentences of array){
-                        result += this.getString("sentence", quantity, sentences) + '\n\n';
+                    for(const sentencesArray of array){
+                        string += this.getString("sentence", quantity, sentencesArray) + '\n\n';
                     }
                     break;
             }
 
             // remove the last white space
-            result = result.trim();
+            string = string.trim();
+
+            return string;
+        }
+
+
+        /**
+         * Get lipsum string
+         * @returns {*|string|string}
+         */
+        get(){
+            let result = this.getString();
+
+            // prefix
+            result = this.options.hasPrefix ? this.setPrefix(result) : result;
 
             return result;
+        }
+
+
+        /**
+         * Set prefix text to string
+         * @param string
+         * @returns {string}
+         */
+        setPrefix(string){
+            const stringArray = string.split(' '),
+                prefixArray = parseString(this.options.prefixString),
+                max = Math.min(stringArray.length, prefixArray.length);
+
+            for(let i = 0; i < max; i++){
+                stringArray[i] = prefixArray[i];
+            }
+
+            string = stringArray.join(' ');
+
+            return string;
         }
     }
 
@@ -122,9 +156,8 @@
         };
 
         const lipsum = new LipsumCore(options);
-        console.log(options)
 
-        return lipsum.getString();
+        return lipsum.get();
     };
 
 })(window.Lipsum = window.Lipsum || {});
