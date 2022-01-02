@@ -9,3 +9,5 @@
     transition:var(--transition);
 }
 .output-wrapper:hover .output-length {opacity:0;}
+
+.output-wrapper ul {margin-left:15px;}

@@ -9,7 +9,8 @@ jQuery(function($){
     const rangeConfig = {
         'word': {quantity: 5, min: 1, max: 99},
         'sentence': {quantity: 3, min: 1, max: 15},
-        'paragraph': {quantity: 2, min: 1, max: 10}
+        'paragraph': {quantity: 2, min: 1, max: 10},
+        'list': {quantity: 3, min: 1, max: 10},
     };
 
 
@@ -21,7 +22,7 @@ jQuery(function($){
         const val = Lipsum.get(options);
 
         // set output
-        $output.val(val);
+        $output.html(val);
 
         $outputLength.text(val.length);
     };
@@ -77,13 +78,13 @@ jQuery(function($){
 
     // button > copy text
     $btnCopyText.on('click', () => {
-        copyValueToClipboard($output.val());
+        copyValueToClipboard($output.html());
         $().toast({text: 'Text copied 🧡', wrapper: $outputWrapper});
     });
 
     // button > copy slug (type:word)
     $btnCopySlug.on('click', () => {
-        copyValueToClipboard(stringToSlug($output.val()));
+        copyValueToClipboard(stringToSlug($output.html()));
         $().toast({text: 'Slug copied 🧡', wrapper: $outputWrapper});
     });
 });

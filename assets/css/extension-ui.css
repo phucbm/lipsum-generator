@@ -181,7 +181,7 @@ a:hover, a:focus {color:var(--color-on-primary);}
 /*********************************
  * Textarea
  *********************************/
-textarea {
+textarea, [data-output] {
     background:var(--color-secondary); color:var(--color-on-secondary);
     display:block; border-radius:4px; width:100%;
     height:200px; resize:none; padding:10px; cursor:copy;
@@ -189,7 +189,9 @@ textarea {
     -webkit-user-select:none; /* Safari */
     -ms-user-select:none; /* IE 10 and IE 11 */
     user-select:none; /* Standard syntax */
+    overflow:auto; white-space:pre-line;
 }
+[data-output]:hover,
 textarea:hover, textarea:focus {
     background:var(--color-secondary-hightlight); color:var(--color-on-secondary-hightlight);
 }

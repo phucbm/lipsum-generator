@@ -6,16 +6,18 @@
 ;(function(Lipsum){
     class LipsumCore{
         constructor(config){
-            this.types = ['word', 'sentence', 'paragraph'];
+            this.types = ['word', 'sentence', 'paragraph', 'list'];
             this.defaultQuantity = {
                 'word': 5,
                 'sentence': 3,
-                'paragraph': 2
+                'paragraph': 2,
+                'list': 3
             };
             this.typeRandomRange = {
                 'word': {},
-                'sentence': {from: 6, to: 12},
-                'paragraph': {from: 4, to: 8}
+                'sentence': {from: 6, to: 12}, // words in each sentence
+                'paragraph': {from: 4, to: 8}, // sentences in each paragraph
+                'list': {from: 1, to: 3}, // sentences in each item
             };
 
             this.options = {
@@ -42,9 +44,6 @@
                 console.warn(`[${type}] is not supported!`);
                 return;
             }
-
-            const from = this.typeRandomRange[type].from;
-            const to = this.typeRandomRange[type].to;
             const result = [];
 
             switch(type){
@@ -59,12 +58,17 @@
                     break;
                 case "sentence":
                     while(result.length < quantity){
-                        result.push(this.getArray('word', random(from, to)));
+                        result.push(this.getArray('word', random(this.typeRandomRange[type].from, this.typeRandomRange[type].to)));
                     }
                     break;
                 case "paragraph":
                     while(result.length < quantity){
-                        result.push(this.getArray('sentence', random(from, to)));
+                        result.push(this.getArray('sentence', random(this.typeRandomRange[type].from, this.typeRandomRange[type].to)));
+                    }
+                    break;
+                case "list":
+                    while(result.length < quantity){
+                        result.push(this.getArray('sentence', random(this.typeRandomRange[type].from, this.typeRandomRange[type].to)));
                     }
                     break;
             }
@@ -93,7 +97,7 @@
                     break;
                 case "sentence":
                     for(let wordsArray of array){
-                        let value = this.getString("word", quantity, wordsArray);
+                        let value = this.getString("word", null, wordsArray);
                         if(this.options.textTransform === 'capitalizeFirstWordInSentence'){
                             value = capitalizeFirstLetter(value);
                         }
@@ -102,8 +106,15 @@
                     break;
                 case "paragraph":
                     for(const sentencesArray of array){
-                        string += this.getString("sentence", quantity, sentencesArray) + '\n\n';
+                        string += this.getString("sentence", null, sentencesArray) + '\n\n';
                     }
+                    break;
+                case "list":
+                    string += '<ul>';
+                    for(const sentencesArray of array){
+                        string += `<li>${this.getString("sentence", null, sentencesArray)}</li>`;
+                    }
+                    string += '</ul>';
                     break;
             }
 
@@ -147,17 +158,27 @@
          * @returns {string}
          */
         setPrefix(string){
-            const stringArray = string.split(' '),
-                prefixArray = parseString(this.options.prefixString),
-                max = Math.min(stringArray.length, prefixArray.length);
+            const replace = string => {
+                const stringArray = string.split(' '),
+                    prefixArray = parseString(this.options.prefixString),
+                    max = Math.min(stringArray.length, prefixArray.length);
 
-            for(let i = 0; i < max; i++){
-                stringArray[i] = prefixArray[i];
+                for(let i = 0; i < max; i++){
+                    stringArray[i] = prefixArray[i];
+                }
+
+                string = stringArray.join(' ');
+
+                return string;
+            };
+
+
+            if(this.options.type === 'list'){
+                const $firstItem = $(string).find('li').eq(0);
+                return string.replace($firstItem.text(), replace($firstItem.text()));
+            }else{
+                return replace(string);
             }
-
-            string = stringArray.join(' ');
-
-            return string;
         }
     }
 
