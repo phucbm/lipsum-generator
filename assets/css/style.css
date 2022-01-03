@@ -11,3 +11,15 @@
 .output-wrapper:hover .output-length {opacity:0;}
 
 .output-wrapper ul {margin-left:15px;}
+
+/* Range slider */
+body.is-web .range-slider-arrow {transform:translateY(3px);}
+
+/* Badge */
+body:not(.is-web) .product-hunt-badge {display:none;}
+.product-hunt-badge {
+    position:fixed; bottom:60px; right:0;
+}
+@media (hover:none) {
+    .product-hunt-badge {display:none;}
+}
