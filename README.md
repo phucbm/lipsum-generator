@@ -1,9 +1,11 @@
-# Lipsum Generator v3.0.0
+# Lipsum Generator v3.0.0 
 
 [![release](https://badgen.net/github/release/phucbm/lipsum-generator/?cache=600)](https://github.com/phucbm/lipsum-generator/releases/latest)
 [![license](https://badgen.net/github/license/phucbm/lipsum-generator/)](https://github.com/phucbm/lipsum-generator/blob/main/LICENSE)
 [![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/e472906a-3df7-4e0f-9515-9c55ba356c28/deploy-status)](https://app.netlify.com/sites/lipsum-generator/deploys)
+
+<a href="https://www.producthunt.com/posts/lipsum-generator?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-lipsum-generator" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=325264&theme=light" alt="Lipsum Generator - Generate lorem ipsum dummy text in a drop of a hat. | Product Hunt" style="width: 250px; height: 50px;" width="250" height="50" /></a>
 
 > Chrome Extension to generate lorem ipsum dummy text.
 
