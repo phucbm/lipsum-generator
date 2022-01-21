@@ -1,7 +1,8 @@
 # Lipsum Generator v3.0.0 
 
 [![release](https://badgen.net/github/release/phucbm/lipsum-generator/?cache=600)](https://github.com/phucbm/lipsum-generator/releases/latest)
-[![license](https://badgen.net/github/license/phucbm/lipsum-generator/)](https://github.com/phucbm/lipsum-generator/blob/main/LICENSE)
+[![users](https://badgen.net/chrome-web-store/users/fepopmflofkppphpkfjdbmimglkeifna)](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)
+[![rating](https://badgen.net/chrome-web-store/rating/fepopmflofkppphpkfjdbmimglkeifna)](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)
 [![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/e472906a-3df7-4e0f-9515-9c55ba356c28/deploy-status)](https://app.netlify.com/sites/lipsum-generator/deploys)
 
