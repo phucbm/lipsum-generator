@@ -23,3 +23,28 @@ body:not(.is-web) .product-hunt-badge {display:none;}
 @media (hover:none) {
     .product-hunt-badge {display:none;}
 }
+
+/****************************
+ * Custom Easy Select
+****************************/
+.easy-select {
+    width:100%;
+    --es-height:40px;
+    --es-dropdown-width:300px;
+    --es-dropdown-height:300px;
+    --es-option-min-width:250px;
+    --es-scrollbar-width:3px;
+    --es-scrollbar-track:var(--color-secondary);
+    --es-scrollbar-thumb:var(--color-secondary-hightlight);
+    --es-bg:var(--color-secondary);
+    --es-bg-hover:var(--color-primary);
+    --es-text:var(--color-on-secondary);
+    --es-text-hover:var(--color-on-primary);
+    --es-border:1px solid var(--color-secondary-hightlight);
+    --es-border-hover:1px solid var(--color-primary);
+    --es-radius:5px;
+    transition:var(--transition);
+}
+.es-dropdown {
+    min-width:unset;
+}
