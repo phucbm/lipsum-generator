@@ -11,12 +11,21 @@ function uniqueId(prefix = ''){
  * Copy text to clipboard from given value
  * @param val
  */
-const copyValueToClipboard = (val) => {
+const copyValueToClipboard = async (val) => {
+    // Try modern Clipboard API first
+    if(navigator.clipboard && window.isSecureContext){
+        try {
+            await navigator.clipboard.writeText(val);
+            return;
+        } catch(err){
+            console.warn('Clipboard API failed, falling back to execCommand', err);
+        }
+    }
+
+    // Fallback for older browsers or non-secure contexts
     const dummy = document.createElement("textarea");
     document.body.appendChild(dummy);
-
-    dummy.setAttribute("id", "dummy_id");
-    document.getElementById("dummy_id").value = val;
+    dummy.value = val;
     dummy.select();
     document.execCommand("copy");
     document.body.removeChild(dummy);

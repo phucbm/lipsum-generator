@@ -174,8 +174,16 @@
 
 
             if(this.options.type === 'list'){
-                const $firstItem = $(string).find('li').eq(0);
-                return string.replace($firstItem.text(), replace($firstItem.text()));
+                // Parse HTML string to get first <li> element
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = string;
+                const firstItem = tempDiv.querySelector('li');
+                if(firstItem){
+                    const originalText = firstItem.textContent;
+                    const replacedText = replace(originalText);
+                    return string.replace(originalText, replacedText);
+                }
+                return string;
             }else{
                 return replace(string);
             }
