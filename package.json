@@ -1,8 +1,16 @@
 {
+  "name": "lipsum-generator",
+  "version": "3.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "export": "node scripts/export.js"
+  },
   "devDependencies": {
-    "browser-sync": "^3.0.4",
-    "del": "^8.0.1",
-    "gulp": "^5.0.1",
-    "gulp-zip": "^6.1.0"
-  }
+    "archiver": "^7.0.1",
+    "vite": "^6.4.1"
+  },
+  "packageManager": "pnpm@10.26.2"
 }

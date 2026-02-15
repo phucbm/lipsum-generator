@@ -32,12 +32,12 @@ The web version allows you to use on any browser, not just Chrome.
 
 ## Local deployment
 
-```text
-npm install
+```bash
+pnpm install
 ```
 
-```text
-gulp serve
+```bash
+pnpm dev
 ```
 
 ## License
