@@ -1,4 +1,4 @@
-# Lipsum Generator v3.0.0 
+# Lipsum Generator v4.0.0 
 
 [![release](https://badgen.net/github/release/phucbm/lipsum-generator/?cache=600)](https://github.com/phucbm/lipsum-generator/releases/latest)
 [![users](https://badgen.net/chrome-web-store/users/fepopmflofkppphpkfjdbmimglkeifna)](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)
@@ -44,4 +44,4 @@ pnpm dev
 
 [MIT License](https://github.com/phucbm/lipsum-generator/blob/main/LICENSE)
 
-Copyright (c) 2022 Minh-Phuc Bui
+Copyright (c) 2026 [@phucbm](https://github.com/phucbm) - [Lipsum Generator](https://github.com/phucbm/lipsum-generator)

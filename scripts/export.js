@@ -3,7 +3,7 @@ import { readdir, mkdir, rm, stat, copyFile } from 'fs/promises';
 import { resolve, join, dirname } from 'path';
 import archiver from 'archiver';
 
-const version = '3.0.0';
+const version = '4.0.0';
 const files = [
   'assets',
   'index.html',

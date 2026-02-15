@@ -1,7 +1,7 @@
 /**!
- * Lipsum Generator v3.0.0
+ * Lipsum Generator v4.0.0
  * https://github.com/phucbm/lipsum-generator
- * MIT License - Copyright (c) 2022 Minh-Phuc Bui
+ * MIT License - Copyright (c) 2026 @phucbm
  */
 ;(function(Lipsum){
     class LipsumCore{
