@@ -1,0 +1,7 @@
+/node_modules/
+/.idea/.gitignore
+/.idea/lipsum-generator.iml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/vcs.xml
+/.claude/settings.local.json
