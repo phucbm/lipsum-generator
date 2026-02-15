@@ -7,7 +7,9 @@ const version = '4.0.0';
 const files = [
   'assets',
   'index.html',
-  'manifest.json'
+  'manifest.json',
+  'background.js',
+  'content.js'
 ];
 
 async function exportExtension() {

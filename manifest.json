@@ -4,7 +4,21 @@
   "version": "4.0.0",
   "manifest_version": 3,
   "permissions": [
-    "storage"
+    "storage",
+    "contextMenus"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "assets/js/lipsum.js",
+        "content.js"
+      ],
+      "run_at": "document_end"
+    }
   ],
   "action": {
     "default_popup": "index.html",
