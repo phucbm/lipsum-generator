@@ -5,21 +5,13 @@
   "manifest_version": 3,
   "permissions": [
     "storage",
-    "contextMenus"
+    "contextMenus",
+    "activeTab",
+    "scripting"
   ],
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": [
-        "assets/js/lipsum.js",
-        "content.js"
-      ],
-      "run_at": "document_end"
-    }
-  ],
   "action": {
     "default_popup": "index.html",
     "default_icon": {

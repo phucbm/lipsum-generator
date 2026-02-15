@@ -66,6 +66,13 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (menuId === 'lipsum-parent' || menuId.startsWith('separator')) return;
 
   try {
+    // Inject scripts into the active tab
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ['assets/js/lipsum.js', 'content.js']
+    });
+
+    // Send message to insert text
     await chrome.tabs.sendMessage(tab.id, {
       action: "insertLipsum",
       menuId: menuId
