@@ -60,16 +60,18 @@ function createContextMenus() {
   });
 }
 
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   const menuId = info.menuItemId;
 
   if (menuId === 'lipsum-parent' || menuId.startsWith('separator')) return;
 
-  chrome.tabs.sendMessage(tab.id, {
-    action: "insertLipsum",
-    menuId: menuId
-  }).catch(err => {
-    console.error('Error sending message to content script:', err);
-    console.log('Try refreshing the page where you want to insert text');
-  });
+  try {
+    await chrome.tabs.sendMessage(tab.id, {
+      action: "insertLipsum",
+      menuId: menuId
+    });
+  } catch (err) {
+    // Silently handle - content script not available on this page
+    // This is expected on chrome://, extension pages, etc.
+  }
 });
