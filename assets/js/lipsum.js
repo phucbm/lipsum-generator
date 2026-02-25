@@ -1,5 +1,5 @@
 /**!
- * Lipsum Generator v4.0.0
+ * Lipsum Generator v4.0.1
  * https://github.com/phucbm/lipsum-generator
  * MIT License - Copyright (c) 2026 @phucbm
  */
