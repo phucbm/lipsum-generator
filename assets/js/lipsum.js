@@ -1,7 +1,7 @@
 /**!
- * Lipsum Generator v3.0.0
+ * Lipsum Generator v4.0.0
  * https://github.com/phucbm/lipsum-generator
- * MIT License - Copyright (c) 2022 Minh-Phuc Bui
+ * MIT License - Copyright (c) 2026 @phucbm
  */
 ;(function(Lipsum){
     class LipsumCore{
@@ -174,8 +174,16 @@
 
 
             if(this.options.type === 'list'){
-                const $firstItem = $(string).find('li').eq(0);
-                return string.replace($firstItem.text(), replace($firstItem.text()));
+                // Parse HTML string to get first <li> element
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = string;
+                const firstItem = tempDiv.querySelector('li');
+                if(firstItem){
+                    const originalText = firstItem.textContent;
+                    const replacedText = replace(originalText);
+                    return string.replace(originalText, replacedText);
+                }
+                return string;
             }else{
                 return replace(string);
             }

@@ -1,47 +1,107 @@
-# Lipsum Generator v3.0.0 
+<div align="center">
+  <img src="assets/img/128.png" alt="Lipsum Generator" width="64" height="64">
 
-[![release](https://badgen.net/github/release/phucbm/lipsum-generator/?cache=600)](https://github.com/phucbm/lipsum-generator/releases/latest)
-[![users](https://badgen.net/chrome-web-store/users/fepopmflofkppphpkfjdbmimglkeifna)](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)
-[![rating](https://badgen.net/chrome-web-store/rating/fepopmflofkppphpkfjdbmimglkeifna)](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)
-[![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e472906a-3df7-4e0f-9515-9c55ba356c28/deploy-status)](https://app.netlify.com/sites/lipsum-generator/deploys)
+  # Lipsum Generator
 
-<a href="https://www.producthunt.com/posts/lipsum-generator?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-lipsum-generator" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=325264&theme=light" alt="Lipsum Generator - Generate lorem ipsum dummy text in a drop of a hat. | Product Hunt" style="width: 250px; height: 50px;" width="250" height="50" /></a>
+  ### Generate and insert lorem ipsum placeholder text instantly
 
-> Chrome Extension to generate lorem ipsum dummy text.
+  [![release](https://badgen.net/github/release/phucbm/lipsum-generator/?cache=600)](https://github.com/phucbm/lipsum-generator/releases/latest)
+  [![users](https://badgen.net/chrome-web-store/users/fepopmflofkppphpkfjdbmimglkeifna)](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)
+  [![rating](https://badgen.net/chrome-web-store/rating/fepopmflofkppphpkfjdbmimglkeifna)](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)
+  [![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
 
-## Getting started
+  [Chrome Extension](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna) • [Web App](https://lipsum-generator.netlify.app) • [Report Bug](https://github.com/phucbm/lipsum-generator/issues)
 
-There are 2 versions of Lipsum Generator that you can choose according to your needs.
+  <a href="https://www.producthunt.com/posts/lipsum-generator?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-lipsum-generator" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=325264&theme=light" alt="Lipsum Generator - Generate lorem ipsum dummy text in a drop of a hat. | Product Hunt" style="width: 250px; height: 50px;" width="250" height="50" /></a>
 
-### 👉 **[Chrome Extension version](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)**
+</div>
 
-![](media/v3/1280-ext.jpg)
-![](media/v3/1280-word.jpg)
-![](media/v3/1280-sentence.jpg)
-![](media/v3/1280-paragraph.jpg)
-![](media/v3/1280-list.jpg)
+---
 
-By using extension, you can have this tool works even when you're offline.
+## ✨ Features
 
-### 👉 **[Web version](https://lipsum-generator.netlify.app)**
+### 🖱️ Right-Click Context Menu
+Instantly insert lorem ipsum text into any editable field on any website:
+- **Right-click** inside any input, textarea, or contenteditable element
+- Choose from **Words** (1, 5, 10), **Sentences** (1, 3, 5), or **Paragraphs** (1, 3)
+- Text is inserted at cursor position or replaces selected text
+- Perfect for quick fills in forms, emails, Google Docs, and more
 
-![](media/v3/1280-web-app.jpg)
+### 🎨 Popup Interface
+Full customization with preview:
+- Generate **Words**, **Sentences**, **Paragraphs**, or **HTML Lists**
+- Text transformation: Capitalize, UPPERCASE, lowercase
+- Custom quantity for each type
+- Slug generation from words
+- Auto-copy on open
+- "Lorem ipsum dolor sit amet" prefix option
 
-The web version allows you to use on any browser, not just Chrome.
+### 🔒 Privacy-Focused
+- Works completely offline
+- No data collection or tracking
+- Open source
+- Settings sync with your Google account (optional)
+
+## 📸 Screenshots
+
+<div align="center">
+  <img src="media/v4/v4-context-menu.gif" alt="Context Menu in Action" width="80%">
+  <p><b>🖱️ Right-Click Context Menu - Instantly Insert Text</b></p>
+</div>
+
+<table>
+  <tr>
+    <td width="50%">
+      <img src="media/v3/1280-ext.jpg" alt="Extension Popup" width="100%">
+      <p align="center"><b>Popup Interface</b></p>
+    </td>
+    <td width="50%">
+      <img src="media/v3/1280-word.jpg" alt="Words Generation" width="100%">
+      <p align="center"><b>Word Generation</b></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="media/v3/1280-sentence.jpg" alt="Sentences" width="100%">
+      <p align="center"><b>Sentence Generation</b></p>
+    </td>
+    <td width="50%">
+      <img src="media/v3/1280-paragraph.jpg" alt="Paragraphs" width="100%">
+      <p align="center"><b>Paragraph Generation</b></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="media/v3/1280-list.jpg" alt="HTML Lists" width="100%">
+      <p align="center"><b>HTML List Generation</b></p>
+    </td>
+    <td width="50%">
+      <img src="media/v3/1280-web-app.jpg" alt="Web App" width="100%">
+      <p align="center"><b>Web App Version</b></p>
+    </td>
+  </tr>
+</table>
+
+## 🚀 Installation
+
+**Chrome Extension** (Works Offline)
+[Install from Chrome Web Store →](https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna)
+
+**Web Version** (All Browsers)
+[Open Web App →](https://lipsum-generator.netlify.app)
 
 ## Local deployment
 
-```text
-npm install
+```bash
+pnpm install
 ```
 
-```text
-gulp serve
+```bash
+pnpm dev
 ```
 
 ## License
 
 [MIT License](https://github.com/phucbm/lipsum-generator/blob/main/LICENSE)
 
-Copyright (c) 2022 Minh-Phuc Bui
+Copyright (c) 2026 [@phucbm](https://github.com/phucbm) - [Lipsum Generator](https://github.com/phucbm/lipsum-generator)

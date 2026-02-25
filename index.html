@@ -15,12 +15,12 @@
     <meta property="og:image"
           content="https://raw.githubusercontent.com/phucbm/lipsum-generator/master/media/v3/1280-web-app.jpg"/>
 
-    <title>Lipsum Generator v3</title>
+    <title>Lipsum Generator v4</title>
     <link rel="icon" href="assets/img/128.png" type="image/x-icon">
 
     <!-- stylesheet -->
     <link rel="stylesheet" href="assets/css/extension-variables.css">
-    <link rel="stylesheet" href="assets/css/easy-select.css">
+    <link rel="stylesheet" href="assets/css/easy-select.min.css">
     <link rel="stylesheet" href="assets/css/extension-ui.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -73,7 +73,7 @@
 
             <div class="dropdown">
                 <label>
-                    <select data-easy-select data-text-transform>
+                    <select data-easy-select='{"align":"top"}' data-text-transform>
                         <option value="capitalizeFirstWordInSentence" selected>
                             Capitalize the first word in a sentence.
                         </option>
@@ -97,9 +97,9 @@
 
     </div>
     <div class="app-footer">
-        © 2022 - <a
+        © 2026 <a href="https://github.com/phucbm" target="_blank">@phucbm</a> - <a
             href="https://chrome.google.com/webstore/detail/lipsum-generator/fepopmflofkppphpkfjdbmimglkeifna"
-            title="Rate this on Chrome store" target="_blank">Lipsum Generator</a> - <a
+            title="Rate this on Chrome store" target="_blank">Lipsum Generator v4</a> - <a
             href="https://github.com/phucbm/lipsum-generator" target="_blank">GitHub</a>
     </div>
 
@@ -115,12 +115,11 @@
 
 
 <!-- script -->
-<script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/helper.js"></script>
 <script src="assets/js/easy-select.min.js"></script>
 <script src="assets/js/extension-ui.js"></script>
-<script src="assets/js/main.js"></script>
 <script src="assets/js/lipsum.js"></script>
+<script src="assets/js/main.js"></script>
 
 </body>
 </html>

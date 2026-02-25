@@ -1,8 +1,24 @@
 {
+  "name": "lipsum-generator",
+  "version": "4.0.0",
+  "description": "Chrome Extension to generate lorem ipsum dummy text",
+  "author": "@phucbm (https://github.com/phucbm)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phucbm/lipsum-generator.git"
+  },
+  "homepage": "https://github.com/phucbm/lipsum-generator",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "export": "node scripts/export.js"
+  },
   "devDependencies": {
-    "browser-sync": "^2.27.7",
-    "del": "^6.0.0",
-    "gulp": "^4.0.2",
-    "gulp-zip": "^5.1.0"
-  }
+    "archiver": "^7.0.1",
+    "vite": "^6.4.1"
+  },
+  "packageManager": "pnpm@10.26.2"
 }

@@ -1,247 +1,264 @@
-jQuery(function($){
-    /**
-     * Button Group Effect
-     * @param config
-     */
-    $.fn.buttonGroupEffect = function(config){
-        const options = {
-            ...{
-                trigger: '.btn',
-                activeIndex: 0,
-                onChange: () => {
-                }
-            }, ...config
-        };
-        let $active;
-        const $wrapper = $(this);
-        const $triggers = $wrapper.find(options.trigger);
+/**
+ * Button Group Effect
+ * @param element - The wrapper element
+ * @param config
+ */
+function buttonGroupEffect(element, config){
+    const options = {
+        ...{
+            trigger: '.btn',
+            activeIndex: 0,
+            onChange: () => {
+            }
+        }, ...config
+    };
+    let active;
+    const wrapper = element;
+    const triggers = Array.from(wrapper.querySelectorAll(options.trigger));
 
+    // indicator
+    const indicator = document.createElement('i');
+    indicator.className = 'btn-group-indicator';
+    wrapper.prepend(indicator);
 
-        // indicator
-        $wrapper.prepend('<i class="btn-group-indicator"></i>');
-        const $indicator = $wrapper.find('.btn-group-indicator');
+    const getButton = type => triggers.find(btn => btn.getAttribute('data-type') === type);
+    const getType = () => active.getAttribute('data-type');
 
-        const getButton = type => $triggers.filter(`[data-type="${type}"]`);
-        const getType = () => $active.attr('data-type');
-
-        // activate
-        const activate = $trigger => {
-            $trigger.addClass('active');
-            $triggers.not($trigger).removeClass('active');
-
-            $indicator.css({
-                height: $trigger.outerHeight(),
-                width: $trigger.outerWidth(),
-                left: $trigger.parent().position().left + 'px',
-            });
-
-            $active = $trigger;
-        };
-        activate($triggers.eq(options.activeIndex));
-
-        // on click
-        $triggers.on('click', function(event){
-            activate($(this));
-            options.onChange({type: getType(), target: $(this), event});
+    // activate
+    const activate = trigger => {
+        trigger.classList.add('active');
+        triggers.forEach(btn => {
+            if(btn !== trigger) btn.classList.remove('active');
         });
 
-        return {
-            set: type => activate(getButton(type)),
-            get: () => $active,
-            getType
-        };
+        const parent = trigger.parentElement;
+        indicator.style.height = trigger.offsetHeight + 'px';
+        indicator.style.width = trigger.offsetWidth + 'px';
+        indicator.style.left = parent.offsetLeft + 'px';
+
+        active = trigger;
     };
+    activate(triggers[options.activeIndex]);
+
+    // on click
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', (event) => {
+            activate(trigger);
+            options.onChange({type: getType(), target: trigger, event});
+        });
+    });
+
+    return {
+        set: type => activate(getButton(type)),
+        get: () => active,
+        getType
+    };
+}
 
 
-    /**
-     * Range Slider
-     * @param config
-     * @returns {*}
-     */
-    $.fn.rangeSlider = function(config){
-        const $this = $(this);
-        if($this.attr('type') !== 'range') return false;
-        const options = {
-            ...{
-                step: 1,
-                hasArrows: false,
-                onChange: () => {
-                }
-            }, ...config
-        };
-
-        const val = () => parseInt($this.val());
-        const min = () => parseInt($this.attr('min'));
-        const max = () => parseInt($this.attr('max'));
-        const increase = () => set(val() + options.step);
-        const decrease = () => set(val() - options.step);
-
-        // generate html
-        $this.wrapAll('<div class="range-slider-inner">');
-        const $wrapper = $this.closest('.range-slider');
-        const $inner = $this.parent();
-
-        // labels
-        $inner.append(`<div class="range-slider-label min edge">${min()}</div>`);
-        $inner.append(`<div class="range-slider-label max edge">${max()}</div>`);
-        $inner.append(`<div class="range-slider-label val">${val()}</div>`);
-
-        // arrows
-        if(options.hasArrows){
-            $wrapper.addClass('range-slider-has-arrows');
-            $wrapper.prepend(`<div class="range-slider-arrow down"><button></button></div>`);
-            $wrapper.append(`<div class="range-slider-arrow up"><button></button></div>`);
-
-            $wrapper.find('.range-slider-arrow.down button').on('click', decrease);
-            $wrapper.find('.range-slider-arrow.up button').on('click', increase);
-        }
-
-        // methods
-        const set = (number, triggerEvent = true) => {
-            $this.val(number);
-            if(triggerEvent){
-                change();
-            }else{
-                updateLabels();
+/**
+ * Range Slider
+ * @param element - The input[type="range"] element
+ * @param config
+ * @returns {*}
+ */
+function rangeSlider(element, config){
+    const input = element;
+    if(input.getAttribute('type') !== 'range') return false;
+    const options = {
+        ...{
+            step: 1,
+            hasArrows: false,
+            onChange: () => {
             }
-        };
-        const change = () => {
-            options.onChange({target: this, val: val()});
-            updateLabels();
-        };
-        const updateLabels = () => {
-            const thumbHalfWidth = 15 * 0.5;
-            const left = (((val() - min()) / (max() - min())) * (($this.width() - thumbHalfWidth) - thumbHalfWidth)) + thumbHalfWidth;
-
-            $inner.find('.range-slider-label.min').text(min());
-            $inner.find('.range-slider-label.max').text(max());
-            $inner.find('.range-slider-label.val').text(val());
-            $inner.find('.range-slider-label.val').css('left', `${left}px`);
-        };
-
-        // on init
-        updateLabels();
-
-        // on change
-        $this.on('change', change);
-
-        // on drag
-        $this.on('input', updateLabels);
-
-        return {set, increase, decrease, val, change, updateLabels};
+        }, ...config
     };
 
+    const val = () => parseInt(input.value);
+    const min = () => parseInt(input.getAttribute('min'));
+    const max = () => parseInt(input.getAttribute('max'));
+    const increase = () => set(val() + options.step);
+    const decrease = () => set(val() - options.step);
 
-    /**
-     * Toast
-     * @param config
-     */
-    $.fn.toast = function(config){
-        const options = {
-            ...{
-                wrapper: $('body'),
-                text: '',
-                delay: 850, // ms
-            }, ...config
-        };
-        const id = uniqueId();
+    // generate html - wrap input
+    const innerDiv = document.createElement('div');
+    innerDiv.className = 'range-slider-inner';
+    input.parentNode.insertBefore(innerDiv, input);
+    innerDiv.appendChild(input);
 
-        // html
-        options.wrapper.append(`<div class="toast" id="${id}">${options.text}</div>`);
-        const $toast = options.wrapper.find(`#${id}`);
+    const wrapper = input.closest('.range-slider');
+    const inner = input.parentElement;
 
+    // labels
+    inner.insertAdjacentHTML('beforeend', `<div class="range-slider-label min edge">${min()}</div>`);
+    inner.insertAdjacentHTML('beforeend', `<div class="range-slider-label max edge">${max()}</div>`);
+    inner.insertAdjacentHTML('beforeend', `<div class="range-slider-label val">${val()}</div>`);
 
-        // position relative
-        if(options.wrapper.css('position') === 'static'){
-            options.wrapper.css('position', 'relative');
+    // arrows
+    if(options.hasArrows){
+        wrapper.classList.add('range-slider-has-arrows');
+        wrapper.insertAdjacentHTML('afterbegin', `<div class="range-slider-arrow down"><button></button></div>`);
+        wrapper.insertAdjacentHTML('beforeend', `<div class="range-slider-arrow up"><button></button></div>`);
+
+        wrapper.querySelector('.range-slider-arrow.down button').addEventListener('click', decrease);
+        wrapper.querySelector('.range-slider-arrow.up button').addEventListener('click', increase);
+    }
+
+    // methods
+    const set = (number, triggerEvent = true) => {
+        input.value = number;
+        if(triggerEvent){
+            change();
+        }else{
+            updateLabels();
         }
+    };
+    const change = () => {
+        options.onChange({target: input, val: val()});
+        updateLabels();
+    };
+    const updateLabels = () => {
+        const thumbHalfWidth = 15 * 0.5;
+        const inputWidth = input.offsetWidth;
+        const left = (((val() - min()) / (max() - min())) * ((inputWidth - thumbHalfWidth) - thumbHalfWidth)) + thumbHalfWidth;
 
-        // show/hide
+        inner.querySelector('.range-slider-label.min').textContent = min();
+        inner.querySelector('.range-slider-label.max').textContent = max();
+        inner.querySelector('.range-slider-label.val').textContent = val();
+        inner.querySelector('.range-slider-label.val').style.left = `${left}px`;
+    };
+
+    // on init
+    updateLabels();
+
+    // on change
+    input.addEventListener('change', change);
+
+    // on drag
+    input.addEventListener('input', updateLabels);
+
+    return {set, increase, decrease, val, change, updateLabels};
+}
+
+
+/**
+ * Toast
+ * @param config
+ */
+function toast(config){
+    const options = {
+        ...{
+            wrapper: document.body,
+            text: '',
+            delay: 850, // ms
+        }, ...config
+    };
+    const id = uniqueId();
+
+    // html
+    const toastEl = document.createElement('div');
+    toastEl.className = 'toast';
+    toastEl.id = id;
+    toastEl.textContent = options.text;
+    options.wrapper.appendChild(toastEl);
+
+    // position relative
+    const wrapperPosition = window.getComputedStyle(options.wrapper).position;
+    if(wrapperPosition === 'static'){
+        options.wrapper.style.position = 'relative';
+    }
+
+    // show/hide
+    setTimeout(() => {
+        toastEl.classList.add('show');
+
         setTimeout(() => {
-            $toast.addClass('show');
+            toastEl.classList.add('vanish');
 
             setTimeout(() => {
-                $toast.addClass('vanish');
-
-                setTimeout(() => {
-                    $toast.detach();
-                }, 300);
-            }, options.delay);
-        }, 1);
-    }
+                toastEl.remove();
+            }, 300);
+        }, options.delay);
+    }, 1);
+}
 
 
-    /**
-     * Checkboxes
-     * @param config
-     * @returns {*}
-     */
-    $.fn.checkboxes = function(config){
-        const $this = $(this);
-        if($this.attr('type') !== 'checkbox') return false;
-        const options = {
-            ...{
-                onChange: () => {
-                }
-            }, ...config
-        };
-
-
-        const getInput = checkbox => $this.filter(`[data-checkbox="${checkbox}"]`);
-        const get = checkbox => {
-            const $input = typeof checkbox === 'string' ? getInput(checkbox) : checkbox;
-            return {
-                isChecked: is($input),
-                checkbox: $input.attr('data-checkbox'),
-                target: $input
-            };
-        };
-        const set = (checkbox, isChecked, trigger = true) => {
-            getInput(checkbox).prop("checked", isChecked);
-            if(trigger){
-                change();
+/**
+ * Checkboxes
+ * @param elements - NodeList of checkbox inputs
+ * @param config
+ * @returns {*}
+ */
+function checkboxes(elements, config){
+    const inputs = Array.from(elements);
+    if(inputs.length === 0 || inputs[0].getAttribute('type') !== 'checkbox') return false;
+    const options = {
+        ...{
+            onChange: () => {
             }
-        };
-        const toggle = checkbox => set(checkbox, !is(checkbox));
-        const is = checkbox => typeof checkbox === 'string' ? getInput(checkbox).is(':checked') : checkbox.is(':checked');
-        const change = $input => options.onChange(get($input));
-
-
-        $this.on('change', function(){
-            change($(this));
-        });
-
-        return {get, set, toggle, is};
+        }, ...config
     };
 
-
-    /**
-     * Dropdown control
-     * @param config
-     * @returns {boolean|{set: set, get: (function(): *)}}
-     */
-    $.fn.dropdownControl = function(config){
-        const $this = $(this);
-        if(!$this.is('select')) return false;
-        const options = {
-            ...{
-                onChange: () => {
-                }
-            }, ...config
+    const getInput = checkbox => inputs.find(input => input.getAttribute('data-checkbox') === checkbox);
+    const get = checkbox => {
+        const input = typeof checkbox === 'string' ? getInput(checkbox) : checkbox;
+        return {
+            isChecked: is(input),
+            checkbox: input.getAttribute('data-checkbox'),
+            target: input
         };
+    };
+    const set = (checkbox, isChecked, trigger = true) => {
+        const input = getInput(checkbox);
+        if(input) input.checked = isChecked;
+        if(trigger){
+            change(input);
+        }
+    };
+    const toggle = checkbox => set(checkbox, !is(checkbox));
+    const is = checkbox => {
+        const input = typeof checkbox === 'string' ? getInput(checkbox) : checkbox;
+        return input ? input.checked : false;
+    };
+    const change = input => options.onChange(get(input));
 
-        const get = () => $this.val();
-        const set = (value, trigger = true) => {
-            $this.val(value);
-            if(trigger){
-                $this.trigger('change');
-            }
-        };
-
-        $this.on('change', () => {
-            options.onChange(get());
+    inputs.forEach(input => {
+        input.addEventListener('change', function(){
+            change(this);
         });
+    });
 
-        return {get, set};
-    }
-});
+    return {get, set, toggle, is};
+}
+
+
+/**
+ * Dropdown control
+ * @param element - The select element
+ * @param config
+ * @returns {boolean|{set: set, get: (function(): *)}}
+ */
+function dropdownControl(element, config){
+    const select = element;
+    if(select.tagName !== 'SELECT') return false;
+    const options = {
+        ...{
+            onChange: () => {
+            }
+        }, ...config
+    };
+
+    const get = () => select.value;
+    const set = (value, trigger = true) => {
+        select.value = value;
+        if(trigger){
+            select.dispatchEvent(new Event('change'));
+        }
+    };
+
+    select.addEventListener('change', () => {
+        options.onChange(get());
+    });
+
+    return {get, set};
+}

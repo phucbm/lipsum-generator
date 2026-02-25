@@ -1,11 +1,17 @@
 {
   "name": "Lipsum Generator",
   "description": "Generate lorem ipsum dummy text.",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "manifest_version": 3,
   "permissions": [
-    "storage"
+    "storage",
+    "contextMenus",
+    "activeTab",
+    "scripting"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_popup": "index.html",
     "default_icon": {

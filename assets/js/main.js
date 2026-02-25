@@ -1,4 +1,4 @@
-jQuery(function($){
+document.addEventListener('DOMContentLoaded', function(){
     class LipsumApp{
         constructor(config){
             // range slider config
@@ -30,16 +30,16 @@ jQuery(function($){
             };
 
             this.value = '';
-            this.range = $('input[data-quantity]');
-            this.buttonCopySlug = $('[data-copy-slug]');
-            this.buttonCopyText = $('[data-copy-text]');
-            this.outputLength = $('[data-output-length]');
-            this.output = $('[data-output]');
-            this.outputWrapper = $('.output-wrapper');
+            this.range = document.querySelector('input[data-quantity]');
+            this.buttonCopySlug = document.querySelector('[data-copy-slug]');
+            this.buttonCopyText = document.querySelector('[data-copy-text]');
+            this.outputLength = document.querySelector('[data-output-length]');
+            this.output = document.querySelector('[data-output]');
+            this.outputWrapper = document.querySelector('.output-wrapper');
 
             // controllers
             this.control = {
-                quantity: this.range.rangeSlider({
+                quantity: rangeSlider(this.range, {
                     hasArrows: true, onChange: data => {
                         this.options.rangeQuantity[this.options.type] = data.val;
 
@@ -47,7 +47,7 @@ jQuery(function($){
                         this.updateRangeSlider(data.val);
                         this.generate();
                     }
-                }), type: $('.btn-group.is-indicator').buttonGroupEffect({
+                }), type: buttonGroupEffect(document.querySelector('.btn-group.is-indicator'), {
                     onChange: data => {
                         this.options.type = data.type;
 
@@ -55,7 +55,7 @@ jQuery(function($){
                         this.updateRangeSlider();
                         this.generate();
                     }
-                }), checkboxes: $('[data-checkbox]').checkboxes({
+                }), checkboxes: checkboxes(document.querySelectorAll('[data-checkbox]'), {
                     onChange: data => {
                         switch(data.checkbox){
                             case 'prefix':
@@ -70,7 +70,7 @@ jQuery(function($){
                         this.triggerOptionsUpdateEvent();
                     }
                 }),
-                textTransform: $('[data-text-transform]').dropdownControl({
+                textTransform: dropdownControl(document.querySelector('[data-text-transform]'), {
                     onChange: data => {
                         this.options.textTransform = data;
 
@@ -88,16 +88,16 @@ jQuery(function($){
             if(this.options.dev) console.log('init', this.options);
 
             // button > copy text
-            this.buttonCopyText.on('click', () => {
-                copyValueToClipboard(this.output.html());
+            this.buttonCopyText.addEventListener('click', () => {
+                copyValueToClipboard(this.output.innerHTML);
                 const text = `Copied ${app.control.quantity.val()} ${app.control.type.getType() === 'list' ? 'list item' : app.control.type.getType()}${app.control.quantity.val() > 1 ? 's' : ''} 🧡`;
-                this.toast(text);
+                this.showToast(text);
             });
 
             // button > copy slug (type:word)
-            this.buttonCopySlug.on('click', () => {
-                copyValueToClipboard(stringToSlug(this.output.html()));
-                this.toast('Slug copied 🧡');
+            this.buttonCopySlug.addEventListener('click', () => {
+                copyValueToClipboard(stringToSlug(this.output.innerHTML));
+                this.showToast('Slug copied 🧡');
             });
 
 
@@ -123,8 +123,8 @@ jQuery(function($){
 
             // update range slider
             if(this.rangeConfig[this.options.type]){
-                this.range.attr('min', this.rangeConfig[this.options.type].min);
-                this.range.attr('max', this.rangeConfig[this.options.type].max);
+                this.range.setAttribute('min', this.rangeConfig[this.options.type].min);
+                this.range.setAttribute('max', this.rangeConfig[this.options.type].max);
                 this.control.quantity.updateLabels();
             }
 
@@ -139,10 +139,10 @@ jQuery(function($){
             });
 
             // set output
-            this.output.html(this.value);
+            this.output.innerHTML = this.value;
 
             // update length
-            this.outputLength.text(this.value.length);
+            this.outputLength.textContent = this.value.length;
 
             // event > onChange
             this.options.onChange(this.options);
@@ -150,16 +150,16 @@ jQuery(function($){
             if(this.options.dev) console.log('generated', this.options);
         }
 
-        toast(text){
-            $().toast({text: text, wrapper: this.outputWrapper});
+        showToast(text){
+            toast({text: text, wrapper: this.outputWrapper});
         }
 
         triggerOptionsUpdateEvent(){
             // update copy buttons
             if(this.options.type === 'word'){
-                this.buttonCopySlug.removeClass('disabled');
+                this.buttonCopySlug.classList.remove('disabled');
             }else{
-                this.buttonCopySlug.addClass('disabled');
+                this.buttonCopySlug.classList.add('disabled');
             }
 
             this.options.onOptionsUpdate(this.options);
@@ -168,7 +168,7 @@ jQuery(function($){
 
     // detect
     const isExtension = typeof chrome !== 'undefined' && typeof chrome.storage !== 'undefined';
-    $('body').addClass(isExtension ? 'is-extension' : 'is-web');
+    document.body.classList.add(isExtension ? 'is-extension' : 'is-web');
 
     // load settings from storage
     const browserStorage = new MyStorage('lipsum-generator');
@@ -181,10 +181,10 @@ jQuery(function($){
         },
         onAfterInit: data => {
             setTimeout(() => {
-                $('.app-body.loading').removeClass('loading');
+                document.querySelector('.app-body.loading').classList.remove('loading');
 
                 if(isExtension && data.isAutoCopy){
-                    $('[data-copy-text]').trigger('click');
+                    document.querySelector('[data-copy-text]').click();
                 }
             }, 300);
         }
