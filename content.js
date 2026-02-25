@@ -1,8 +1,12 @@
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "insertLipsum") {
-    insertLipsumText(request.menuId);
-  }
-});
+if (!window.__lipsumInitialized) {
+  window.__lipsumInitialized = true;
+
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "insertLipsum") {
+      insertLipsumText(request.menuId);
+    }
+  });
+}
 
 function insertLipsumText(menuId) {
   const [type, countStr] = menuId.split('-');
