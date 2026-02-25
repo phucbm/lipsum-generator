@@ -43,8 +43,24 @@ body {
 
 /* Footer */
 .app-footer {
-    background:#142845; padding:10px; text-align:center;
+    background:#142845; padding:6px 10px 8px; text-align:center;
     color:var(--color-on-secondary);
+}
+.app-footer-marquee {
+    overflow:hidden; white-space:nowrap; margin-bottom:4px;
+    opacity:0.5;
+}
+.app-footer-bottom {
+    display:flex; justify-content:space-between; align-items:center;
+    opacity:0.5;
+}
+.app-footer-marquee span {
+    display:inline-block;
+    animation:marquee 12s linear infinite;
+}
+@keyframes marquee {
+    from {transform:translateX(0);}
+    to {transform:translateX(-50%);}
 }
 
 /*********************************

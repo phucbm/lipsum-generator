@@ -4,12 +4,19 @@ chrome.runtime.onInstalled.addListener((details) => {
   });
 
   if (details.reason === "update") {
-    chrome.notifications.create({
+    chrome.notifications.create("lipsum-updated", {
       type: "basic",
       iconUrl: chrome.runtime.getURL("assets/img/128.png"),
-      title: "Lipsum Generator updated",
-      message: "Available in your context menu — right-click on any input to try."
+      title: "Lipsum Generator",
+      message: "Now available in your context menu — right-click on any input to try.",
+      contextMessage: "Made with ❤️ by @phucbm · phucbm.com"
     });
+  }
+});
+
+chrome.notifications.onClicked.addListener((notificationId) => {
+  if (notificationId === "lipsum-updated") {
+    chrome.tabs.create({ url: "https://github.com/phucbm/lipsum-generator/releases/tag/v4.0.0" });
   }
 });
 
