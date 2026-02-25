@@ -1,7 +1,16 @@
-chrome.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener((details) => {
   chrome.contextMenus.removeAll(() => {
     createContextMenus();
   });
+
+  if (details.reason === "update") {
+    chrome.notifications.create({
+      type: "basic",
+      iconUrl: chrome.runtime.getURL("assets/img/128.png"),
+      title: "Lipsum Generator updated",
+      message: "Available in your context menu — right-click on any input to try."
+    });
+  }
 });
 
 function createContextMenus() {
@@ -15,7 +24,7 @@ function createContextMenus() {
       return;
     }
 
-    [1, 5, 10].forEach(count => {
+    [1, 2, 3, 4, 5].forEach(count => {
       chrome.contextMenus.create({
         id: `words-${count}`,
         parentId: "lipsum-parent",
@@ -31,7 +40,7 @@ function createContextMenus() {
       contexts: ["editable"]
     });
 
-    [1, 3, 5].forEach(count => {
+    [1, 2, 3, 4, 5].forEach(count => {
       chrome.contextMenus.create({
         id: `sentences-${count}`,
         parentId: "lipsum-parent",
@@ -47,7 +56,7 @@ function createContextMenus() {
       contexts: ["editable"]
     });
 
-    [1, 3].forEach(count => {
+    [1, 2, 3, 4, 5].forEach(count => {
       chrome.contextMenus.create({
         id: `paragraphs-${count}`,
         parentId: "lipsum-parent",
